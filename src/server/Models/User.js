@@ -17,6 +17,7 @@ UserModel.prototype.init = function(mongoose){
         username: String,
         email: String,
         password: String,
+        UUID: String,
         created: Number,
         displayName: String,
         token : {

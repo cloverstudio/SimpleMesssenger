@@ -268,7 +268,7 @@ describe('WEB User', function () {
       
     });
     
-    describe('/user/signin GET', function () {
+    describe('/user/signin POST', function () {
         
         it('Can signin', function (done) {
             
@@ -279,6 +279,40 @@ describe('WEB User', function () {
                         
             request(app)
                 .post('/api/v1/user/signin')
+                .send(paramsLogin)
+        		.expect('Content-Type', /json/)
+        		.expect(200) 
+                .end(function (err, res) {
+
+    			if (err) {
+    				throw err;
+    			}
+    			    			
+                res.body.should.have.property('success');
+                res.body.success.should.equal(1);
+                res.body.should.have.property('result');
+                res.body.result.should.have.property('ok');
+                res.body.result.ok.should.equal(true);
+                res.body.result.should.have.property('token');
+
+                done();
+            
+            });   
+            
+        });
+        
+    });
+
+    describe('/user/signin/UUID POST', function () {
+        
+        it('Can signin with uuid', function (done) {
+            
+            var paramsLogin = {
+                uuid : "abc9a9d8d98989sd8d8d0d9ad0sdf0df09sdf09asdf0",
+            };
+                        
+            request(app)
+                .post('/api/v1/user/signin/uuid')
                 .send(paramsLogin)
         		.expect('Content-Type', /json/)
         		.expect(200) 
