@@ -59,7 +59,9 @@ var ConversationView = Backbone.View.extend({
 
         if(!conversation)
           return;
-
+        
+        console.log(window.location);
+        
         SpikaAdapter.attach({
 
             spikaURL: Config.SpikaBaseURL,
@@ -71,8 +73,8 @@ var ConversationView = Backbone.View.extend({
                 roomID : conversation.get("id")
             },
             config : {
-                apiBaseUrl : "http://localhost:8080/spika/v1",
-                socketUrl : "http://localhost:8080/spika",
+                apiBaseUrl : window.location.origin + Config.SpikaBaseURL + "/v1",
+                socketUrl : window.location.origin + Config.SpikaBaseURL,
                 showSidebar : false,
                 showTitlebar : false
             },

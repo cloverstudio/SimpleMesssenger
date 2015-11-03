@@ -31,76 +31,81 @@ DatabaseManager.init(function(success){
         
             async.each(allData, function(row,done){
                 
-                var filename = Utils.getRandomString(32);
-                var thumbname = Utils.getRandomString(32);
-                
-                var url = 'http://lorempixel.com/512/512/';                    
-                
-                http.request(url, function(response) {                                        
-                  var data = new Stream();                                                    
-                
-                  response.on('data', function(chunk) {                                       
-                    data.push(chunk);                                                         
-                  });                                                                         
-                
-                  response.on('end', function() {
-                                            
-                    fs.writeFileSync(init.uploadPath + filename, data.read());
-                    
-                    // generate thumb
-                    var easyimg = require('easyimage');
-                    
-                    easyimg.convert({src: init.uploadPath + filename, dst: init.uploadPath + filename + ".png", quality:100}).then(function (file) {
-                                                
-                        fs.renameSync( init.uploadPath + filename + ".png",init.uploadPath + filename);
-                        
-                        easyimg.thumbnail({
-                                src: init.uploadPath + filename, 
-                                dst: init.uploadPath + thumbname + ".png",
-                                width:Const.thumbSize, height:Const.thumbSize
-                            }).then(
-                            
-                            function(image) {
-                                                                
-                                fs.renameSync( init.uploadPath + thumbname + ".png",init.uploadPath + thumbname);
-                                
-                                var model = new userModel({
-                                    displayName:row.first_name + " " + row.last_name,
-                                    username:row.username,
-                                    email: row.email,
-                                    password: sha1('yumiko'),
-                                    avatar: {
-                                        file : filename,
-                                        thumb : thumbname
-                                    },
-                                    created: Utils.now()          
-                                });
-                                                                
-                                model.save(function(err,modelSaved){
-                                                                        
-                                    if(err)
-                                        console.log(err);
-                                        
-                                    console.log('new user saved');
-                                    done(err);              
-                                
-                                });
-                        
-                            },
-                            function (err) {
-                                
-                                
-            
-                            }
-                            
-                        );
+                _.debounce(function(){
 
-                                                        
-                    });                    
+                    var filename = Utils.getRandomString(32);
+                    var thumbname = Utils.getRandomString(32);
                     
-                  });   
-                                                                                        
-                }).end();
+                    var url = 'http://lorempixel.com/512/512/';                    
+                    
+                    http.request(url, function(response) {                                        
+                      var data = new Stream();                                                    
+                    
+                      response.on('data', function(chunk) {                                       
+                        data.push(chunk);                                                         
+                      });                                                                         
+                    
+                      response.on('end', function() {
+                                                
+                        fs.writeFileSync(init.uploadPath + filename, data.read());
+                        
+                        // generate thumb
+                        var easyimg = require('easyimage');
+                        
+                        easyimg.convert({src: init.uploadPath + filename, dst: init.uploadPath + filename + ".png", quality:100}).then(function (file) {
+                                                    
+                            fs.renameSync( init.uploadPath + filename + ".png",init.uploadPath + filename);
+                            
+                            easyimg.thumbnail({
+                                    src: init.uploadPath + filename, 
+                                    dst: init.uploadPath + thumbname + ".png",
+                                    width:Const.thumbSize, height:Const.thumbSize
+                                }).then(
+                                
+                                function(image) {
+                                                                    
+                                    fs.renameSync( init.uploadPath + thumbname + ".png",init.uploadPath + thumbname);
+                                    
+                                    var model = new userModel({
+                                        displayName:row.first_name + " " + row.last_name,
+                                        username:row.username,
+                                        email: row.email,
+                                        password: sha1('yumiko'),
+                                        avatar: {
+                                            file : filename,
+                                            thumb : thumbname
+                                        },
+                                        created: Utils.now()          
+                                    });
+                                                                    
+                                    model.save(function(err,modelSaved){
+                                                                            
+                                        if(err)
+                                            console.log(err);
+                                            
+                                        console.log('new user saved');
+                                        done(err);              
+                                    
+                                    });
+                            
+                                },
+                                function (err) {
+                                    
+                                    
+                
+                                }
+                                
+                            );
+    
+                                                            
+                        });                    
+                        
+                      });   
+                                                                                            
+                    }).end();
+    
+
+                },500)();
         
             });
             
