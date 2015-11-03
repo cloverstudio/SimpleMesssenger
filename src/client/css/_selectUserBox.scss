@@ -1,0 +1,76 @@
+.select-user-box{
+    
+    height: $headerHeight;
+    
+    #select-user-box-label{
+        
+        line-height: $headerHeight;
+        vertical-align: middle;
+        float: left;
+        margin-right: 5px;
+    }
+    
+    #select-user-box-container{
+
+        vertical-align: middle;
+        float: left;
+        
+        input {
+            
+            border: none;
+            height: $headerHeight;
+            
+        }
+        
+        ul.dropdown-menu {
+            margin-bottom: 0px;
+            max-height: 400px;
+            overflow-y: auto;
+            
+            li{
+    
+                vertical-align: middle;
+            
+                img{
+                    
+                    height: 35px;
+                    margin-right: 5px;
+                    
+                }
+            
+            }
+            
+            li.selected{
+                
+                background-color: $gray-lighter;
+                
+            }
+            
+        }
+        
+        ul#select-user-selected-users {
+            
+            font-size: $font-size-small;
+            vertical-align: middle;
+            color: $gray;
+            margin-bottom: 0px;
+            padding-bottom: 3px;
+            
+            li {
+                
+                margin: 3px;
+                padding: 0px;
+                
+                img{
+                    
+                    height: 25px;
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}

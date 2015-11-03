@@ -1,0 +1,35 @@
+<div class="dropdown" id="conversation-edit-dropdown">
+
+    <div id="info-actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        
+        <div class="conversation-avatar">
+        
+            <img src="{{avatarURL conversation.avatar.thumb}}" class="img-circle"/>
+            
+        </div>
+        
+        <div class="conversation-info">
+            <span class="conversation-title">{{conversation.name}}</span><br />
+            <span class="conversation-subtitle">{{conversation.description}}</span>
+        </div>
+        
+        <div class="conversation-right">
+        
+            <span id="conversation-edit" class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+        
+        </div>
+         
+        <br style="clear: both" />
+    </div> 
+
+    <ul class="dropdown-menu" aria-labelledby="info-actions">              
+        <li><a href="javascript:void(0)" id="btn-editconversation">{{l10n "Edit conversation profile"}}</a>
+        <li><a href="javascript:void(0)" id="btn-addpeople">{{l10n "Add people"}}</a>
+        <li class="divider"></li>
+        <li><a href="javascript:void(0)" id="btn-leaveconversation">{{l10n "Leave conversation"}}</a>
+    </ul>
+  
+</div>
+
+<div class="conversation-info-divider">  
+</div>

@@ -1,0 +1,38 @@
+    
+    <form class="form" id="form-signin" onsubmit="return false">
+    
+        <h2 class="form-signin-heading">{{l10n "Sign In"}}</h2>
+
+        <div class="alert alert-danger alert-dismissible" role="alert" style="display:none">
+          <strong>{{l10n "Error"}}</strong> 
+          <span class="detail"></span>
+        </div>
+        
+        <div class="alert alert-info alert-dismissible" role="alert" style="display:none">
+          <span class="detail"></span>
+        </div>
+        
+        <div class="form-group username">
+            <div class="form-label">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{l10n "User Name"}}
+            </div>
+            <input type="text" name="username" class="form-control" value="kenyasue">
+			<span class="help-block"></span>
+        </div>
+        
+        <div class="form-group password">
+            <div class="form-label">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> {{l10n "Password"}}
+            </div>
+            <input type="password" name="password" class="form-control" value="yumiko">
+			<span class="help-block"></span>
+        </div>
+        
+        <div class="spacer">
+    
+        </div>
+        
+        <div class="btn btn-lg btn-primary btn-block" id="btn-signin">{{l10n "Sign in"}}</div>
+        
+    </form>
+    

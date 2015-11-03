@@ -1,0 +1,33 @@
+
+<ul>
+
+    {{#each list}}
+
+    <li conversationid="{{id}}">
+
+        <a href="javascript:void(0)">
+
+            <div class="conversation-avatar">
+
+                <img src="{{avatarURL avatar.thumb}}" class="img-circle"/>
+
+            </div>
+
+            <div class="conversation-info">
+                <span class="conversation-title">{{name}}</span><br />
+                <span class="last-message">{{lastMessaage.text}}</span>
+            </div>
+
+            <div class="conversation-right">
+
+                {{formatDate lastMessaage.created}}
+
+            </div>
+
+        </a>
+
+    </li>
+
+    {{/each}}
+
+</ul>

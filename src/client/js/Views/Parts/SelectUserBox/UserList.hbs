@@ -1,0 +1,12 @@
+    
+    {{#each list}}
+
+    <li userid="{{id}}">
+        <a href="javascript:void(0)" userid="{{id}}">
+            <img src="./api/v1/file/avatar/{{avatar.thumb}}" class="img-circle"/>
+            {{displayName}}
+        </a>
+        
+    </li>
+    
+    {{/each}}

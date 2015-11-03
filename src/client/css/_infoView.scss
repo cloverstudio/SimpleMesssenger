@@ -1,0 +1,60 @@
+#main-infoview{
+
+    padding: 5px;
+        
+    #info-actions{
+
+        position: relative;
+        border-bottom: 1px solid $gray-lighter;
+        
+        .conversation-avatar{
+            
+            float: left;
+            margin: 5px;
+            width: 50px;
+            
+            img{
+                width: 50px;
+            }
+        }
+    
+        .conversation-info{
+            
+            padding-left: 60px;
+            padding-right: 30px;
+            margin: 5px;
+            
+            .conversation-title{
+                color: $gray;
+            }
+            
+            .conversation-subtitle{
+                color: $gray-light + #333;
+                font-size: $font-size-small - 1pt;  
+            }
+            
+        }
+    
+        .conversation-right{
+            position: absolute;
+            overflow-x: hidden;
+            margin: 5px;
+            color: $gray-light;
+            cursor: pointer;
+            right: 5px;
+            top: 15px;
+            
+        }
+    }
+    
+    #conversation-info-divider{
+    }
+    
+        
+    .dropdown-menu{
+        left: unset;
+        right: 0px;
+    }
+        
+    
+}

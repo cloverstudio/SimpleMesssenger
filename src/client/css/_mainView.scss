@@ -1,0 +1,114 @@
+
+#main-view.container{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#main-view{
+
+    #main-conversationlist{
+
+        padding: 0px;
+        overflow-y: auto;
+
+    }
+
+    #main-conversationview{
+
+        border-left: 1px solid $gray-light;
+        overflow-y: auto;
+        padding: 0px;
+
+    }
+
+    #main-infoview{
+        
+        border-left: 1px solid $gray-lighter;
+        overflow-y: auto;
+
+    }
+
+    #main-header{
+
+        vertical-align: middle;
+
+        #main-header-left{
+
+            height: $headerHeight;
+            line-height: $headerHeight;
+            height: 100%;
+            text-align: center;
+            border-bottom: 1px solid $gray-lighter;
+
+            h3{
+
+                display: inline;
+                font-size: $font-size-large;
+
+            }
+
+
+        }
+
+        #main-header-right{
+
+            border-left: 1px solid $gray-light;
+            border-bottom: 1px solid $gray-lighter;
+
+        }
+
+
+        #header-panel-default{
+
+            text-align: center;
+            height: $headerHeight;
+            line-height: $headerHeight;
+
+            .right-container{
+                font-size: $font-size-large+3px;
+            }
+
+
+        }
+
+        #header-panel-newchat{
+
+            min-height: $headerHeight;
+            text-align: left;
+            font-size: $font-size-small;
+            color: $gray-light + #333;
+
+            input{
+
+                border: none;
+                height: $headerHeight - 10px;
+                color: $gray;
+            }
+
+
+        }
+
+        .right-container{
+            color: $brand-primary;
+            font-size: $font-size-large;
+            float: right;
+
+            span{
+                cursor: pointer;
+                margin: 5px;
+            }
+        }
+
+        .left-container{
+            color: $brand-primary;
+            font-size: $font-size-large;
+            float: left;
+
+            span{
+                cursor: pointer;
+            }
+        }
+
+    }
+
+}
