@@ -60,6 +60,8 @@ SignInHandler.prototype.attach = function(router){
             
             if(secretGenerated == secret)
                 secretPassed = true;
+            
+            console.log(secretGenerated,secret);
                 
         }
         
