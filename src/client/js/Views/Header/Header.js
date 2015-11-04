@@ -120,10 +120,10 @@ var HeaderView = Backbone.View.extend({
 
         NewConversationClient.send(collectionUsers,function(response){
 
-            if(_.isEmpty(response.result.conversation))
+            if(_.isEmpty(response.conversation))
                 return;
 
-            var conversation = ConversationModel.modelByResult(response.result.conversation);
+            var conversation = ConversationModel.modelByResult(response.conversation);
 
             // update panels
             Backbone.trigger(Const.NotificationNewChat,conversation);

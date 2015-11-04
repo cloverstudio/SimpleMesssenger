@@ -35,7 +35,7 @@ var loginUserManager = require('../loginUserManager');
                 }
                 
                 if(_.isFunction(success)){
-                   success(data);
+                   success(data.data);
                 }
             },
             error: function() {
@@ -73,7 +73,7 @@ var loginUserManager = require('../loginUserManager');
                 }
                 
                if(_.isFunction(success)){
-                   success(data);
+                   success(data.data);
                }
            },
            error: function() {

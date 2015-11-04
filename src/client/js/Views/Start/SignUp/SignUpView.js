@@ -90,9 +90,9 @@ var SignUpView = BaseView.extend({
                     
                 },function(data){
                                         
-                    if(!_.isEmpty(data.result.validationError)){
+                    if(!_.isEmpty(data.validationError)){
                         
-                        self.showError(Utils.l10n(data.result.validationError));
+                        self.showError(Utils.l10n(data.validationError));
                         
                     }else{
                         // succeeeeeeeed!!!!!

@@ -94,9 +94,9 @@ var EditProfile = {
                 
         UpdateProfileClient.send(displayName,file,function(response){
             
-            if(response.result.validationError){
+            if(response.validationError){
                 
-                $('#modal-profile .alert-danger').text(Utils.l10n(response.result.validationError));
+                $('#modal-profile .alert-danger').text(Utils.l10n(response.validationError));
                 $('#modal-profile .alert-danger').show();
     
                 $('#modal-profile .progress').hide();           

@@ -85,11 +85,11 @@ var SignInView = BaseView.extend({
                                         
                 },function(data){
                     
-                    if(data.result.ok){
+                    if(data.ok){
                         
                         Utils.goPage("main");
-                        loginUserManager.setUser(data.result.user);
-                        loginUserManager.setToken(data.result.token);
+                        loginUserManager.setUser(data.user);
+                        loginUserManager.setToken(data.token);
                         
                     }else{
                     
