@@ -23,7 +23,7 @@ SignInHandler.prototype.attach = function(router){
             
         var userModel = UserModel.get();
         
-        console.log(request.body);
+        console.log(request);
         
         var uuid = request.body.uuid;
         var secret = request.body.secret;
@@ -34,6 +34,8 @@ SignInHandler.prototype.attach = function(router){
                 ok : false,
                 validationError: "UUID is empty"
             });
+            
+            return;
                           
         }
 
@@ -43,6 +45,8 @@ SignInHandler.prototype.attach = function(router){
                 ok : false,
                 validationError: "Wrong secret"
             });
+            
+            return;
                           
         }
         
