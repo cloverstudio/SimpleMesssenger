@@ -20,7 +20,6 @@
 
     Config.defaultAvatar = "img/noname.png";
 
-
     // Exports ----------------------------------------------
     module["exports"] = Config;
 
