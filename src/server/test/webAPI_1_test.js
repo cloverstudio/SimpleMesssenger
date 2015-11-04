@@ -18,6 +18,8 @@ describe('WEB', function () {
     				throw err;
     			}
     			
+    			console.log(res.text);
+    			
                 res.text.should.be.exactly("test");
                 
                 done();

@@ -13,6 +13,17 @@ TestHandler.prototype.attach = function(router){
         
     var self = this;
 
+   /**
+     * @api {get} /test Test
+     * @apiName Test
+     * @apiGroup WebAPI
+     * @apiDescription Just test
+     *     
+     * @apiSuccessExample Success-Response:
+            test
+    */
+
+
     router.get('/',function(request,response){
             
         response.send('test');

@@ -20,6 +20,35 @@ SignUpHandler.prototype.attach = function(router){
         
     var self = this;
 
+   /**
+     * @api {post} /user/signup SignUp
+     * @apiName SignUp
+     * @apiGroup WebAPI
+     * @apiDescription Signup to system
+
+     * @apiParam {alphanumeric} username username to use in signin
+     * @apiParam {email} email email is used to resend password
+     * @apiParam {alphanumeric} password password
+     * @apiParam {alphanumeric} passwordConfirm should be same with password
+     *     
+     * @apiSuccessExample Success-Response:
+            {
+                success: 1,
+                data: {
+                    ok: true,
+                    user: {
+                        __v: 0,
+                        username: 'testz2u72',
+                        email: 'test@testHkhbn.com',
+                        password: 'c6adee58cf037f4590a7262a3c04678f56eb8f46',
+                        created: 1446643127495,
+                        _id: '563a05b7886db05ae62527bc'
+                    }
+                }
+            }
+    */
+
+
     router.post('/',function(request,response){
                 
         var username = request.body.username;

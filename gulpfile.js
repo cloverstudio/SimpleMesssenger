@@ -10,6 +10,7 @@ var browserify = require('browserify'),
     destFile = 'bundle.js',
     sourceCSS = 'src/client/css/',
     hbsfy = require("hbsfy"),
+    apidoc = require('gulp-apidoc'),
     destCSS = 'public/css/';
     
 var props = {
@@ -68,7 +69,16 @@ gulp.task('build-css', function() {
     .pipe(gulp.dest(destCSS));
 });
 
-gulp.task('build-dist',['copy','browserify-build','build-css'],function(){
+gulp.task('build-apidoc', function(done){
+    
+    apidoc({
+        src: "src/",
+        dest: "doc/API"
+    },done);
+
+});
+
+gulp.task('build-dist',['build-apidoc','copy','browserify-build','build-css'],function(){
     
     
 });
@@ -76,5 +86,6 @@ gulp.task('build-dist',['copy','browserify-build','build-css'],function(){
 gulp.task('default',['build-dist'],function(){
     
     gulp.watch('src/client/**/*',['build-dist']);
+    gulp.watch('src/server/**/*',['build-apidoc']);
     
 });

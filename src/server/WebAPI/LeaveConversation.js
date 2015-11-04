@@ -16,6 +16,28 @@ LeaveConversation.prototype.attach = function(router){
 
     var self = this;
 
+   /**
+     * @api {get} /api/v1/conversation/leave/[conversationid] Leave from conversation
+     * @apiName Leave from conversation
+     * @apiGroup WebAPI
+     * @apiHeader {String} Access-Token Users unique access-token.
+     * @apiDescription Leave from joined conversation.
+     * @apiSuccessExample Success-Response:
+    
+{
+    success: 1,
+    data: {
+        ok: true,
+        conversation: {
+            ok: 1,
+            nModified: 1,
+            n: 1
+        }
+    }
+}
+
+    */
+    
     router.get('/:conversationid',authenticator,function(request,response){
 
         var conversationId = request.params.conversationid;

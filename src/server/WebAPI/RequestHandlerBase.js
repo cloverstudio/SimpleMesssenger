@@ -42,7 +42,7 @@ RequestHandlerBase.prototype.successResponse = function(response,data){
     response.status(Const.httpCodeSucceed);
     response.json({
         success : Const.responsecodeSucceed,
-        result : data
+        data : data
     });
     
 }

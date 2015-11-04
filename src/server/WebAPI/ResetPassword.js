@@ -20,6 +20,23 @@ ResetPasswordHandler.prototype.attach = function(router){
         
     var self = this;
 
+   /**
+     * @api {post} /api/v1/user/resetpassword Reset Password
+     * @apiName Reset Password
+     * @apiGroup WebAPI
+     * @apiDescription Reset User's password with email address
+     * @apiParam {string} email Email of target user
+
+     * @apiSuccessExample Success-Response:
+            {
+                success: 1,
+                data: {
+                    ok: true
+                }
+            }
+    */
+    
+    
     router.post('/',function(request,response){
             
         var userModel = UserModel.get();

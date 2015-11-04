@@ -34,14 +34,14 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-    			
+    			    			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('ok');
-                res.body.result.ok.should.equal(true);
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('ok');
+                res.body.data.ok.should.equal(true);
                 
-                global.userid1 = res.body.result.user._id;
+                global.userid1 = res.body.data.user._id;
                 
                 done();
             
@@ -67,8 +67,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -94,8 +94,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -121,8 +121,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -148,8 +148,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -175,8 +175,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -203,8 +203,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -231,8 +231,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -260,8 +260,8 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
                 
                 done();
             
@@ -290,13 +290,13 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-    			    			
+    		
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('ok');
-                res.body.result.ok.should.equal(true);
-                res.body.result.should.have.property('token');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('ok');
+                res.body.data.ok.should.equal(true);
+                res.body.data.should.have.property('token');
 
                 done();
             
@@ -328,15 +328,15 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-                                
+         
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('ok');
-                res.body.result.ok.should.equal(true);
-                res.body.result.should.have.property('token');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('ok');
+                res.body.data.ok.should.equal(true);
+                res.body.data.should.have.property('token');
                 
-                theUserId = res.body.result.user._id;
+                theUserId = res.body.data.user._id;
                 
                 done();
             
@@ -364,11 +364,11 @@ describe('WEB User', function () {
                                 
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('ok');
-                res.body.result.ok.should.equal(true);
-                res.body.result.should.have.property('token');
-                res.body.result.user._id.should.equal(theUserId);
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('ok');
+                res.body.data.ok.should.equal(true);
+                res.body.data.should.have.property('token');
+                res.body.data.user._id.should.equal(theUserId);
 
                 done();
             
@@ -396,8 +396,8 @@ describe('WEB User', function () {
                 
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('validationError');
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('validationError');
 
                 done();
             
@@ -424,11 +424,11 @@ describe('WEB User', function () {
         			if (err) {
         				throw err;
         			}
-                                        
+             
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.result.should.have.property('ok');
-                    res.body.result.ok.should.equal(true);
+                    res.body.data.should.have.property('ok');
+                    res.body.data.ok.should.equal(true);
 
                     done();
                 
@@ -455,8 +455,8 @@ describe('WEB User', function () {
                                         
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.result.should.have.property('ok');
-                    res.body.result.ok.should.equal(true);
+                    res.body.data.should.have.property('ok');
+                    res.body.data.ok.should.equal(true);
 
                     done();
                 
@@ -484,8 +484,8 @@ describe('WEB User', function () {
                     
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.should.have.property('result');
-                    res.body.result.should.have.property('validationError');
+                    res.body.should.have.property('data');
+                    res.body.data.should.have.property('validationError');
 
                     done();
                 
@@ -515,8 +515,8 @@ describe('WEB User', function () {
                     
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.should.have.property('result');
-                    res.body.result.should.have.property('validationError');
+                    res.body.should.have.property('data');
+                    res.body.data.should.have.property('validationError');
 
                     done();
                 
@@ -581,8 +581,8 @@ describe('WEB User', function () {
                                         
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.result.should.have.property('ok');
-                    res.body.result.ok.should.equal(false);
+                    res.body.data.should.have.property('ok');
+                    res.body.data.ok.should.equal(false);
             
                     done();
                 
@@ -614,8 +614,8 @@ describe('WEB User', function () {
                                         
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.result.should.have.property('ok');
-                    res.body.result.ok.should.equal(false);
+                    res.body.data.should.have.property('ok');
+                    res.body.data.ok.should.equal(false);
             
                     done();
                 
@@ -650,8 +650,8 @@ describe('WEB User', function () {
                             
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.result.should.have.property('ok');
-                    res.body.result.ok.should.equal(true);
+                    res.body.data.should.have.property('ok');
+                    res.body.data.ok.should.equal(true);
             
                     done();
                 
@@ -705,9 +705,9 @@ describe('WEB User', function () {
         			
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
-                    res.body.should.have.property('result');
-                    res.body.result.should.have.property('ok');
-                    res.body.result.ok.should.equal(true);
+                    res.body.should.have.property('data');
+                    res.body.data.should.have.property('ok');
+                    res.body.data.ok.should.equal(true);
     
                     done();
                 
@@ -737,9 +737,9 @@ describe('WEB User', function () {
     			
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
-                res.body.should.have.property('result');
-                res.body.result.should.have.property('ok');
-                res.body.result.ok.should.equal(false);
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('ok');
+                res.body.data.ok.should.equal(false);
 
                 done();
             

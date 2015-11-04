@@ -6,6 +6,7 @@
   "main": "src/server/index.js",
   "dependencies": {
     "JSON2": "latest",
+    "apidoc": "^0.13.1",
     "async": "1.4.0",
     "backbone": "latest",
     "body-parser": "^1.13.1",
@@ -40,7 +41,8 @@
     "vinyl-source-stream": "latest",
     "watchify": "latest",
     "should": "^7.1.0",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "gulp-apidoc": "^0.2.0"
   },
   "scripts": {
     "build-js": "browserify src/client/js/main.js > public/js/bundle.js -d",
@@ -53,5 +55,12 @@
   },
   "browserify-shim": {
     "three": "global:THREE"
+  },
+  "apidoc": {
+    "name": "SimpleMessenter",
+    "version": "0.1.0",
+    "description": "Simple Messenger API Document",
+    "title": "Simple Messenger",
+    "url": ""
   }
 }

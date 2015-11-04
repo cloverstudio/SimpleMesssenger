@@ -26,6 +26,51 @@ NewConversation.prototype.attach = function(router){
 
     var self = this;
     
+
+   /**
+     * @api {post} /api/v1/conversation/new New Conversation
+     * @apiName Create New Conversation
+     * @apiGroup WebAPI
+     * @apiHeader {String} Access-Token Users unique access-token.
+     * @apiDescription Create new conversation
+     * @apiParam {array} users array of users ids.
+     * @apiParamExample {json} Request-Example:
+        {
+            users: [
+                "563a0cc46cb168c8e9c4071d",
+                "563a0cc46cb168c8e9c4071a",
+                "563a0cc46cb168c8e9c4071b"
+            ]
+        }
+     * @apiSuccessExample Success-Response:
+    
+            {
+                success: 1,
+                data: {
+                    ok: true,
+                    conversation: {
+                        __v: 0,
+                        owner: '563a0cc46cb168c8e9c4071d',
+                        name: 'testuBfpS,
+                        thename...',
+                        created: 1446644932895,
+                        _id: '563a0cc46cb168c8e9c40720',
+                        avatar: {
+                            file: '3kjh7pZAUZruXOMMWF4ejG674QZTDMvT',
+                            thumb: '3kjh7pZAUZruXOMMWF4ejG674QZTDMvT'
+                        },
+                        users: [
+                            '563a0cc46cb168c8e9c4071d',
+                            '563a0cc46cb168c8e9c4071a',
+                            '563a0cc46cb168c8e9c4071c',
+                            '563a0cc46cb168c8e9c4071b'
+                        ]
+                    }
+                }
+            }
+
+    */
+    
     router.post('/',authenticator,function(request,response){
     
         var logic = new CreateNewConversation();
