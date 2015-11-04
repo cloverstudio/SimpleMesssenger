@@ -58,6 +58,7 @@ SignInHandler.prototype.attach = function(router){
         
         var uuid = request.body.uuid;
         var secret = request.body.secret;
+        var name = request.body.name;
         
         if(_.isEmpty(uuid)){
 
@@ -121,13 +122,29 @@ SignInHandler.prototype.attach = function(router){
             function(result,done){
             
                 if(result.user){
-                    done(null,result);
+                    
+                    var token = Utils.getRandomString(32);
+                    
+                    result.user.update({
+                        displayName: name,
+                        token: {
+                            token: token,
+                            generated: Utils.now()
+                        }
+                    },{},function(err,userResult){
+                        
+                        result.user = result.user;
+                        done(null,result);
+
+                    });
+                    
                     return;
                 }
                 
                 // create new user
                 var model = new userModel({
                     username:"",
+                    displayName: name,
                     email: "",
                     password: "",
                     created: Utils.now(),
