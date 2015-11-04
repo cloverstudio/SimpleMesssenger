@@ -37,10 +37,10 @@ global.signin = function(cb,params){
     		throw err;
     	}
     	
-    	if(!res.body.result.token)
+    	if(!res.body.data.token)
     	    throw new Error('invalid login');
     	
-        cb(res.body.result.token);
+        cb(res.body.data.token);
     
     }); 
         
@@ -89,7 +89,7 @@ before(function(done){
             		.expect(200) 
                     .end(function (err, res) {
                                             
-                    global.userid2 = res.body.result.user._id;
+                    global.userid2 = res.body.data.user._id;
                                       
             		if (err) {
             		    console.log(err);
@@ -140,7 +140,7 @@ before(function(done){
             			callback(err,null)
             		}
 
-            		global.userid3 = res.body.result.user._id;
+            		global.userid3 = res.body.data.user._id;
 
             		if (err) {
             			callback(err,null);
@@ -190,7 +190,7 @@ before(function(done){
             			callback(err,null)
             		}
 
-            		global.userid4 = res.body.result.user._id;
+            		global.userid4 = res.body.data.user._id;
 
             		if (err) {
             			callback(err,null);

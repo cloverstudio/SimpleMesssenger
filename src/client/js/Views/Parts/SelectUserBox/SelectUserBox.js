@@ -155,10 +155,12 @@ var SelectUserBox = Backbone.View.extend({
             }
 
             SearchUserClient.send(keyword,function(res){
-
+                
+                console.log(res);
+                
                 self.collectionUsersCandidates =  new User.Collection([]);
 
-                _.forEach(res.result.users,function(row){
+                _.forEach(res.users,function(row){
 
                     var isExists = false;
 

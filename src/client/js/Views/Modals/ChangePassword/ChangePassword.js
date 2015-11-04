@@ -118,9 +118,9 @@ var ChangePassword = {
             
         },function(data){
                              
-            if(data.result.ok == false){
+            if(data.ok == false){
                 
-                $('#modal-changepassword .alert-danger').text(Utils.l10n(data.result.validationError));
+                $('#modal-changepassword .alert-danger').text(Utils.l10n(data.validationError));
                 $('#modal-changepassword .alert-danger').show();
     
                 $('#modal-changepassword .progress').hide();           

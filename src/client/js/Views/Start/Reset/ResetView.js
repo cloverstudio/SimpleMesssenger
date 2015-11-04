@@ -76,7 +76,7 @@ var ResetView = BaseView.extend({
                                         
                 },function(data){
                                         
-                    if(data.result.ok){
+                    if(data.ok){
                         
                         self.showInfo(Utils.l10n("New password is sent to your email."));
                         

@@ -53,7 +53,7 @@ var InfoView = Backbone.View.extend({
                 
                 AddPeopleModal.show(obj,function(result){
                                         
-                    var conversation = ConversationModel.modelByResult(result.response.result.conversation);
+                    var conversation = ConversationModel.modelByResult(result.response.conversation);
                     
                     console.log(conversation);
                     
@@ -78,11 +78,11 @@ var InfoView = Backbone.View.extend({
                             self.currentConversation,
                             function(response){
                                 
-                                if(response.result.validationError){
+                                if(response.validationError){
 
                                     AlertModal.show(
                                         Utils.l10n("Error"),
-                                        Utils.l10n(Utils.l10n(response.result.validationError))
+                                        Utils.l10n(Utils.l10n(response.validationError))
                                     );
                                     
                                 } else {

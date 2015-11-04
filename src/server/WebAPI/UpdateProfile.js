@@ -25,6 +25,27 @@ UpdateProfileHandler.prototype.attach = function(router){
         
     var self = this;
 
+
+   /**
+     * @api {post} /api/v1/user/updateprofile Updaet Profile
+     * @apiName Updaet Proile
+     * @apiGroup WebAPI
+     * @apiDescription Update profile of request user
+     * @apiHeader {String} Access-Token Users unique access-token.
+     * @apiParam {string} displayName Name to display
+     * @apiParam {file} file avatar file
+
+     * @apiSuccessExample Success-Response:
+            {
+                success: 1,
+                data: {
+                    ok: true
+                }
+            }
+    */
+    
+
+
     router.post('/',authenticator,function(request,response){
                 
         var form = new formidable.IncomingForm();

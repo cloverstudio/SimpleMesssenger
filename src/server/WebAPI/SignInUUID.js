@@ -19,11 +19,42 @@ SignInHandler.prototype.attach = function(router){
         
     var self = this;
 
+   /**
+     * @api {post} /user/signin/UUID SignIn with UUID
+     * @apiName Sign in with UUID
+     * @apiGroup WebAPI
+     * @apiDescription Login to the system and get api token with UUID and secret
+
+     * @apiParam {string} uuid UUID
+     * @apiParam {string} secret Secret Secret should be md5(yyyymmddhhmmss + password)
+
+     * @apiSuccessExample Success-Response:
+            {
+                success: 1,
+                data: {
+                    ok: true,
+                    user: {
+                        __v: 0,
+                        username: '',
+                        email: '',
+                        password: '',
+                        created: 1446643669338,
+                        _id: '563a07d56c486242e73cdc13',
+                        loginCredentials: [
+                            Object
+                        ],
+                        token: [
+                            Object
+                        ]
+                    },
+                    token: 'F1p2IJzRab4C7B46lQ6t83fDfcTZlHRK'
+                }
+            }
+    */
+    
     router.post('/',function(request,response){
             
         var userModel = UserModel.get();
-        
-        console.log(request);
         
         var uuid = request.body.uuid;
         var secret = request.body.secret;
@@ -60,9 +91,7 @@ SignInHandler.prototype.attach = function(router){
             
             if(secretGenerated == secret)
                 secretPassed = true;
-            
-            console.log(secretGenerated,secret);
-                
+                            
         }
         
         

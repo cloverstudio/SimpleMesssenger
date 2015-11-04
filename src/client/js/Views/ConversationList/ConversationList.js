@@ -56,8 +56,10 @@ var ConversationList = Backbone.View.extend({
         var self = this;
 
         ConversationListClient.send(function(response){
-
-            self.conversations =  Conversation.collectionByResult(response.result.conversations);
+            
+            console.log(response);
+            
+            self.conversations =  Conversation.collectionByResult(response.conversations);
             $(self.parentElement).html(template({list:self.conversations.toJSON()}));
             self.setupEvents();
 

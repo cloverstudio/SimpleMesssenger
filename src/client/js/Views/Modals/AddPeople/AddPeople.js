@@ -120,9 +120,9 @@ var AddPeople = {
         
         AddToConversationClient.send(this.conversation.get('id'),userIds,makeNew,function(response){
                         
-            if(response.result.validationError){
+            if(response.validationError){
                 
-                $('#modal-addpeople .alert-danger').text(Utils.l10n(response.result.validationError));
+                $('#modal-addpeople .alert-danger').text(Utils.l10n(response.validationError));
                 $('#modal-addpeople .alert-danger').show();
     
                 $('#modal-addpeople .progress').hide();           

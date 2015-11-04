@@ -20,6 +20,54 @@ AddToConversation.prototype.attach = function(router){
 
     var self = this;
 
+   /**
+     * @api {post} /api/v1/conversation/add Add users to conversation
+     * @apiName Add users to conversation
+     * @apiGroup WebAPI
+     * @apiHeader {String} Access-Token Users unique access-token.
+     * @apiDescription Add users to existing conversation. Can select add to existing conversation or create new one.
+     * @apiParam {conversationId} conversaton id of target
+     * @apiParam {makeNew} false to existing one, true to make one new
+     * @apiParam {array} users array of users ids.
+     * @apiParamExample {json} Request-Example:
+            {
+                conversationId: "563a1130b75fb0d5eb4b5a22",
+                makeNew: true,
+                users: [
+                    "563a0cc46cb168c8e9c4071a",
+                    "563a0cc46cb168c8e9c4071a"
+                ]
+            }
+     * @apiSuccessExample Success-Response:
+    
+{
+    success: 1,
+    data: {
+        ok: true,
+        conversation: {
+            __v: 0,
+            owner: '563a1130b75fb0d5eb4b5a22',
+            name: 'testiCqIm,
+            thename...',
+            created: 1446646065228,
+            _id: '563a1131b75fb0d5eb4b5a2a',
+            avatar: {
+                file: 'EDDggQd7MoK6LpKQQ84PWbQVVdpjexYh',
+                thumb: 'EDDggQd7MoK6LpKQQ84PWbQVVdpjexYh'
+            },
+            users: [
+                '563a1130b75fb0d5eb4b5a22',
+                '563a1130b75fb0d5eb4b5a22',
+                '563a1130b75fb0d5eb4b5a1f',
+                '563a1130b75fb0d5eb4b5a20',
+                '563a1130b75fb0d5eb4b5a21'
+            ]
+        }
+    }
+}
+
+    */
+
     router.post('',authenticator,function(request,response){
 
         // check new password
