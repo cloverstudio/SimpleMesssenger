@@ -375,7 +375,36 @@ describe('WEB User', function () {
             });   
             
         });
-        
+
+        it('Cant signin with wrong secret', function (done) {
+                        
+            var paramsLogin = {
+                uuid : uuid,
+                secret : "its wrong"
+            };
+                        
+            request(app)
+                .post('/api/v1/user/signin/uuid')
+                .send(paramsLogin)
+        		.expect('Content-Type', /json/)
+        		.expect(200) 
+                .end(function (err, res) {
+
+    			if (err) {
+    				throw err;
+    			}
+                
+                res.body.should.have.property('success');
+                res.body.success.should.equal(1);
+                res.body.should.have.property('result');
+                res.body.result.should.have.property('validationError');
+
+                done();
+            
+            });   
+            
+        });
+
     });
 
     describe('/user/updateprofile POST', function () {
