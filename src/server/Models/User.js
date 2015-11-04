@@ -26,6 +26,9 @@ UserModel.prototype.init = function(mongoose){
         avatar : {
             file : String,
             thumb : String
+        },
+        loginCredentials : {
+            UUID : String
         }
     });
 

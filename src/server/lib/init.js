@@ -19,6 +19,8 @@
     Config.emailPassword = '';
 
     Config.defaultAvatar = "img/noname.png";
+    
+    Config.secretSeed = "8zgqvU6LaziThJI1uz3PevYd"
 
     // Exports ----------------------------------------------
     module["exports"] = Config;

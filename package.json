@@ -20,6 +20,7 @@
     "jquery": "^1.9.0",
     "lodash": "latest",
     "lwip": "0.0.8",
+    "md5": "^2.0.0",
     "mongoose": "^4.0.6",
     "nodemailer": "^1.8.0",
     "sha1": "^1.1.1",

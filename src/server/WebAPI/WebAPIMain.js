@@ -16,6 +16,8 @@ var WebAPIMain ={
         app.use(bodyParser.json());
 
         router.use("/user/signin", require('./SignIn'));
+        router.use("/user/signin/uuid", require('./SignInUUID'));
+        
         router.use("/user/signup", require('./SignUp'));
         router.use("/user/resetpassword", require('./ResetPassword'));
         router.use("/test", require('./Test'));

@@ -3,6 +3,9 @@ var request = require('supertest');
 var app = require('../mainTest');
 var sha1 = require('sha1');
 
+var Utils = require('../lib/utils');
+
+
 describe('WEB User', function () {
     
     var username2 = "test" + global.getRandomStr() + 2;
@@ -268,7 +271,7 @@ describe('WEB User', function () {
       
     });
     
-    describe('/user/signin GET', function () {
+    describe('/user/signin POST', function () {
         
         it('Can signin', function (done) {
             
@@ -294,6 +297,78 @@ describe('WEB User', function () {
                 res.body.result.should.have.property('ok');
                 res.body.result.ok.should.equal(true);
                 res.body.result.should.have.property('token');
+
+                done();
+            
+            });   
+            
+        });
+        
+    });
+
+    describe('/user/signin/UUID POST', function () {
+        
+        var uuid = Utils.getRandomString(32);
+        var theUserId = "";
+        
+        it('Can signin with new uuid', function (done) {
+                        
+            var paramsLogin = {
+                uuid : uuid,
+                secret : Utils.generateSecret(Utils.now())
+            };
+                        
+            request(app)
+                .post('/api/v1/user/signin/uuid')
+                .send(paramsLogin)
+        		.expect('Content-Type', /json/)
+        		.expect(200) 
+                .end(function (err, res) {
+
+    			if (err) {
+    				throw err;
+    			}
+                                
+                res.body.should.have.property('success');
+                res.body.success.should.equal(1);
+                res.body.should.have.property('result');
+                res.body.result.should.have.property('ok');
+                res.body.result.ok.should.equal(true);
+                res.body.result.should.have.property('token');
+                
+                theUserId = res.body.result.user._id;
+                
+                done();
+            
+            });   
+            
+        });
+
+        it('Can signin with existing uuid', function (done) {
+                        
+            var paramsLogin = {
+                uuid : uuid,
+                secret : Utils.generateSecret(Utils.now())
+            };
+                        
+            request(app)
+                .post('/api/v1/user/signin/uuid')
+                .send(paramsLogin)
+        		.expect('Content-Type', /json/)
+        		.expect(200) 
+                .end(function (err, res) {
+
+    			if (err) {
+    				throw err;
+    			}
+                                
+                res.body.should.have.property('success');
+                res.body.success.should.equal(1);
+                res.body.should.have.property('result');
+                res.body.result.should.have.property('ok');
+                res.body.result.ok.should.equal(true);
+                res.body.result.should.have.property('token');
+                res.body.result.user._id.should.equal(theUserId);
 
                 done();
             
