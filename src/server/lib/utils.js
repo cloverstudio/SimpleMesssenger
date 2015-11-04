@@ -51,17 +51,17 @@ var md5 = require('md5');
         
         var date = new Date(timestamp);
         
-        var Y = date.getYear() + 1900;
+        var Y = date.getUTCFullYear();
                 
-        var MM = date.getMonth();
+        var MM = date.getUTCMonth();
         if(MM < 10)
             MM = "0"+MM;
         
-        var DD = date.getDate();
+        var DD = date.getUTCDate();
         if(DD < 10)
             DD = "0"+DD;
         
-        var HH = date.getHours();
+        var HH = date.getUTCHours();
         if(HH < 10)
             HH = "0"+HH;
         

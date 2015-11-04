@@ -29,6 +29,7 @@ SignInHandler.prototype.attach = function(router){
         if(_.isEmpty(uuid)){
 
             self.successResponse(response,{
+                ok : false,
                 validationError: "UUID is empty"
             });
                           
@@ -37,9 +38,32 @@ SignInHandler.prototype.attach = function(router){
         if(_.isEmpty(secret)){
 
             self.successResponse(response,{
+                ok : false,
                 validationError: "Wrong secret"
             });
                           
+        }
+        
+        var secretPassed = false;
+        
+        // check secret
+        for(i = -10 ; i < 10 ; i++){
+            
+            var time = Utils.now() + i * 1000;            
+            var secretGenerated = Utils.generateSecret(time);
+            
+            if(secretGenerated == secret)
+                secretPassed = true;
+                
+        }
+        
+        
+        if(!secretPassed){
+            self.successResponse(response,{
+                ok : false,
+                validationError: "Wrong secret"
+            });
+            return;
         }
         
         var result = {};
