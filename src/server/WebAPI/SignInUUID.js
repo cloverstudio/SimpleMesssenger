@@ -22,7 +22,9 @@ SignInHandler.prototype.attach = function(router){
     router.post('/',function(request,response){
             
         var userModel = UserModel.get();
-            
+        
+        console.log(request.body);
+        
         var uuid = request.body.uuid;
         var secret = request.body.secret;
         
