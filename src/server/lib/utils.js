@@ -53,7 +53,7 @@ var md5 = require('md5');
         
         var Y = date.getUTCFullYear();
                 
-        var MM = date.getUTCMonth();
+        var MM = date.getUTCMonth() + 1;
         if(MM < 10)
             MM = "0"+MM;
         
