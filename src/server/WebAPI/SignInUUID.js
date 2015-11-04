@@ -23,9 +23,88 @@ SignInHandler.prototype.attach = function(router){
             
         var userModel = UserModel.get();
             
-        var username = request.body.username;
-        var password = request.body.password;
+        var uuid = request.body.uuid;
+        var secret = request.body.secret;
+        
+        if(_.isEmpty(uuid)){
+
+            self.successResponse(response,{
+                validationError: "UUID is empty"
+            });
+                          
+        }
+
+        if(_.isEmpty(secret)){
+
+            self.successResponse(response,{
+                validationError: "Wrong secret"
+            });
+                          
+        }
+        
+        var result = {};
+        
+        async.waterfall([
+            function (done) {
                 
+                userModel.findOne({ 
+                    "loginCredentials.UUID": uuid
+                },function (err, resultUser){
+                    
+                    result.user = resultUser;
+                    
+                    done(err,result)
+                });
+                
+            },
+            function(result,done){
+            
+                if(result.user){
+                    done(null,result);
+                    return;
+                }
+                
+                // create new user
+                var model = new userModel({
+                    username:"",
+                    email: "",
+                    password: "",
+                    created: Utils.now(),
+                    loginCredentials: {
+                        UUID: uuid
+                    },
+                    token : {
+                        token: Utils.getRandomString(32),
+                        generated: Utils.now()
+                    }
+                });
+
+                model.save(function(err,resultSaveUser){
+                    
+                    result.user = resultSaveUser;
+                    done(err,result); 
+                
+                });
+                
+            }],
+            function(err,result){
+
+                if(err){
+                    self.errorResponse(response,Const.httpCodeServerError);  
+                    return;
+                }
+                
+                self.successResponse(response,{
+                    ok: true,
+                    user: result.user,
+                    token: result.user.token.token
+                });
+                    
+            }
+        );
+            
+                
+        /*
     	userModel.findOne({ 
     	    username: username,
     	    password: password
@@ -66,6 +145,9 @@ SignInHandler.prototype.attach = function(router){
             });
         
         });
+        
+        
+        */
         
     });
     

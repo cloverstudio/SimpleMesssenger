@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 var init = require('../lib/init');
 var mongoose = require('mongoose');
+var md5 = require('md5');
 
 (function(global) {
     "use strict;"
@@ -15,6 +16,8 @@ var mongoose = require('mongoose');
     Utils.prototype.sendEmail = sendEmail;
     Utils.prototype.toObjectId = toObjectId;
     Utils.prototype.shorten = shorten;
+    Utils.prototype.generateSecret = generateSecret;
+    Utils.prototype.generateYYYYMMDDHHMMSS = generateYYYYMMDDHHMMSS;
     
     // Implementation ---------------------------------------
     function getRandomString(){
@@ -32,6 +35,45 @@ var mongoose = require('mongoose');
         Date.now = Date.now || function() { return +new Date; }; 
         
         return Date.now();
+        
+    }
+    
+    function generateSecret(time){
+        
+        var dateStr = this.generateYYYYMMDDHHMMSS(time);
+        var dateStrWithSecret = dateStr + init.secretSeed;
+        
+        return md5(dateStrWithSecret);
+        
+    }
+    
+    function generateYYYYMMDDHHMMSS(timestamp){
+        
+        var date = new Date(timestamp);
+        
+        var Y = date.getYear() + 1900;
+                
+        var MM = date.getMonth();
+        if(MM < 10)
+            MM = "0"+MM;
+        
+        var DD = date.getDate();
+        if(DD < 10)
+            DD = "0"+DD;
+        
+        var HH = date.getHours();
+        if(HH < 10)
+            HH = "0"+HH;
+        
+        var Min = date.getMinutes();
+        if(Min < 10)
+            Min = "0"+Min;
+
+        var SS = date.getSeconds();
+        if(SS < 10)
+            SS = "0"+SS;
+            
+        return Y.toString() + MM.toString() + DD.toString() + HH.toString() + Min.toString() + SS.toString();
         
     }
     

@@ -17,7 +17,6 @@ UserModel.prototype.init = function(mongoose){
         username: String,
         email: String,
         password: String,
-        UUID: String,
         created: Number,
         displayName: String,
         token : {
@@ -27,6 +26,9 @@ UserModel.prototype.init = function(mongoose){
         avatar : {
             file : String,
             thumb : String
+        },
+        loginCredentials : {
+            UUID : String
         }
     });
 
