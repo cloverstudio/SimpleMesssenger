@@ -17,7 +17,7 @@ var DatabaseManager = {
 
         try{
 
-	        mongoose.connect(Conf.databaseUrl, function(err){
+	        mongoose.createConnection(Conf.databaseUrl, function(err){
 
 	          if (err) {
 

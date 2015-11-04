@@ -33,6 +33,7 @@ var WebAPIMain ={
         router.use("/conversation/add", require('./AddToConversation'));
         router.use("/conversation/list", require('./ConversationList'));
         router.use("/conversation/leave", require('./LeaveConversation'));
+        router.use("/conversation/update", require('./UpdateConversation'));
 
         app.use(init.urlPrefix, router);
 

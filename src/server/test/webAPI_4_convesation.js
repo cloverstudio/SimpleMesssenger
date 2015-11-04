@@ -376,11 +376,7 @@ describe('WEB Conversation', function () {
                       throw err;
                     }
                     
-                                            
-                                                                            			console.log(util.inspect(res.body, {showHidden: false, depth: null}));
-
-
-                    res.body.should.have.property('success');
+	                res.body.should.have.property('success');
                     res.body.success.should.equal(1);
                     res.body.should.have.property('data');
                     res.body.data.should.have.property('ok');
@@ -453,6 +449,71 @@ describe('WEB Conversation', function () {
         });
 
     });
-    
+
+    describe('/conversation/update POST', function () {
+
+         it('Update profile with picture works', function (done) {
+    	
+            global. signin(function(token){
+
+	            var params = {
+	
+	                users : [
+	                    global.userid2,
+	                    global.userid3
+	                ]
+	
+	            };
+
+	            request(app)
+	                .post('/api/v1/conversation/new')
+	                .send(params)
+	                .expect('Content-Type', /json/)
+	                .expect(200)
+	                .set('Access-Token', token)
+	                .end(function (err, res) {
+	
+	                if (err) {
+	                  throw err;
+	                }
+	
+	                res.body.should.have.property('success');
+	                res.body.success.should.equal(1);
+	                res.body.should.have.property('data');
+	                res.body.data.should.have.property('ok');
+	                res.body.data.ok.should.equal(true);
+										
+	                request(app)
+	                    .post('/api/v1/conversation/update/' + res.body.data.conversation._id)
+	                    .expect(200)
+	                    .set('Access-Token', token)
+	            		.field('displayName', 'test')
+	                    .attach('file', 'test/samplefiles/max.jpg')
+	                    .end(function (err, res) {
+	
+	                    if (err) {
+	                      throw err;
+	                    }
+	                    
+		                res.body.should.have.property('success');
+	                    res.body.success.should.equal(1);
+	                    res.body.should.have.property('data');
+	                    res.body.data.should.have.property('ok');
+						res.body.data.ok.should.equal(true);
+	
+	                    done();
+	
+	                });
+	
+	            });
+                  
+                
+            });
+            
+        });
+                                      
+    });
+
+
 
 });

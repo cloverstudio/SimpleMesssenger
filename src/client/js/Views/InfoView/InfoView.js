@@ -12,6 +12,7 @@ var NewConversationClient = require('../../lib/APIClients/NewConversationClient'
 var LeaveConversationClient = require('../../lib/APIClients/LeaveConversationClient');
 var ConversationModel = require('../../Models/conversation');
 
+var EditConversationProfile = require('../Modals/EditConversationProfile/EditConversationProfile');
 var AddPeopleModal = require('../Modals/AddPeople/AddPeople');
 var ConfirmModal = require('../Modals/ConfirmDialog/ConfirmDialog');
 var AlertModal = require('../Modals/AlertDialog/AlertDialog');
@@ -48,15 +49,25 @@ var InfoView = Backbone.View.extend({
             $(self.parentElement).html(template({conversation:obj.attributes}));
 
             self.currentConversation = obj;
+
+            $("#btn-editconversation").unbind().on('click',function(){
+                
+                EditConversationProfile.show(self.currentConversation,function(result){
+                    	
+                    console.log('aaa');
+					Backbone.trigger(Const.NotificationUpdateConversation,self.currentConversation);  
+                    
+                });
+                
+            });
+
             
             $("#btn-addpeople").unbind().on('click',function(){
                 
                 AddPeopleModal.show(obj,function(result){
                                         
                     var conversation = ConversationModel.modelByResult(result.response.conversation);
-                    
-                    console.log(conversation);
-                    
+                                        
                     if(result.makeNew){
                         Backbone.trigger(Const.NotificationNewChat,conversation);
                     }else{
