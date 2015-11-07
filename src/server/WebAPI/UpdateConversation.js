@@ -218,18 +218,25 @@ UpdateConversationHandler.prototype.attach = function(router){
             },
             
             function (result,done){
-
-                if(!result.requestParams.file){
-                    done(null,result);
-                    return;
-                }
-                                
-                result.targetConversation.update({
-                    avatar: {
+                
+                var updateParams = {};
+                
+                if(result.requestParams.file){
+                
+                    updateParams.avatar = {
                         file : result.requestParams.file.newFileName,
                         thumb : result.requestParams.file.thumbName
-                    }
-                },{},function(err,userResult){
+                    };
+                    
+                }
+                                
+                if(result.requestParams.fields.description){
+                
+                    updateParams.description = result.requestParams.fields.description;
+                    
+                }
+                                           
+                result.targetConversation.update(updateParams,{},function(err,userResult){
                     
                     if(err){
                         done(err,result);
@@ -250,7 +257,7 @@ UpdateConversationHandler.prototype.attach = function(router){
                     self.errorResponse(response,Const.httpCodeServerError);   
                                      
                 }else {
-                
+                                    
                     self.successResponse(response,{
                         ok : true
                     });

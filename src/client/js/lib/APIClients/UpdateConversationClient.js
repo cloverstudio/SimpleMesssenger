@@ -14,6 +14,7 @@ var loginUserManager = require('../loginUserManager');
     UpdateConversationClient.prototype.send = function(
 	    conversationId,
         displayName,
+        description,
         file,
         success,
         progress,
@@ -21,6 +22,7 @@ var loginUserManager = require('../loginUserManager');
                         
             var data = new FormData();
             data.append('displayName',displayName);
+            data.append('description', description);
             data.append('file', file);
                                     
             $.ajax({

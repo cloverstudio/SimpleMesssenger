@@ -454,7 +454,8 @@ describe('WEB Conversation', function () {
             global. signin(function(token){
 
 	            var params = {
-	
+                    
+                    description : "test testtest",
 	                users : [
 	                    global.userid2,
 	                    global.userid3
@@ -511,6 +512,68 @@ describe('WEB Conversation', function () {
                                       
     });
 
+    describe('/conversation/detail/[id] GET', function () {
+
+         it('Cat get conversation by id', function (done) {
+    	
+            global. signin(function(token){
+
+	            var params = {
+    
+	                users : [
+	                    global.userid2,
+	                    global.userid3
+	                ]
+	
+	            };
+
+	            request(app)
+	                .post('/api/v1/conversation/new')
+	                .send(params)
+	                .expect('Content-Type', /json/)
+	                .expect(200)
+	                .set('Access-Token', token)
+	                .end(function (err, res) {
+	
+	                if (err) {
+	                  throw err;
+	                }
+	
+	                res.body.should.have.property('success');
+	                res.body.success.should.equal(1);
+	                res.body.should.have.property('data');
+	                res.body.data.should.have.property('ok');
+	                res.body.data.ok.should.equal(true);
+										
+	                request(app)
+	                    .get('/api/v1/conversation/detail/' + res.body.data.conversation._id)
+	                    .expect(200)
+	                    .set('Access-Token', token)
+	                    .end(function (err, res) {
+	
+	                    if (err) {
+	                      throw err;
+	                    }
+	                    
+		                res.body.should.have.property('success');
+	                    res.body.success.should.equal(1);
+	                    res.body.should.have.property('data');
+	                    res.body.data.should.have.property('ok');
+						res.body.data.ok.should.equal(true);
+	                    res.body.data.should.have.property('conversation');
+	
+	                    done();
+	
+	                });
+	
+	            });
+                  
+                
+            });
+            
+        });
+                                      
+    });
 
 
 });

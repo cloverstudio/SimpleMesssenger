@@ -2,9 +2,12 @@ var $ = require('jquery');
 var _ = require('lodash');
 var validator = require('validator');
 
+var Conversation = require('../../../Models/conversation');
+
 var Utils = require('../../../lib/utils.js');
 var template = require('./EditConversationProfile.hbs');
 var UpdateConversationClient = require('../../../lib/APIClients/UpdateConversationClient');
+var ConversationDetailClient = require('../../../lib/APIClients/ConversationDetailClient');
 var loginUserManager = require('../../../lib/loginUserManager');
 
 var EditConversationProfile = {
@@ -30,6 +33,7 @@ var EditConversationProfile = {
             self.load();
 
             $('form [name="display-name"]').val(conversation.get('name'));
+            $('form [name="description"]').val(conversation.get('description'));
 
         })
         
@@ -43,7 +47,13 @@ var EditConversationProfile = {
 	    var self = this;
 	    
         if (!_.isUndefined(self.onFinish)) {
-            self.onFinish();
+            
+            ConversationDetailClient.send(this.conversation.get('id'),function(data){
+                
+                self.onFinish(Conversation.modelByResult(data.conversation));
+
+            });
+            
         }
         
         $('#modal-conversationprofile').modal('hide');
@@ -96,9 +106,10 @@ var EditConversationProfile = {
         $('#modal-conversationprofile .progress').show();
         
         var displayName = $('form [name="display-name"]').val();
+        var description = $('form [name="description"]').val();
         var file = $('form [name="file"]')[0].files[0];
                 
-        UpdateConversationClient.send(this.conversation.get('id'),displayName,file,function(response){
+        UpdateConversationClient.send(this.conversation.get('id'),displayName,description,file,function(response){
             
             if(response.validationError){
                 
@@ -111,7 +122,7 @@ var EditConversationProfile = {
                 return;
                 
             }
-            
+                        
             $('#modal-btn-save').removeAttr('disabled');
             $('#modal-conversationprofile .progress').hide();
 

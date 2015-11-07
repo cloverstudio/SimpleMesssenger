@@ -45,7 +45,7 @@ var InfoView = Backbone.View.extend({
         var self = this;
 
         Backbone.on(Const.NotificationOpenConversation,function(obj){
-            
+                        
             $(self.parentElement).html(template({conversation:obj.attributes}));
 
             self.currentConversation = obj;
@@ -53,9 +53,8 @@ var InfoView = Backbone.View.extend({
             $("#btn-editconversation").unbind().on('click',function(){
                 
                 EditConversationProfile.show(self.currentConversation,function(result){
-                    	
-                    console.log('aaa');
-					Backbone.trigger(Const.NotificationUpdateConversation,self.currentConversation);  
+                    
+					Backbone.trigger(Const.NotificationUpdateConversation,result);  
                     
                 });
                 

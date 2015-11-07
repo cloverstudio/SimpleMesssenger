@@ -34,6 +34,7 @@ var WebAPIMain ={
         router.use("/conversation/list", require('./ConversationList'));
         router.use("/conversation/leave", require('./LeaveConversation'));
         router.use("/conversation/update", require('./UpdateConversation'));
+        router.use("/conversation/detail", require('./GetConversation'));
 
         app.use(init.urlPrefix, router);
 
