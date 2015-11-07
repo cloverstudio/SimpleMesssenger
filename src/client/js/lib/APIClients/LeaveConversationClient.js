@@ -12,7 +12,7 @@ var _ = require('lodash');
     
     LeaveConversationClient.prototype.send = function(conversation,success,err){
                 
-        this.getRequst("/conversation/leave/" + conversation.get('id'),success,err);
+        this.postRequst("/conversation/leave/" + conversation.get('id'),{},success,err);
         
     }
         

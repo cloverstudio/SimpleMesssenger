@@ -179,7 +179,6 @@ describe('WEB Conversation', function () {
                     
                     var params = {
                         
-                        conversationId : res.body.data.conversation._id,
                         users : [
                             global.userid3,
                             global.userid4
@@ -188,7 +187,7 @@ describe('WEB Conversation', function () {
                     };
         
                     request(app)
-                        .post('/api/v1/conversation/add')
+                        .post('/api/v1/conversation/add/' + res.body.data.conversation._id)
                         .send(params)
                 		.expect('Content-Type', /json/)
                 		.expect(200)
@@ -205,7 +204,7 @@ describe('WEB Conversation', function () {
                         res.body.data.should.have.property('ok');
                         res.body.data.ok.should.equal(true);
                         res.body.data.should.have.property('conversation');
-                        res.body.data.conversation._id.should.equal(params.conversationId);
+                        res.body.data.conversation._id.should.equal(res.body.data.conversation._id);
                                                 
                         done();
         
@@ -250,7 +249,6 @@ describe('WEB Conversation', function () {
                     
                     var params = {
                         
-                        conversationId : res.body.data.conversation._id,
                         makeNew : true,
                         users : [
                             global.userid3,
@@ -260,7 +258,7 @@ describe('WEB Conversation', function () {
                     };
         
                     request(app)
-                        .post('/api/v1/conversation/add')
+                        .post('/api/v1/conversation/add/' + res.body.data.conversation._id)
                         .send(params)
                 		.expect('Content-Type', /json/)
                 		.expect(200)
@@ -296,7 +294,6 @@ describe('WEB Conversation', function () {
 
                 var params = {
                     
-                    conversationId : "hugahuhu",
                     users : [
                         global.userid3,
                         global.userid4
@@ -305,7 +302,7 @@ describe('WEB Conversation', function () {
                 };
     
                 request(app)
-                    .post('/api/v1/conversation/add')
+                    .post('/api/v1/conversation/add/aaaaaa')
                     .send(params)
             		.expect('Content-Type', /json/)
             		.expect(200)
@@ -367,7 +364,7 @@ describe('WEB Conversation', function () {
                 res.body.data.ok.should.equal(true);
 
                 request(app)
-                    .get('/api/v1/conversation/leave/' + res.body.data.conversation._id)
+                    .post('/api/v1/conversation/leave/' + res.body.data.conversation._id)
                     .expect(200)
                     .set('Access-Token', token)
                     .end(function (err, res) {
@@ -423,7 +420,7 @@ describe('WEB Conversation', function () {
                 res.body.data.ok.should.equal(true);
 
                 request(app)
-                    .get('/api/v1/conversation/leave/hugahuga')
+                    .post('/api/v1/conversation/leave/hugahuga')
                     .expect(200)
                     .set('Access-Token', token)
                     .end(function (err, res) {

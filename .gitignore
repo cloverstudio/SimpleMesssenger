@@ -1,5 +1,6 @@
 # third party modules
 node_modules
+modules_customised/spika/node_modules
 
 # generated files
 public/uploads

@@ -19,12 +19,11 @@ var loginUserManager = require('../loginUserManager');
         err){
             
             var params = {
-                conversationId : conversationId,
                 users : users,
                 makeNew : makeNew
             }
             
-            this.postRequst("/conversation/add",params,success,err);
+            this.postRequst("/conversation/add/" + conversationId,params,success,err);
    
     }
         
