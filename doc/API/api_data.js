@@ -414,9 +414,23 @@ define({ "api": [
             "optional": false,
             "field": "name",
             "description": "<p>display name</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>object</p> ",
+            "optional": false,
+            "field": "device",
+            "description": "<p>device info shoul be {pushToken:&quot;jadsflajfčlajdf&quot;,deviceType:&quot;ios&quot;,appVersion:&quot;1.0.1&quot;}</p> "
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    uuid: \"blablabla\",\n    secret: \"blablabla\",\n    name: \"blablabla\",\n    device: {\n        pushToken: \"asdfjasdfasdfasdf12321ewedasd\",\n        deviceType: \"android\", // android or ios\n        appVersion: \"1.0.1\n    }\n}",
+          "type": "json"
+        }
+      ]
     },
     "success": {
       "examples": [

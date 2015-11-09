@@ -36,6 +36,8 @@ function AuthMiddleware (request, response, next) {
                 
             } else {
                 
+                console.log("Invalid Access Token",token);
+                
                 response.json({
                     success : Const.responsecodeError,
                     error : {
@@ -43,6 +45,7 @@ function AuthMiddleware (request, response, next) {
                         message : "Invalid Access Token"
                     }
                 });
+                
                 
             }
         

@@ -27,6 +27,11 @@ UserModel.prototype.init = function(mongoose){
             file : String,
             thumb : String
         },
+        device : {
+            pushToken : String,
+            deviceType : String,
+            appVersion : String
+        },
         loginCredentials : {
             UUID : String
         }
