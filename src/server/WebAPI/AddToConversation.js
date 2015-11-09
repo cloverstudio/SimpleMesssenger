@@ -21,17 +21,15 @@ AddToConversation.prototype.attach = function(router){
     var self = this;
 
    /**
-     * @api {post} /api/v1/conversation/add Add users to conversation
+     * @api {post} /api/v1/conversation/add/[conversationid] Add users to conversation
      * @apiName Add users to conversation
      * @apiGroup WebAPI
      * @apiHeader {String} Access-Token Users unique access-token.
      * @apiDescription Add users to existing conversation. Can select add to existing conversation or create new one.
-     * @apiParam {conversationId} conversaton id of target
      * @apiParam {makeNew} false to existing one, true to make one new
      * @apiParam {array} users array of users ids.
      * @apiParamExample {json} Request-Example:
             {
-                conversationId: "563a1130b75fb0d5eb4b5a22",
                 makeNew: true,
                 users: [
                     "563a0cc46cb168c8e9c4071a",
@@ -68,12 +66,14 @@ AddToConversation.prototype.attach = function(router){
 
     */
 
-    router.post('',authenticator,function(request,response){
+    router.post('/:conversationid',authenticator,function(request,response){
+
+        var conversationId = request.params.conversationid;
 
         // check new password
         var validateError = '';
 
-        if(_.isEmpty(request.body.conversationId))
+        if(_.isEmpty(conversationId))
             validateError = "Conversation id is empty";
             
         if(_.isEmpty(request.body.users))
@@ -98,7 +98,7 @@ AddToConversation.prototype.attach = function(router){
                 
                 var result = {};
                 
-                var conversation = conversationModel.findOne({_id:request.body.conversationId},function(err, result) {
+                var conversation = conversationModel.findOne({_id:conversationId},function(err, result) {
         
                     if(err){
 

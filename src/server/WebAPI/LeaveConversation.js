@@ -38,7 +38,7 @@ LeaveConversation.prototype.attach = function(router){
 
     */
     
-    router.get('/:conversationid',authenticator,function(request,response){
+    router.post('/:conversationid',authenticator,function(request,response){
 
         var conversationId = request.params.conversationid;
         var loginUserId = request.user.get("id");

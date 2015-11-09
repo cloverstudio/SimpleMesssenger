@@ -1,7 +1,7 @@
 var socket = require('socket.io');
 var express = require('express');
 var http = require('http');
-var spika = require('spika');
+var spika = require('../../modules_customised/spika');
 
 var Conf = require('./lib/init.js');
 

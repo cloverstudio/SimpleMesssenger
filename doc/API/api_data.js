@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "/api/v1/conversation/add",
+    "url": "/api/v1/conversation/add/[conversationid]",
     "title": "Add users to conversation",
     "name": "Add_users_to_conversation",
     "group": "WebAPI",
@@ -24,13 +24,6 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "<p>conversationId</p> ",
-            "optional": false,
-            "field": "conversaton",
-            "description": "<p>id of target</p> "
-          },
-          {
-            "group": "Parameter",
             "type": "<p>makeNew</p> ",
             "optional": false,
             "field": "false",
@@ -48,7 +41,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n    conversationId: \"563a1130b75fb0d5eb4b5a22\",\n    makeNew: true,\n    users: [\n        \"563a0cc46cb168c8e9c4071a\",\n        \"563a0cc46cb168c8e9c4071a\"\n    ]\n}",
+          "content": "{\n    makeNew: true,\n    users: [\n        \"563a0cc46cb168c8e9c4071a\",\n        \"563a0cc46cb168c8e9c4071a\"\n    ]\n}",
           "type": "json"
         }
       ]
@@ -117,6 +110,39 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "src/server/WebAPI/NewConversation.js",
+    "groupTitle": "WebAPI"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/conversation/detail",
+    "title": "Conversation Detail",
+    "name": "Get_Conversation_Detail",
+    "group": "WebAPI",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Access-Token",
+            "description": "<p>Users unique access-token.</p> "
+          }
+        ]
+      }
+    },
+    "description": "<p>get conversation detail</p> ",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    success: 1,\n    data: {\n        ok: true,\n        conversations: [\n            {\n                _id: '563a0e21124f146beadd00a5',\n                owner: '563a0e20124f146beadd00a2',\n                name: 'testm6PO1,thename...',\n                created: 1446645281205,\n                __v: 0,\n                avatar: {\n                    file: 'Ry2TshrAK9BnDUV3kXiA4r1ZxVJzhZP2',\n                    thumb: 'Ry2TshrAK9BnDUV3kXiA4r1ZxVJzhZP2'\n                },\n                users: [\n                    '563a0e20124f146beadd00a2',\n                    '563a0e20124f146beadd009f',\n                    '563a0e20124f146beadd00a0',\n                    '563a0e20124f146beadd00a1'\n                ]\n            },\n            {\n                _id: '563a0e21124f146beadd00a7',\n                owner: '563a0e20124f146beadd00a2',\n                name: 'testm6PO1,thename...',\n                created: 1446645281275,\n                __v: 0,\n                avatar: {\n                    file: 'yNolWLu7sewJFyPaYSic5685GdW0OdB1',\n                    thumb: 'yNolWLu7sewJFyPaYSic5685GdW0OdB1'\n                },\n                users: [\n                    '563a0e20124f146beadd00a2',\n                    '563a0e20124f146beadd009f',\n                    '563a0e20124f146beadd00a0'\n                ]\n            },\n            ....\n        ]\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/server/WebAPI/GetConversation.js",
     "groupTitle": "WebAPI"
   },
   {
@@ -423,6 +449,59 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "src/server/WebAPI/Test.js",
+    "groupTitle": "WebAPI"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/conversaiton/update/[conversationid]",
+    "title": "Updaet Conversation Profile",
+    "name": "Updaet_Conversation_Proile",
+    "group": "WebAPI",
+    "description": "<p>Update profile of conversation</p> ",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Access-Token",
+            "description": "<p>Users unique access-token.</p> "
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>string</p> ",
+            "optional": false,
+            "field": "displayName",
+            "description": "<p>Name to display</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>file</p> ",
+            "optional": false,
+            "field": "file",
+            "description": "<p>avatar file</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n    success: 1,\n    data: {\n        ok: true\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/server/WebAPI/UpdateConversation.js",
     "groupTitle": "WebAPI"
   },
   {

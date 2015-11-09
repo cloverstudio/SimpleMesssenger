@@ -49,6 +49,13 @@ var ConversationList = Backbone.View.extend({
 
         });
 
+        Backbone.on(Const.NotificationUpdateConversation,function(obj){
+			
+			Backbone.trigger(Const.NotificationOpenConversation,obj);
+            self.refresh();
+
+        });
+
     },
 
     refresh: function(){
@@ -56,9 +63,7 @@ var ConversationList = Backbone.View.extend({
         var self = this;
 
         ConversationListClient.send(function(response){
-            
-            console.log(response);
-            
+                        
             self.conversations =  Conversation.collectionByResult(response.conversations);
             $(self.parentElement).html(template({list:self.conversations.toJSON()}));
             self.setupEvents();
