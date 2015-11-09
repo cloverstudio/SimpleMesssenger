@@ -8,6 +8,7 @@
     "JSON2": "latest",
     "apidoc": "^0.13.1",
     "async": "1.4.0",
+    "aws-sdk": "^2.2.15",
     "backbone": "latest",
     "body-parser": "^1.13.1",
     "bootstrap-sass": "^3.3.5",

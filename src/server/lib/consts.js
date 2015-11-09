@@ -15,6 +15,8 @@
     
     Const.credentialsMinLength = 6;
 
+    Const.deviceIOS = 'ios';
+    Const.deviceAndroid = 'android';
     
     // Exports ----------------------------------------------
     module["exports"] = Const;

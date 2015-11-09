@@ -427,7 +427,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n    uuid: \"blablabla\",\n    secret: \"blablabla\",\n    name: \"blablabla\",\n    device: {\n        pushToken: \"asdfjasdfasdfasdf12321ewedasd\",\n        deviceType: \"android\", // android or ios\n        appVersion: \"1.0.1\n    }\n}",
+          "content": "{\n    uuid: \"blablabla\",\n    secret: \"blablabla\",\n    name: \"blablabla\",\n    device: {\n        pushToken: \"asdfjasdfasdfasdf12321ewedasd\",\n        deviceType: \"android\", // android or ios\n        appVersion: \"1.0.1\"\n    }\n}",
           "type": "json"
         }
       ]
