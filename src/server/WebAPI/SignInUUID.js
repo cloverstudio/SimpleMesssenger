@@ -37,7 +37,7 @@ SignInHandler.prototype.attach = function(router){
                 device: {
                     pushToken: "asdfjasdfasdfasdf12321ewedasd",
                     deviceType: "android", // android or ios
-                    appVersion: "1.0.1
+                    appVersion: "1.0.1"
                 }
             }
 

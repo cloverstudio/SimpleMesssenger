@@ -13,6 +13,7 @@ var io = socket.listen(server);
 
 var WebAPI = require('./WebAPI/WebAPIMain');
 var DatabaseManager = require('./lib/DatabaseManager');
+var PushNotificationManager = require('./lib/pushnotification/PushNotificationManager');
 
 var SpikaServer = new spika(app,io,{
 
@@ -29,7 +30,7 @@ var SpikaServer = new spika(app,io,{
 
         onNewMessage:function(obj){
 
-            console.log("onNewMessage",obj);
+            PushNotificationManager.onNewMessage(obj);
 
         },
         onNewUser:function(obj){
