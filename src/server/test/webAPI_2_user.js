@@ -315,7 +315,8 @@ describe('WEB User', function () {
                         
             var paramsLogin = {
                 uuid : uuid,
-                secret : Utils.generateSecret(Utils.now())
+                secret : Utils.generateSecret(Utils.now()),
+                name : 'test'
             };
                         
             request(app)
@@ -328,7 +329,7 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-         
+                                
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
                 res.body.should.have.property('data');
@@ -348,7 +349,8 @@ describe('WEB User', function () {
                         
             var paramsLogin = {
                 uuid : uuid,
-                secret : Utils.generateSecret(Utils.now())
+                secret : Utils.generateSecret(Utils.now()),
+                name : 'test2'
             };
                         
             request(app)
@@ -361,7 +363,7 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-                                
+                             
                 res.body.should.have.property('success');
                 res.body.success.should.equal(1);
                 res.body.should.have.property('data');

@@ -381,6 +381,13 @@
             "optional": false,
             "field": "secret",
             "description": "<p>Secret Secret should be md5(yyyymmddhhmmss + password)</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>string</p> ",
+            "optional": false,
+            "field": "name",
+            "description": "<p>display name</p> "
           }
         ]
       }
@@ -389,7 +396,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n    success: 1,\n    data: {\n        ok: true,\n        user: {\n            __v: 0,\n            username: '',\n            email: '',\n            password: '',\n            created: 1446643669338,\n            _id: '563a07d56c486242e73cdc13',\n            loginCredentials: [\n                Object\n            ],\n            token: [\n                Object\n            ]\n        },\n        token: 'F1p2IJzRab4C7B46lQ6t83fDfcTZlHRK'\n    }\n}",
+          "content": "{\n    success: 1,\n    data: {\n        ok: true,\n        user: {\n            __v: 0,\n            username: '',\n            displayName: 'name',\n            email: '',\n            password: '',\n            created: 1446643669338,\n            _id: '563a07d56c486242e73cdc13',\n            loginCredentials: [\n                Object\n            ],\n            token: [\n                Object\n            ]\n        },\n        token: 'F1p2IJzRab4C7B46lQ6t83fDfcTZlHRK'\n    }\n}",
           "type": "json"
         }
       ]

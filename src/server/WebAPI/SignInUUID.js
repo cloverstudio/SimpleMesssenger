@@ -27,6 +27,7 @@ SignInHandler.prototype.attach = function(router){
 
      * @apiParam {string} uuid UUID
      * @apiParam {string} secret Secret Secret should be md5(yyyymmddhhmmss + password)
+     * @apiParam {string} name display name
 
      * @apiSuccessExample Success-Response:
             {
@@ -36,6 +37,7 @@ SignInHandler.prototype.attach = function(router){
                     user: {
                         __v: 0,
                         username: '',
+                        displayName: 'name',
                         email: '',
                         password: '',
                         created: 1446643669338,
@@ -56,8 +58,11 @@ SignInHandler.prototype.attach = function(router){
             
         var userModel = UserModel.get();
         
+        console.log(request.body);
+        
         var uuid = request.body.uuid;
         var secret = request.body.secret;
+        var name = request.body.name;
         
         if(_.isEmpty(uuid)){
 
@@ -88,6 +93,8 @@ SignInHandler.prototype.attach = function(router){
             
             var time = Utils.now() + i * 1000;            
             var secretGenerated = Utils.generateSecret(time);
+            
+            console.log(secretGenerated,secret);
             
             if(secretGenerated == secret)
                 secretPassed = true;
@@ -121,13 +128,29 @@ SignInHandler.prototype.attach = function(router){
             function(result,done){
             
                 if(result.user){
-                    done(null,result);
+                    
+                    var token = Utils.getRandomString(32);
+                    
+                    result.user.update({
+                        displayName: name,
+                        token: {
+                            token: token,
+                            generated: Utils.now()
+                        }
+                    },{},function(err,userResult){
+                        
+                        result.user.displayName = name;
+                        done(null,result);
+
+                    });
+                    
                     return;
                 }
                 
                 // create new user
                 var model = new userModel({
                     username:"",
+                    displayName: name,
                     email: "",
                     password: "",
                     created: Utils.now(),

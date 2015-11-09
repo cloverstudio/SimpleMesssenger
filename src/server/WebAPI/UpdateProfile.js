@@ -49,7 +49,7 @@ UpdateProfileHandler.prototype.attach = function(router){
     router.post('/',authenticator,function(request,response){
                 
         var form = new formidable.IncomingForm();
-        
+                
         async.waterfall([
             
             function (done) {
