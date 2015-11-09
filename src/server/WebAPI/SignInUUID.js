@@ -28,6 +28,18 @@ SignInHandler.prototype.attach = function(router){
      * @apiParam {string} uuid UUID
      * @apiParam {string} secret Secret Secret should be md5(yyyymmddhhmmss + password)
      * @apiParam {string} name display name
+     * @apiParam {object} device device info shoul be {pushToken:"jadsflajfčlajdf",deviceType:"ios",appVersion:"1.0.1"}
+     * @apiParamExample {json} Request-Example:
+            {
+                uuid: "blablabla",
+                secret: "blablabla",
+                name: "blablabla",
+                device: {
+                    pushToken: "asdfjasdfasdfasdf12321ewedasd",
+                    deviceType: "android", // android or ios
+                    appVersion: "1.0.1
+                }
+            }
 
      * @apiSuccessExample Success-Response:
             {
