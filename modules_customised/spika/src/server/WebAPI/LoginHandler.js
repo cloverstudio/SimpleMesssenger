@@ -116,9 +116,13 @@ LoginHandler.prototype.attach = function(router){
         var token = Utils.randomString(24);
         
         // check existance
-                    
+        
+        console.log('ss');
+        
         UserModel.findUserbyId(userID,function (err,user) {
-                      
+                
+            console.log('aaaaa',user);
+      
             if(user == null){
             
                 // save to database
