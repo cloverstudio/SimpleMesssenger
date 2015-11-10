@@ -5,3 +5,7 @@ modules_customised/spika/node_modules
 # generated files
 public/uploads
 public
+
+# configuration
+src/server/lib/init.js
+src/client/js/lib/init.js
