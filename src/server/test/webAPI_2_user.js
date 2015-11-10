@@ -316,7 +316,12 @@ describe('WEB User', function () {
             var paramsLogin = {
                 uuid : uuid,
                 secret : Utils.generateSecret(Utils.now()),
-                name : 'test'
+                name : 'test',
+                telNumber : 'gdasdfasdfas',
+                additionalInfo : {
+                    test : 'tset',
+                    aaaa : 'assss'
+                }
             };
                         
             request(app)
@@ -350,7 +355,9 @@ describe('WEB User', function () {
             var paramsLogin = {
                 uuid : uuid,
                 secret : Utils.generateSecret(Utils.now()),
-                name : 'test2'
+                name : 'test2',
+                telNumber : 'gdasdfasdfas'
+
             };
                         
             request(app)

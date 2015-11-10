@@ -38,7 +38,13 @@ SignInHandler.prototype.attach = function(router){
                     pushToken: "asdfjasdfasdfasdf12321ewedasd",
                     deviceType: "android", // android or ios
                     appVersion: "1.0.1"
+                },
+               telNumber : "99033383333",
+               additionalInfo : {
+                    test : 'tset',
+                    aaaa : 'assss'
                 }
+
             }
 
      * @apiSuccessExample Success-Response:
@@ -69,9 +75,7 @@ SignInHandler.prototype.attach = function(router){
     router.post('/',function(request,response){
             
         var userModel = UserModel.get();
-        
-        console.log(request.body);
-        
+                
         var uuid = request.body.uuid;
         var secret = request.body.secret;
         var name = request.body.name;
@@ -97,6 +101,19 @@ SignInHandler.prototype.attach = function(router){
             return;
                           
         }
+
+        if(_.isEmpty(request.body.telNumber)){
+
+            self.successResponse(response,{
+                ok : false,
+                validationError: "telNumber is empty"
+            });
+            
+            return;
+                          
+        }
+
+
         
         var secretPassed = false;
         
@@ -105,9 +122,7 @@ SignInHandler.prototype.attach = function(router){
             
             var time = Utils.now() + i * 1000;            
             var secretGenerated = Utils.generateSecret(time);
-            
-            console.log(secretGenerated,secret);
-            
+                        
             if(secretGenerated == secret)
                 secretPassed = true;
                             
@@ -142,14 +157,24 @@ SignInHandler.prototype.attach = function(router){
                 if(result.user){
                     
                     var token = Utils.getRandomString(32);
+                    var updateParams = {};
+                    updateParams.token = {
+                        token: token,
+                        generated: Utils.now()
+                    };
                     
-                    result.user.update({
-                        displayName: name,
-                        token: {
-                            token: token,
-                            generated: Utils.now()
-                        }
-                    },{},function(err,userResult){
+                    if(name)
+                        updateParams.displayName = name;
+                    
+                    if(request.body.additionalInfo)
+                        updateParams.additionalInfo = request.body.additionalInfo;
+                    
+                    if(request.body.telNumber)
+                        updateParams.telNumber = request.body.telNumber;
+                    
+                    result.user.update(
+                        updateParams
+                        ,{},function(err,userResult){
                         
                         result.user.displayName = name;
                         done(null,result);
@@ -172,7 +197,9 @@ SignInHandler.prototype.attach = function(router){
                     token : {
                         token: Utils.getRandomString(32),
                         generated: Utils.now()
-                    }
+                    },
+                    telNumber : request.body.telNumber,
+                    additionalInfo : request.body.additionalInfo
                 });
 
                 model.save(function(err,resultSaveUser){

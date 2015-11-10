@@ -17,26 +17,24 @@ var DatabaseManager = {
         
         try{
 	        
-	        mongoose.connect(options.chatDatabaseUrl, function(err){
+	        //mongoose.connect(options.chatDatabaseUrl, function(err){
 
-	          if (err) {
+	          //if (err) {
 		          
-	            console.log("Failed to connect MongoDB!");
-	            console.error(err);
+	          //  console.log("Failed to connect MongoDB!");
+	          //  console.error(err);
 	            
-	          } else {
+	          //} else {
 		        
 		        // Defining a schema
-
-		        
-
                 self.messageModel = require('../Models/MessageModel').init();
 		        self.userModel = require('../Models/UserModel').init();
 		        self.fileModel = require('../Models/FileModel').init();
 				
 		
-	          }
-	        });
+	          //}
+	        
+	        //});
 	
         } catch(ex){
 	        

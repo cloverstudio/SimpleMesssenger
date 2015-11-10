@@ -44,31 +44,62 @@ NewConversation.prototype.attach = function(router){
         }
      * @apiSuccessExample Success-Response:
     
-            {
-                success: 1,
-                data: {
-                    ok: true,
-                    conversation: {
-                        __v: 0,
-                        owner: '563a0cc46cb168c8e9c4071d',
-                        name: 'testuBfpS,
-                        thename...',
-                        created: 1446644932895,
-                        _id: '563a0cc46cb168c8e9c40720',
-                        avatar: {
-                            file: '3kjh7pZAUZruXOMMWF4ejG674QZTDMvT',
-                            thumb: '3kjh7pZAUZruXOMMWF4ejG674QZTDMvT'
+        {
+            success: 1,
+            data: {
+                ok: true,
+                conversation: {
+                    __v: 0,
+                    owner: '5641c54f638ab66fda70b4a3',
+                    name: 'testuM0zD,
+                    thename...',
+                    created: 1447150928459,
+                    _id: '5641c550638ab66fda70b4a6',
+                    avatar: {
+                        file: 'M59aokbePDbmcXlIoIcYclYkTt6yl4ls',
+                        thumb: 'M59aokbePDbmcXlIoIcYclYkTt6yl4ls'
+                    },
+                    users: [
+                        {
+                            _id: '5641c54f638ab66fda70b4a0',
+                            username: 'testuM0zD',
+                            displayName: 'testuM0zDthename',
+                            avatar: {
+                                file: 'z1BaWE0Yjlycav97i77LWRoKc6EHr3HB',
+                                thumb: 'nS0Xl0TukNrBwMYGLzogBaG0uPysRAJF'
+                            }
                         },
-                        users: [
-                            '563a0cc46cb168c8e9c4071d',
-                            '563a0cc46cb168c8e9c4071a',
-                            '563a0cc46cb168c8e9c4071c',
-                            '563a0cc46cb168c8e9c4071b'
-                        ]
-                    }
+                        {
+                            _id: '5641c54f638ab66fda70b4a1',
+                            username: 'testxTnGa',
+                            displayName: 'testxTnGathename',
+                            avatar: {
+                                file: 'Cps909PH2CoRFct9cMPvkVsPBgyY6xE4',
+                                thumb: 'n97QaaeQm4WpvWSVdQLxyET3BaUQqaJc'
+                            }
+                        },
+                        {
+                            _id: '5641c54f638ab66fda70b4a2',
+                            username: 'testTSHVO',
+                            displayName: 'testTSHVOthename',
+                            avatar: {
+                                file: 'WWZm8uW9YUK7yetDSxcrLGl1GtPbzQbZ',
+                                thumb: 'BryQSHax3Px8GD711Lb6AqBagpjH0g0J'
+                            }
+                        },
+                        {
+                            _id: '5641c54f638ab66fda70b4a3',
+                            username: 'testC0Qta',
+                            displayName: 'test',
+                            avatar: {
+                                file: 'q22GxaoSgzJLzLstoI4HkC12AKly42ta',
+                                thumb: 'lV0e0DmsUqmr5uPFE9hQ3hdr3rtvoz1Q'
+                            }
+                        }
+                    ]
                 }
             }
-
+        }
     */
     
     router.post('/',authenticator,function(request,response){
@@ -81,10 +112,19 @@ NewConversation.prototype.attach = function(router){
                 self.errorResponse(response,Const.httpCodeServerError);
                 
             }else{
-                self.successResponse(response,{
-                    ok: true,
-                    conversation: result
+                
+                // populate with users
+                UserModel.getUsersByIdForResponse(result.users,function(resultUsers){
+                    
+                    result.users = resultUsers;
+                    
+                    self.successResponse(response,{
+                        ok: true,
+                        conversation: result
+                    });
+                    
                 });
+
             }
         });
 

@@ -38,10 +38,6 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
     try{
                 
         model.users.push(ownerUserId);
-        
-        _.forEach(users,function(userid){
-            model.users.push(userid);
-        });
                     
     } catch(e){
                 
@@ -54,8 +50,53 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
     var result = {};
     
     async.waterfall([
+        
+        function (done){
+        
+            // search users by id
+            var userModel = UserModel.get();
+            
+            userModel.find({
+            
+                _id:{$in:users},
+                
+            },function(err,resultUsers){
+                
+                _.forEach(resultUsers,function(resultUser){
+                    
+                     model.users.push(resultUser._id);
+                                          
+                });              
 
-        function (done) {
+                 done(err,result);
+
+            });        
+              
+        },
+        
+        function (result,done){
+        
+            // search users by telephone number
+            var userModel = UserModel.get();
+            
+            userModel.find({
+            
+                telNumber:{$in:users},
+                
+            },function(err,resultUsers){
+                
+                _.forEach(resultUsers,function(resultUser){
+                    
+                     model.users.push(resultUser._id);
+                                          
+                });              
+
+                 done(err,result);
+
+            });        
+              
+        },
+        function (result,done) {
 
             self.generateConversationName(model.users,function(theName){
 

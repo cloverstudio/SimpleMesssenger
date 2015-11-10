@@ -1,11 +1,13 @@
 var _ = require('lodash');
+var async = require('async');
 
 var Const = require("../lib/consts");
 var Config = require("../lib/init");
 
 var BaseModel = require('./BaseModel');
-var ConversationModel = function(){};
+var User = require('../Models/User');
 
+var ConversationModel = function(){};
 var DatabaseManager = require('../lib/DatabaseManager');
 
 _.extend(ConversationModel.prototype,BaseModel.prototype);
@@ -42,13 +44,33 @@ ConversationModel.get = function(){
 ConversationModel.getConversationListByUserId = function(userId,callBack){
 
     var model = DatabaseManager.getModel('Conversation').model;
-
+    var conversationList = [];
+    
     model.find({ users:userId },function (err, result) {
 
         if (err) throw err;
-
-        if(callBack)
-            callBack(result);
+        
+        async.forEachOf(result,function(conversation,key,done){
+            
+            User.getUsersByIdForResponse(conversation.users,function(resultUsers){
+                
+                conversation = conversation.toObject();
+                conversation.users = resultUsers;
+                conversationList.push(conversation);
+                
+                done(null);
+                
+            });
+         
+        },function(err){
+                            
+            if(err)
+                throw err;
+                        
+            if(callBack)
+                callBack(conversationList);
+                        
+        });
 
     });
 

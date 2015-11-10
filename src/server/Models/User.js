@@ -34,7 +34,9 @@ UserModel.prototype.init = function(mongoose){
         },
         loginCredentials : {
             UUID : String
-        }
+        },
+        telNumber : String,
+        additionalInfo: {}
     });
 
     this.model = mongoose.model(Config.dbCollectionPrefix + "users", this.schema);
@@ -61,6 +63,48 @@ UserModel.getUsersById = function(userIds,callBack){
             callBack(result);    
     
     });
+    
+};
+
+UserModel.getUsersById = function(userIds,callBack){
+    
+    var model = DatabaseManager.getModel('User').model;
+
+    model.find({ _id: { "$in" : userIds } },function (err, result) {
+
+        if (err) throw err;
+                             
+        if(callBack)
+            callBack(result);    
+    
+    });
+    
+};
+
+UserModel.getUsersByIdForResponse = function(userIds,callBack){
+    
+    var model = DatabaseManager.getModel('User').model;
+
+    var query = DatabaseManager.getModel('User').model
+                    .find({ _id: { "$in" : userIds } })
+                    .select({
+                        "_id": 1,
+                        username : 1,
+                        displayName : 1,
+                        avatar : 1,
+                        additionalInfo : 1,
+                    });
+
+    query.exec(function (err, result) {
+
+        if (err)
+            throw err;
+                
+        if(callBack)
+            callBack(result);    
+    
+    });
+
     
 };
 
