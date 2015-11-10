@@ -17,14 +17,14 @@ var DatabaseManager = {
         
         try{
 	        
-	        //mongoose.connect(options.chatDatabaseUrl, function(err){
+	        mongoose.createConnection(options.chatDatabaseUrl, function(err){
 
-	          //if (err) {
+	          if (err) {
 		          
-	          //  console.log("Failed to connect MongoDB!");
-	          //  console.error(err);
+	            console.log("Failed to connect MongoDB!");
+	            console.error(err);
 	            
-	          //} else {
+	          } else {
 		        
 		        // Defining a schema
                 self.messageModel = require('../Models/MessageModel').init();
@@ -32,9 +32,9 @@ var DatabaseManager = {
 		        self.fileModel = require('../Models/FileModel').init();
 				
 		
-	          //}
+	          }
 	        
-	        //});
+	        });
 	
         } catch(ex){
 	        
