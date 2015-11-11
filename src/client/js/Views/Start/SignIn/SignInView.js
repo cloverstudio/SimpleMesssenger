@@ -7,7 +7,7 @@ var Utils = require('../../../lib/utils');
 var Const = require('../../../lib/consts');
 var Config = require('../../../lib/init');
 var loginUserManager = require('../../../lib/loginUserManager');
-var socketIOManager = require('../../../lib/socketIOManager');
+var socketIOManager = require('../../../lib/SocketIOManager');
 
 var BaseView = require('../BaseView');
 var SignInClient = require('../../../lib/APIClients/SignInClient');
