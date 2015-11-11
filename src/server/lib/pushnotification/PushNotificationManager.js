@@ -26,13 +26,16 @@ var PushNotificationManager = {
             },function(err,result){
                
                 if(err)
-                    throw err;
+                    console.log(err);
+                else{
                                 
-                UserModel.getUsersById(result.users,function(usersResult){
+                    UserModel.getUsersById(result.users,function(usersResult){
+                        
+                        self.send(usersResult,message,message,{roomID:message.roomID});
+                        
+                    })
                     
-                    self.send(usersResult,message,message,{roomID:message.roomID});
-                    
-                })
+                }
                 
             });
                         

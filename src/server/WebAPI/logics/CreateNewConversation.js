@@ -17,7 +17,7 @@ var ConversationModel = require('../../Models/Conversation');
 
 var CreateNewConversation = function(){}
 
-CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
+CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,callBack){
     
     var self = this;
     
@@ -48,7 +48,9 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
     }
 
     var result = {};
-    
+
+    console.log('users ',users);
+
     async.waterfall([
         
         function (done){
@@ -62,13 +64,16 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
                 
             },function(err,resultUsers){
                 
+                console.log('resultUser by user id',resultUsers);
+
                 _.forEach(resultUsers,function(resultUser){
                     
                      model.users.push(resultUser._id);
                                           
                 });              
 
-                 done(err,result);
+                // ignore cast error
+                done(null,result);
 
             });        
               
@@ -87,7 +92,7 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
                 
                 _.forEach(resultUsers,function(resultUser){
                     
-                     model.users.push(resultUser._id);
+                    model.users.push(resultUser._id);
                                           
                 });              
 
@@ -95,6 +100,29 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
 
             });        
               
+        },
+        function (result,done) {
+            
+            if(useOld){
+                                
+                var conversationModel = ConversationModel.get();
+                                
+                conversationModel.findOne( { users :{ $all : model.users } },function(error,resultExistingConversation){
+                    
+                    console.log(resultExistingConversation);
+                    
+                    // ignore useOld if the conversation doesnt exist
+                    if(resultExistingConversation)
+                        callBack(resultExistingConversation.toObject());
+                    else
+                        done(null,result);
+                        
+                });
+                                
+            }else{
+                done(null,result);
+            }
+
         },
         function (result,done) {
 
@@ -134,6 +162,7 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,callBack){
         function (err, result) {
 
             if(err){
+                console.log(err);
                 callBack(false);
                 return;
             }

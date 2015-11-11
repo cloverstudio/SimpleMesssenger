@@ -92,6 +92,7 @@ UserModel.getUsersByIdForResponse = function(userIds,callBack){
                         username : 1,
                         displayName : 1,
                         avatar : 1,
+                        telNumber : 1,
                         additionalInfo : 1,
                     });
 

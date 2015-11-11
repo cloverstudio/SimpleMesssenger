@@ -43,6 +43,7 @@ var md5 = require('md5');
         var dateStr = this.generateYYYYMMDDHHMMSS(time);
         var dateStrWithSecret = dateStr + init.secretSeed;
         
+        console.log(dateStrWithSecret);
         return md5(dateStrWithSecret);
         
     }

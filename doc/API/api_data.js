@@ -417,6 +417,13 @@ define({ "api": [
           },
           {
             "group": "Parameter",
+            "type": "<p>string</p> ",
+            "optional": false,
+            "field": "telNumber",
+            "description": "<p>telephone number</p> "
+          },
+          {
+            "group": "Parameter",
             "type": "<p>object</p> ",
             "optional": false,
             "field": "device",

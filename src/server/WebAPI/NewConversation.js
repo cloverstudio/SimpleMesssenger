@@ -36,6 +36,7 @@ NewConversation.prototype.attach = function(router){
      * @apiParam {array} users array of users ids.
      * @apiParamExample {json} Request-Example:
         {
+            useOld: false, // put true if use old conversation for same users
             users: [
                 "563a0cc46cb168c8e9c4071d",
                 "563a0cc46cb168c8e9c4071a",
@@ -105,8 +106,16 @@ NewConversation.prototype.attach = function(router){
     router.post('/',authenticator,function(request,response){
     
         var logic = new CreateNewConversation();
-                
-        logic.execute(request.user._id,request.body.users,function(result){
+        var useOld = false;
+        
+        if(request.body.useOld == 1)
+            useOld = true;
+
+        if(request.body.useOld === 1)
+            useOld = true;
+
+         
+        logic.execute(request.user._id,request.body.users,useOld,function(result){
                         
             if(!result){
                 self.errorResponse(response,Const.httpCodeServerError);
