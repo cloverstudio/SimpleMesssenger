@@ -17,6 +17,9 @@
 
     Const.deviceIOS = 'ios';
     Const.deviceAndroid = 'android';
+
+    Const.emitCommandNewConversation = 'newconversation';
+    Const.emitCommandNewMessage = 'newmessage';
     
     // Exports ----------------------------------------------
     module["exports"] = Const;

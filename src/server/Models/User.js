@@ -66,11 +66,11 @@ UserModel.getUsersById = function(userIds,callBack){
     
 };
 
-UserModel.getUsersById = function(userIds,callBack){
+UserModel.getUserById = function(userId,callBack){
     
     var model = DatabaseManager.getModel('User').model;
 
-    model.find({ _id: { "$in" : userIds } },function (err, result) {
+    model.findOne({ _id: userId },function (err, result) {
 
         if (err) throw err;
                              

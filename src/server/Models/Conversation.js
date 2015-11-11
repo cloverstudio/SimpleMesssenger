@@ -20,10 +20,7 @@ ConversationModel.prototype.init = function(mongoose){
         name: String,
         description: String,
         created: Number,
-        lastMessage: {
-            text: String,
-            created: Number
-        },
+        lastMessage: {},
         avatar : {
             file : String,
             thumb : String
@@ -38,6 +35,22 @@ ConversationModel.get = function(){
 
     return DatabaseManager.getModel('Conversation').model;
 
+}
+
+ConversationModel.updateLastMessage = function(conversationId,messageObj){
+
+    var model = DatabaseManager.getModel('Conversation').model;
+    
+    model.update(
+        {_id:conversationId},
+        {lastMessage:messageObj},
+        {},
+        function(err, numAffected){
+            
+            console.log(numAffected);
+            
+        });
+    
 }
 
 // class methods

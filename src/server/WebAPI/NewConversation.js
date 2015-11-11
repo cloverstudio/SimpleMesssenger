@@ -8,6 +8,8 @@ var validator = require('validator');
 var fs = require('fs-extra');
 var lwip = require('lwip');
 
+var SocketAPIHandler = require('../SocketAPI/SocketAPIHandler');
+
 var RequestHandlerBase = require('./RequestHandlerBase');
 var init = require('../lib/init');
 var Const = require("../lib/consts");
@@ -132,6 +134,24 @@ NewConversation.prototype.attach = function(router){
                         conversation: result
                     });
                     
+                    // send socket
+                    _.forEach(request.body.users,function(userId){
+                        
+                        SocketAPIHandler.emitToUser(
+                            userId,
+                            Const.emitCommandNewConversation,
+                            {conversation:result}
+                        );
+                         
+                    });
+
+                    SocketAPIHandler.emitToUser(
+                        request.user._id,
+                        Const.emitCommandNewConversation,
+                        {conversation:result}
+                    );
+                     
+                         
                 });
 
             }

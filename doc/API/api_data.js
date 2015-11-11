@@ -1,5 +1,40 @@
 define({ "api": [
   {
+    "type": "socket",
+    "url": "\"disconnect\"",
+    "title": "Disconnect from server",
+    "name": "disconnect",
+    "group": "Socket",
+    "description": "<p>Disconnect from server</p> ",
+    "version": "0.0.0",
+    "filename": "src/server/SocketAPI/DisconnectActionHandler.js",
+    "groupTitle": "Socket"
+  },
+  {
+    "type": "socket",
+    "url": "\"join\"",
+    "title": "Login to the room",
+    "name": "join",
+    "group": "Socket",
+    "description": "<p>join to the server</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>string</p> ",
+            "optional": false,
+            "field": "user",
+            "description": "<p>User Id</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/server/SocketAPI/LoginActionHandler.js",
+    "groupTitle": "Socket"
+  },
+  {
     "type": "post",
     "url": "/api/v1/conversation/add/[conversationid]",
     "title": "Add users to conversation",
@@ -94,7 +129,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n    users: [\n        \"563a0cc46cb168c8e9c4071d\",\n        \"563a0cc46cb168c8e9c4071a\",\n        \"563a0cc46cb168c8e9c4071b\"\n    ]\n}",
+          "content": "{\n    useOld: false, // put true if use old conversation for same users\n    users: [\n        \"563a0cc46cb168c8e9c4071d\",\n        \"563a0cc46cb168c8e9c4071a\",\n        \"563a0cc46cb168c8e9c4071b\"\n    ]\n}",
           "type": "json"
         }
       ]

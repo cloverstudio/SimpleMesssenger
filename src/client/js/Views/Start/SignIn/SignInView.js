@@ -7,6 +7,7 @@ var Utils = require('../../../lib/utils');
 var Const = require('../../../lib/consts');
 var Config = require('../../../lib/init');
 var loginUserManager = require('../../../lib/loginUserManager');
+var socketIOManager = require('../../../lib/socketIOManager');
 
 var BaseView = require('../BaseView');
 var SignInClient = require('../../../lib/APIClients/SignInClient');
@@ -90,6 +91,9 @@ var SignInView = BaseView.extend({
                         Utils.goPage("main");
                         loginUserManager.setUser(data.user);
                         loginUserManager.setToken(data.token);
+                        
+                        // login to socket
+                        socketIOManager.emit("join",{user:data.user._id});
                         
                     }else{
                     
