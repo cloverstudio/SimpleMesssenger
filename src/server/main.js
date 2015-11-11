@@ -12,46 +12,11 @@ var port = Conf.port;
 var io = socket.listen(server);
 
 var WebAPI = require('./WebAPI/WebAPIMain');
+var SocketAPI = require('./SocketAPI/SocketAPIHandler');
+
 var DatabaseManager = require('./lib/DatabaseManager');
 var PushNotificationManager = require('./lib/pushnotification/PushNotificationManager');
-
-var SpikaServer = new spika(app,io,{
-
-    config:{
-        chatDatabaseUrl : Conf.databaseUrl,
-        port: Conf.port,
-        uploadDir: Conf.uploadPath,
-        imageDownloadURL: "/spika/media/images/",
-        noavatarImg: "/spika/img/noavatar.png",
-        urlPrefix: '/spika',
-        sendAttendanceMessage: false
-    },
-    listeners:{
-
-        onNewMessage:function(obj){
-
-            PushNotificationManager.onNewMessage(obj);
-
-        },
-        onNewUser:function(obj){
-
-            console.log("onNewUser",obj);
-
-        },
-        OnUserTyping:function(obj){
-
-            console.log("OnUserTyping ",obj);
-
-        },
-        OnMessageChanges:function(obj){
-
-            console.log("OnMessageChanges ",obj);
-
-        }
-
-    }
-
-});
+var OnlineUsersManager = require('./lib/OnlineUsersManager');
 
 DatabaseManager.init(function(success){
 
@@ -62,8 +27,49 @@ DatabaseManager.init(function(success){
 
     } else {
 
-        WebAPI.init(app);
 
+        var SpikaServer = new spika(app,io,{
+        
+            config:{
+                chatDatabaseUrl : Conf.databaseUrl,
+                port: Conf.port,
+                uploadDir: Conf.uploadPath,
+                imageDownloadURL: "/spika/media/images/",
+                noavatarImg: "/spika/img/noavatar.png",
+                urlPrefix: '/spika',
+                sendAttendanceMessage: false
+            },
+            listeners:{
+        
+                onNewMessage:function(obj){
+        
+                    PushNotificationManager.onNewMessage(obj);
+        
+                },
+                onNewUser:function(obj){
+        
+                    console.log("onNewUser",obj);
+        
+                },
+                OnUserTyping:function(obj){
+        
+                    console.log("OnUserTyping ",obj);
+        
+                },
+                OnMessageChanges:function(obj){
+        
+                    console.log("OnMessageChanges ",obj);
+        
+                }
+        
+            }
+        
+        });
+
+        WebAPI.init(app);
+        SocketAPI.init(io);
+        OnlineUsersManager.init();
+        
         server.listen(Conf.port, function(){
             console.log('Server listening on port ' + Conf.port + '!');
         });

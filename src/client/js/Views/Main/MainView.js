@@ -35,7 +35,7 @@ var MainView = Backbone.View.extend({
         WindowSizeManager.init();
 
         this.onLoad();
-
+        
         return this;
 
     },

@@ -4,7 +4,9 @@
     var Config = {
         APIEndpoint : '/api/v1',
         SpikaBaseURL : '/spika',
-        defaultContaier : 'body' // write JQuery style selector
+        defaultContaier : 'body', // write JQuery style selector
+        socketUrl : "http://localhost:8080/simplemessenger"
+
     };
 
     // Exports ----------------------------------------------
