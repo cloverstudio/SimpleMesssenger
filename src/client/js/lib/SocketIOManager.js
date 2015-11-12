@@ -28,7 +28,7 @@ var ConversationModel = require('../Models/conversation');
             
             this.io.on('newmessage', function(param){
                 
-                console.log("newmessage",param);
+                Backbone.trigger(Const.NotificationNewMessage,param);
                                 
             });
             

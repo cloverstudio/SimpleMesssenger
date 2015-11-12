@@ -14,10 +14,8 @@ var _ = require('lodash');
             name: "",
             description: "",
             created: 0,
-            lastMessaage:{
-                text: "bla bla bla",
-                created: 0
-            },
+            lastMessaage:{},
+            unreadCount:0,
             avatar : {
                 file : "",
                 thumb : ""
@@ -61,7 +59,9 @@ var _ = require('lodash');
             avatar : {
                 file : avatarFile,
                 thumb : avatarThumb
-            }
+            },
+            lastMessaage:obj.lastMessage,
+            unreadCount:obj.unreadCount
             
         });
 

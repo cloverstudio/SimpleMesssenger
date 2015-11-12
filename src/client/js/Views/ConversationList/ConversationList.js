@@ -37,6 +37,12 @@ var ConversationList = Backbone.View.extend({
         var self = this;
         this.refresh();
 
+        Backbone.on(Const.NotificationNewMessage,function(obj){
+
+            self.refresh();
+
+        });
+
         Backbone.on(Const.NotificationNewChat,function(obj){
 
             self.refresh();

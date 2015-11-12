@@ -6,6 +6,7 @@ var _ = require('lodash');
 var RequestHandlerBase = require('./RequestHandlerBase');
 var UserModel = require('../Models/User');
 var ConversationModel = require('../Models/Conversation');
+var UnreadCountModel = require('../Models/UnreadMessage');
 var authenticator = require("./middleware/auth");
 
 var ConversationList = function(){}
@@ -132,9 +133,42 @@ ConversationList.prototype.attach = function(router){
 
         ConversationModel.getConversationListByUserId(userId,function(result){            
             
-            self.successResponse(response,{
-                ok: true,
-                conversations: result
+            // add unread count
+            
+            UnreadCountModel.getUnreadCountByUserId(userId,function(err,unreadCounts){
+                
+                _.forEach(result,function(row){
+                    
+                    row.unreadCount = 0;
+                     
+                });
+                
+                if(unreadCounts){
+                    
+                    _.forEach(result,function(row){
+                        
+                        var unreadCountObj = _.find(unreadCounts,{conversationId:row._id});
+                        
+                        if(unreadCountObj)
+                            row.unreadCount = unreadCountObj.count;
+                         
+                    });
+                        
+                }
+                
+                var sortedList = _.sortBy(result,function(row){ 
+                
+                        if(row.lastMessage)
+                            return -1 * row.lastMessage.created 
+                        else
+                            return -1 * row.created;
+                });
+                      
+                self.successResponse(response,{
+                    ok: true,
+                    conversations: sortedList
+                });
+ 
             });
 
         });
