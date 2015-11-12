@@ -21,6 +21,14 @@ var spika = function(app,io,options){
     var BridgeManager = require('./lib/BridgeManager');
     BridgeManager.init();
     
+    // define custome funcitons
+    this.getOnlineUsersByRoomId = function(roomId){
+        
+        var UsersManager = require('./lib/UsersManager');
+        return UsersManager.getUsers(roomId);
+                
+    }
+    
 }
 
 spika.prototype.options = {};

@@ -18,7 +18,7 @@ var SpikaBridge = {
         
         var self = this;
         
-        var SpikaServer = new spika(app,io,{
+        global.SpikaServer = new spika(app,io,{
         
             config:{
                 chatDatabaseUrl : Conf.databaseUrl,
@@ -38,17 +38,15 @@ var SpikaBridge = {
                 },
                 onNewUser:function(obj){
         
-                    console.log("onNewUser",obj);
-        
+                    self.OnUserEnterChat(obj);
+                    
                 },
                 OnUserTyping:function(obj){
         
-                    console.log("OnUserTyping ",obj);
         
                 },
                 OnMessageChanges:function(obj){
         
-                    console.log("OnMessageChanges ",obj);
         
                 }
         
@@ -58,7 +56,8 @@ var SpikaBridge = {
         
     },
     onNewMessage : function(obj){
-                
+        
+        
         var message = {
             _id: obj._id,
             userID: obj.userID,
@@ -72,7 +71,14 @@ var SpikaBridge = {
         ConversationModel.updateLastMessage(obj.roomID,message);
         
         // update unread count
-        UnreadMessageModel.newMessageToCounversation(obj.userID,obj.roomID);
+        // get users who are in the chat
+        var usersInRoom = global.SpikaServer.getOnlineUsersByRoomId(obj.roomID);
+        var userIdsInRoom = [];
+        _.forEach(usersInRoom,function(row){
+            userIdsInRoom.push(row.userID);
+        });
+        
+        UnreadMessageModel.newMessageToCounversation(userIdsInRoom,obj.roomID);
 
         // notify online users
         ConversationModel.get().findOne({_id:obj.roomID},function(err,result){
@@ -97,6 +103,11 @@ var SpikaBridge = {
         
         PushNotificationManager.onNewMessage(obj);
     
+    },
+    OnUserEnterChat: function(obj){
+        
+        UnreadMessageModel.clearCountByuserIdConversationId(obj.userID,obj.roomID);
+        
     }
 
 }

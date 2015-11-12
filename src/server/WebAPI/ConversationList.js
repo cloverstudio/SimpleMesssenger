@@ -158,12 +158,13 @@ ConversationList.prototype.attach = function(router){
                 
                 var sortedList = _.sortBy(result,function(row){ 
                 
-                        if(row.lastMessage)
-                            return -1 * row.lastMessage.created 
-                        else
-                            return -1 * row.created;
+                    if(row.lastMessage)
+                        return -1 * row.lastMessage.created 
+                    else
+                        return -1 * row.created;
+                        
                 });
-                      
+                                
                 self.successResponse(response,{
                     ok: true,
                     conversations: sortedList

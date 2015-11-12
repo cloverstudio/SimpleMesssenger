@@ -36,8 +36,10 @@ UnreadMessage.get = function(){
 UnreadMessage.clearCountByuserIdConversationId = function(userId,conversationId,callBack){
     
     var self = this;
-      
-    DatabaseManager.unreadMessage.update(
+    
+    var unreadCountModel = DatabaseManager.getModel('UnreadMessage').model;
+    
+    unreadCountModel.update(
         {
             userId:userId,
             conversationId:conversationId
@@ -45,8 +47,9 @@ UnreadMessage.clearCountByuserIdConversationId = function(userId,conversationId,
         {count:0},
         {multi: true},
     function(err,result){
-
-        callBack(err,result);
+        
+        if(callBack)
+            callBack(err,result);
                 
     });
     
@@ -62,13 +65,14 @@ UnreadMessage.getUnreadCountByUserId = function(userId,callBack){
         userId:userId
     },function(err,result){
         
-        callBack(err,result);
+        if(callBack)
+            callBack(err,result);
                 
     });
     
 }
 
-UnreadMessage.newMessageToCounversation = function(fromuserId,conversationId){
+UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
     
     var self = this;
 
@@ -81,8 +85,8 @@ UnreadMessage.newMessageToCounversation = function(fromuserId,conversationId){
         var users = result.users;
         
         _.forEach(users,function(userId){
-                        
-            if(fromuserId != userId)
+            
+            if(_.indexOf(excludeUsers,userId.toString()) == -1)
                 self.incrementUsersUnreadCount(userId,conversationId);
             
         });
