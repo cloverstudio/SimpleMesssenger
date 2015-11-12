@@ -17,7 +17,7 @@ var ConversationModel = require('../../Models/Conversation');
 
 var CreateNewConversation = function(){}
 
-CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,callBack){
+CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defaultName,callBack){
     
     var self = this;
     
@@ -49,8 +49,6 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,call
 
     var result = {};
 
-    console.log('users ',users);
-
     async.waterfall([
         
         function (done){
@@ -64,8 +62,6 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,call
                 
             },function(err,resultUsers){
                 
-                console.log('resultUser by user id',resultUsers);
-
                 _.forEach(resultUsers,function(resultUser){
                     
                      model.users.push(resultUser._id);
@@ -108,9 +104,7 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,call
                 var conversationModel = ConversationModel.get();
                                 
                 conversationModel.findOne( { users :{ $all : model.users } },function(error,resultExistingConversation){
-                    
-                    console.log(resultExistingConversation);
-                    
+                                        
                     // ignore useOld if the conversation doesnt exist
                     if(resultExistingConversation)
                         callBack(resultExistingConversation.toObject());
@@ -125,14 +119,25 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,call
 
         },
         function (result,done) {
+            
+            if(_.isEmpty(defaultName)){
 
-            self.generateConversationName(model.users,function(theName){
-
-                model.name = theName;
+                self.generateConversationName(model.users,function(theName){
+    
+                    model.name = theName;
+    
+                    done(null,result);
+    
+                });
+                
+            } else {
+                
+                model.name = defaultName;
 
                 done(null,result);
+                
+            }
 
-            });
 
         },
         

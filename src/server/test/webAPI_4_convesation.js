@@ -13,7 +13,8 @@ describe('WEB Conversation', function () {
             signin(function(token){
 
                 var params = {
-
+                    
+                    name : "test",
                     users : [
                         global.userid2,
                         global.userid3,
@@ -48,7 +49,7 @@ describe('WEB Conversation', function () {
 
         });
 
-        it('Fails when send invalid userid', function (done) {
+        it('User id can be anything', function (done) {
 
             signin(function(token){
 
@@ -65,7 +66,7 @@ describe('WEB Conversation', function () {
                 request(app)
                     .post('/api/v1/conversation/new')
                     .send(params)
-            		.expect(500)
+            		.expect(200)
                     .set('Access-Token', token)
                     .end(function (err, res) {
 
@@ -127,16 +128,14 @@ describe('WEB Conversation', function () {
                     if (err) {
                       throw err;
                     }
-                    
-                    console.log(util.inspect(res.body, {showHidden: false, depth: null}));
-                                                  
+                                                                      
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
                     res.body.should.have.property('data');
                     res.body.data.should.have.property('ok');
                     res.body.data.ok.should.equal(true);
                     res.body.data.should.have.property('conversations');
-                    res.body.data.conversations.should.be.instanceof(Array).and.have.lengthOf(2);
+                    res.body.data.conversations.should.be.instanceof(Array);
 
                     done();
 
@@ -457,7 +456,6 @@ describe('WEB Conversation', function () {
 
 	            var params = {
                     
-                    description : "test testtest",
 	                users : [
 	                    global.userid2,
 	                    global.userid3
@@ -487,7 +485,7 @@ describe('WEB Conversation', function () {
 	                    .post('/api/v1/conversation/update/' + res.body.data.conversation._id)
 	                    .expect(200)
 	                    .set('Access-Token', token)
-	            		.field('displayName', 'test')
+	            		.field('name', 'test')
 	                    .attach('file', 'test/samplefiles/max.jpg')
 	                    .end(function (err, res) {
 	

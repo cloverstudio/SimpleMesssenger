@@ -131,9 +131,7 @@ UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
         }
         
     }
-    
-    console.log('telNums',telNums);
-    
+        
     UserModel.get().find({
     
         telNumber:{$in:telNums},
@@ -145,8 +143,6 @@ UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
             excludeUsesIds.push(resultUser._id.toString());
                                   
         });              
-
-        console.log('excludeUsesIds',excludeUsesIds);              
     
         // get users of the group
         conversationModel.findOne({"_id":conversationId},function(err,result){
@@ -155,15 +151,12 @@ UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
                 return;
                 
             var users = result.users;
-            
-            console.log("users",users);
-            
+                        
             _.forEach(users,function(userId){
                 
                 if(_.indexOf(excludeUsesIds,userId.toString()) == -1)
                     self.incrementUsersUnreadCount(userId,conversationId);
-                else
-                    console.log(" excluded ", userId.toString());
+
                 
             });
                     

@@ -33,7 +33,7 @@ UpdateConversationHandler.prototype.attach = function(router){
      * @apiGroup WebAPI
      * @apiDescription Update profile of conversation
      * @apiHeader {String} Access-Token Users unique access-token.
-     * @apiParam {string} displayName Name to display
+     * @apiParam {string} name Name to display
      * @apiParam {file} file avatar file
 
      * @apiSuccessExample Success-Response:
@@ -117,7 +117,7 @@ UpdateConversationHandler.prototype.attach = function(router){
             function (result,done){
                 
                 result.targetConversation.update({
-                    name: result.requestParams.fields.displayName
+                    name: result.requestParams.fields.name
                     
                 },{},function(err,updateConversationResult){
                     
@@ -278,8 +278,8 @@ UpdateConversationHandler.prototype.validate = function(fields,file,callBack){
 				
         function (done) {
             
-            if(_.isEmpty(fields.displayName)){
-            	done("Wrong display name.",null);
+            if(_.isEmpty(fields.name)){
+            	done("Wrong  name.",null);
             	return;
             }
             

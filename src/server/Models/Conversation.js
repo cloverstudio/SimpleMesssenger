@@ -47,7 +47,6 @@ ConversationModel.updateLastMessage = function(conversationId,messageObj){
         {},
         function(err, numAffected){
             
-            console.log(numAffected);
             
         });
     

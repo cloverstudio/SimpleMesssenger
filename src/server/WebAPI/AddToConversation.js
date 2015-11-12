@@ -219,7 +219,7 @@ AddToConversation.prototype.attach = function(router){
                     
                     var logic = new CreateNewConversation();
                             
-                    logic.execute(request.user._id,users,true,function(resultCreateNewConversation){
+                    logic.execute(request.user._id,users,true,null,function(resultCreateNewConversation){
                                     
                         if(!result){
                             done("Failed to create new conversation",result)
