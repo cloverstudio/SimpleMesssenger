@@ -6,11 +6,12 @@ var async = require('async');
 var Const = require("../lib/consts");
 var Utils = require('../lib/utils');
 
-
 var RequestHandlerBase = require('./RequestHandlerBase');
 var UserModel = require('../Models/User');
 var ConversationModel = require('../Models/Conversation');
 var authenticator = require("./middleware/auth");
+
+var SocketAPIHandler = require('../SocketAPI/SocketAPIHandler');
 
 var AddToConversation = function(){}
 
@@ -253,9 +254,34 @@ AddToConversation.prototype.attach = function(router){
                 return;
             }
             
-            self.successResponse(response,{
-                ok: true,
-                conversation: result.conversation
+            // populate with users
+            UserModel.getUsersByIdForResponse(result.conversation.users,function(resultUsers){
+                
+                result.conversation.users = resultUsers;
+            
+                self.successResponse(response,{
+                    ok: true,
+                    conversation: result.conversation
+                });
+                
+                // send socket
+                _.forEach(request.body.users,function(userId){
+                    
+                    SocketAPIHandler.emitToUser(
+                        userId,
+                        Const.emitCommandNewConversation,
+                        {conversation:result.conversation}
+                    );
+                     
+                });
+
+                SocketAPIHandler.emitToUser(
+                    request.user._id,
+                    Const.emitCommandNewConversation,
+                    {conversation:result.conversation}
+                );
+                 
+                     
             });
             
         });

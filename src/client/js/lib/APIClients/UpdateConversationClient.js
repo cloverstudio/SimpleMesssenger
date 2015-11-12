@@ -21,7 +21,7 @@ var loginUserManager = require('../loginUserManager');
         err){
                         
             var data = new FormData();
-            data.append('displayName',displayName);
+            data.append('name',displayName);
             data.append('description', description);
             data.append('file', file);
                                     
