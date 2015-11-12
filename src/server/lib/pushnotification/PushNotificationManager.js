@@ -24,7 +24,10 @@ var PushNotificationManager = {
             conversationModel.findOne({
                 _id: message.roomID
             },function(err,result){
-               
+                
+                if(!result)
+                    return;
+                    
                 if(err)
                     console.log(err);
                 else{
