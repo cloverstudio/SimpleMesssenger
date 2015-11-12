@@ -174,6 +174,15 @@ SignInHandler.prototype.attach = function(router){
                     if(request.body.telNumber)
                         updateParams.telNumber = request.body.telNumber;
                     
+                    if(request.body.device){
+                        
+                        updateParams.device = {
+                            appVersion : request.body.device.appVersion,
+                            deviceType : request.body.device.deviceType,
+                            pushToken : request.body.device.pushToken
+                        }
+                        
+                    }
                     result.user.update(
                         updateParams
                         ,{},function(err,userResult){
@@ -186,8 +195,7 @@ SignInHandler.prototype.attach = function(router){
                     return;
                 }
                 
-                // create new user
-                var model = new userModel({
+                var insertParams = {
                     username:"",
                     displayName: name,
                     email: "",
@@ -202,7 +210,20 @@ SignInHandler.prototype.attach = function(router){
                     },
                     telNumber : request.body.telNumber,
                     additionalInfo : request.body.additionalInfo
-                });
+                };
+                
+                if(request.body.device){
+                    
+                    insertParams.device = {
+                        appVersion : request.body.device.appVersion,
+                        deviceType : request.body.device.deviceType,
+                        pushToken : request.body.device.pushToken
+                    }
+                    
+                }
+                    
+                // create new user
+                var model = new userModel(insertParams);
 
                 model.save(function(err,resultSaveUser){
                     
