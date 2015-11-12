@@ -78,6 +78,8 @@ var SpikaBridge = {
             userIdsInRoom.push(row.userID);
         });
         
+        console.log('userIdsInRoom',userIdsInRoom);
+        
         UnreadMessageModel.newMessageToCounversation(userIdsInRoom,obj.roomID);
 
         // notify online users
@@ -106,6 +108,7 @@ var SpikaBridge = {
     },
     OnUserEnterChat: function(obj){
         
+        console.log('user enter the chat',obj);
         UnreadMessageModel.clearCountByuserIdConversationId(obj.userID,obj.roomID);
         
     }

@@ -18,6 +18,7 @@ var md5 = require('md5');
     Utils.prototype.shorten = shorten;
     Utils.prototype.generateSecret = generateSecret;
     Utils.prototype.generateYYYYMMDDHHMMSS = generateYYYYMMDDHHMMSS;
+    Utils.prototype.isObjectId = isObjectId;
     
     // Implementation ---------------------------------------
     function getRandomString(){
@@ -112,6 +113,11 @@ var md5 = require('md5');
         
         return str;
         
+    }
+    
+    function isObjectId(str){
+        var checkForHexRegExp = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
+        return checkForHexRegExp.test(str);
     }
         
     // Exports ----------------------------------------------

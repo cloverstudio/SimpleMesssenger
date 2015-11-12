@@ -142,6 +142,57 @@ AddToConversation.prototype.attach = function(router){
                 
             },
             function (result,done){
+                
+                // convert telnum to userid
+                var userIdsOrig = request.body.users;
+                var telNums = [];
+                var userIds = [];
+                
+                if(_.isEmpty(userIdsOrig)){
+                    done(null,result);
+                    return;    
+                }
+                
+                
+                for(var i = 0 ; i < userIdsOrig.length ; i++){
+                    
+                    if(!Utils.isObjectId(userIdsOrig[i])){
+                        
+                        telNums.push(userIdsOrig[i]);
+                        
+                    }else{
+                        userIds.push(userIdsOrig[i]);
+                    }
+                    
+                }
+                
+                if(telNums.length == 0){
+                    done(null,result);
+                    return;    
+                }
+                
+                
+                UserModel.get().find({
+                
+                    telNumber:{$in:telNums},
+                    
+                },function(err,resultUsers){
+                    
+                    _.forEach(resultUsers,function(resultUser){
+                        
+                        userIds.push(resultUser._id);
+                                              
+                    });              
+                                        
+                    request.body.users = userIds;
+                    
+                    done(err,result);
+    
+                });     
+                        
+                  
+            },
+            function (result,done){
                                 
                 var users = result.conversation.users;
                 

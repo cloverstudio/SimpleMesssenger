@@ -24,10 +24,12 @@ var AmazonSNS = {
         var AndroidUsers = [];
         
         _.forEach(users,function(user){
-            
+                        
             if(!_.isEmpty(user.device)
-                && _.isEmpty(user.device.deviceType)
+                && !_.isEmpty(user.device.deviceType)
                 && user.device.deviceType == Const.deviceIOS){
+                    
+                    console.log("find ios user",user);
                     
                     iOSUsers.push(user);
                     

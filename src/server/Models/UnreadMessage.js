@@ -6,10 +6,14 @@ var Const = require("../lib/consts");
 var Config = require("../lib/init");
 
 var BaseModel = require('./BaseModel');
-var UnreadMessage = function(){};
+
+var Utils = require('../lib/utils');
 
 var DatabaseManager = require('../lib/DatabaseManager');
 var ConversationModel = require('./Conversation');
+var UserModel = require('./User');
+
+var UnreadMessage = function(){};
 
 _.extend(UnreadMessage.prototype,BaseModel.prototype);
 
@@ -39,19 +43,45 @@ UnreadMessage.clearCountByuserIdConversationId = function(userId,conversationId,
     
     var unreadCountModel = DatabaseManager.getModel('UnreadMessage').model;
     
-    unreadCountModel.update(
-        {
-            userId:userId,
-            conversationId:conversationId
-        },
-        {count:0},
-        {multi: true},
-    function(err,result){
+    if(Utils.isObjectId(userId)){
         
-        if(callBack)
-            callBack(err,result);
+        unreadCountModel.update(
+            {
+                userId:userId,
+                conversationId:conversationId
+            },
+            {count:0},
+            {multi: true},
+        function(err,result){
+            
+            if(callBack)
+                callBack(err,result);
+                    
+        });
+    
+    } else {
+        
+        UserModel.get().findOne({telNumber:userId},function(err,result){
+            
+            if(!result)
+                return;
+            
+            unreadCountModel.update(
+                {
+                    userId:result._id,
+                    conversationId:conversationId
+                },
+                {count:0},
+                {multi: true},
+            function(err,result){
                 
-    });
+                if(callBack)
+                    callBack(err,result);
+                        
+            });
+           
+        });
+    }
     
 }
 
@@ -78,21 +108,70 @@ UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
 
     var model = DatabaseManager.getModel('UnreadMessage').model;
     var conversationModel = ConversationModel.get();
-        
-    // get users of the group
-    conversationModel.findOne({"_id":conversationId},function(err,result){
-        
-        var users = result.users;
-        
-        _.forEach(users,function(userId){
-            
-            if(_.indexOf(excludeUsers,userId.toString()) == -1)
-                self.incrementUsersUnreadCount(userId,conversationId);
-            
-        });
-                
-    });
     
+    // convert telnum to userid
+    var userIdsOrig = excludeUsers;
+    var telNums = [];
+    var excludeUsesIds = [];
+    
+    if(_.isEmpty(userIdsOrig)){
+        done(null,result);
+        return;    
+    }
+    
+    
+    for(var i = 0 ; i < userIdsOrig.length ; i++){
+        
+        if(!Utils.isObjectId(userIdsOrig[i])){
+            
+            telNums.push(userIdsOrig[i]);
+            
+        }else{
+            excludeUsesIds.push(userIdsOrig[i]);
+        }
+        
+    }
+    
+    console.log('telNums',telNums);
+    
+    UserModel.get().find({
+    
+        telNumber:{$in:telNums},
+        
+    },function(err,resultUsers){
+        
+        _.forEach(resultUsers,function(resultUser){
+            
+            excludeUsesIds.push(resultUser._id.toString());
+                                  
+        });              
+
+        console.log('excludeUsesIds',excludeUsesIds);              
+    
+        // get users of the group
+        conversationModel.findOne({"_id":conversationId},function(err,result){
+            
+            if(!result)
+                return;
+                
+            var users = result.users;
+            
+            console.log("users",users);
+            
+            _.forEach(users,function(userId){
+                
+                if(_.indexOf(excludeUsesIds,userId.toString()) == -1)
+                    self.incrementUsersUnreadCount(userId,conversationId);
+                else
+                    console.log(" excluded ", userId.toString());
+                
+            });
+                    
+        });
+    
+
+    }); 
+
 }
 
 UnreadMessage.incrementUsersUnreadCount = function(userId,conversationId){

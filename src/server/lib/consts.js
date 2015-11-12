@@ -21,6 +21,7 @@
     Const.emitCommandNewConversation = 'newconversation';
     Const.emitCommandNewMessage = 'newmessage';
     
+    
     // Exports ----------------------------------------------
     module["exports"] = Const;
 
