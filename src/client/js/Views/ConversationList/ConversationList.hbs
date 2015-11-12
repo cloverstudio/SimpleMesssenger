@@ -14,8 +14,8 @@
             </div>
 
             <div class="conversation-info">
-                <span class="conversation-title">{{name}}</span><br />
-                <span class="last-message">{{lastMessaage.text}}</span>
+                <span class="conversation-title">{{name}}</span> {{#if unreadCount}} <strong>({{unreadCount}}) {{/if}}</strong><br />
+                <span class="last-message">{{lastMessaage.message}}</span>
             </div>
 
             <div class="conversation-right">

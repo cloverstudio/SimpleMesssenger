@@ -10,6 +10,7 @@ var SocketAPIHandler = require('../SocketAPI/SocketAPIHandler');
 
 var UserModel = require('../Models/User');
 var ConversationModel = require('../Models/Conversation');
+var UnreadMessageModel = require('../Models/UnreadMessage');
 
 var SpikaBridge = {
     
@@ -57,9 +58,7 @@ var SpikaBridge = {
         
     },
     onNewMessage : function(obj){
-        
-        PushNotificationManager.onNewMessage(obj);
-        
+                
         var message = {
             _id: obj._id,
             userID: obj.userID,
@@ -72,6 +71,9 @@ var SpikaBridge = {
         
         ConversationModel.updateLastMessage(obj.roomID,message);
         
+        // update unread count
+        UnreadMessageModel.newMessageToCounversation(obj.userID,obj.roomID);
+
         // notify online users
         ConversationModel.get().findOne({_id:obj.roomID},function(err,result){
             
@@ -92,7 +94,9 @@ var SpikaBridge = {
             });
             
         });
-                
+        
+        PushNotificationManager.onNewMessage(obj);
+    
     }
 
 }

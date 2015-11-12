@@ -18,7 +18,6 @@ var PushNotificationManager = require('./lib/pushnotification/PushNotificationMa
 var OnlineUsersManager = require('./lib/OnlineUsersManager');
 var SpikaBridge = require('./lib/SpikaBridge');
 
-
 DatabaseManager.init(function(success){
 
     if(!success){
@@ -27,8 +26,7 @@ DatabaseManager.init(function(success){
         process.exit(1);
 
     } else {
-
-
+        
         SpikaBridge.init(app,io);
         WebAPI.init(app);
         SocketAPI.init(io);

@@ -121,9 +121,7 @@ SignInHandler.prototype.attach = function(router){
             
             var time = Utils.now() + i * 1000;            
             var secretGenerated = Utils.generateSecret(time);
-            
-            console.log(secretGenerated,secret);
-            
+                        
             if(secretGenerated == secret)
                 secretPassed = true;
                             

@@ -127,7 +127,9 @@ describe('WEB Conversation', function () {
                     if (err) {
                       throw err;
                     }
-                                                            
+                    
+                    console.log(util.inspect(res.body, {showHidden: false, depth: null}));
+                                                  
                     res.body.should.have.property('success');
                     res.body.success.should.equal(1);
                     res.body.should.have.property('data');
