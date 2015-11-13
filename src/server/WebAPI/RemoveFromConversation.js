@@ -13,25 +13,23 @@ var authenticator = require("./middleware/auth");
 
 var SocketAPIHandler = require('../SocketAPI/SocketAPIHandler');
 
-var AddToConversation = function(){}
+var RemoveFromConversation = function(){}
 
-_.extend(AddToConversation.prototype,RequestHandlerBase.prototype);
+_.extend(RemoveFromConversation.prototype,RequestHandlerBase.prototype);
 
-AddToConversation.prototype.attach = function(router){
+RemoveFromConversation.prototype.attach = function(router){
 
     var self = this;
 
    /**
-     * @api {post} /api/v1/conversation/add/[conversationid] Add users to conversation
-     * @apiName Add users to conversation
+     * @api {post} /api/v1/conversation/removeuser/[conversationid] Remove users to conversation
+     * @apiName Remove users to conversation
      * @apiGroup WebAPI
      * @apiHeader {String} Access-Token Users unique access-token.
-     * @apiDescription Add users to existing conversation. Can select add to existing conversation or create new one.
-     * @apiParam {makeNew} false to existing one, true to make one new
-     * @apiParam {array} users array of users ids.
+     * @apiDescription Remove users from owned conversation
+     * @apiParam {array} users array of userid.
      * @apiParamExample {json} Request-Example:
             {
-                makeNew: true,
                 users: [
                     "563a0cc46cb168c8e9c4071a",
                     "563a0cc46cb168c8e9c4071a"
@@ -56,8 +54,6 @@ AddToConversation.prototype.attach = function(router){
             },
             users: [
                 '563a1130b75fb0d5eb4b5a22',
-                '563a1130b75fb0d5eb4b5a22',
-                '563a1130b75fb0d5eb4b5a1f',
                 '563a1130b75fb0d5eb4b5a20',
                 '563a1130b75fb0d5eb4b5a21'
             ]
@@ -134,6 +130,17 @@ AddToConversation.prototype.attach = function(router){
                         return;
                         
                     }
+
+                    if(resultConvesation.owner.toString() != userIdFromRequest){
+
+                        self.successResponse(response,{
+                            ok: false,
+                            validationError: "Only owner can remove user"
+                        });
+                        
+                        return;
+                        
+                    }
                     
                     result.conversation = resultConvesation;
                     
@@ -196,53 +203,18 @@ AddToConversation.prototype.attach = function(router){
             function (result,done){
                                 
                 var users = result.conversation.users;
-                
-                _.forEach(request.body.users,function(userid){
-                    
-                    users.push(userid);
-                    
+ 
+                var removed = _.filter(users,function(userId) {
+                    return request.body.users.indexOf(userId.toString()) == -1
+                });
+                           
+                result.conversation.update({
+                    users : removed
+                },{},function(err,resutlSave){
+                    result.updatedUsers = removed;
+                    done(err,result);
                 })
                 
-                users = _.uniq(users);
-                
-                var makeNewCconversation = request.body.makeNew;
-                if(!makeNewCconversation)
-                    makeNewCconversation = false;
-                    
-                if(makeNewCconversation == true){
-                                        
-                    // call new conversation API
-                    var params = {
-                        users : users
-                    };
-                    
-                    var CreateNewConversation = require("./logics/CreateNewConversation");
-                    
-                    var logic = new CreateNewConversation();
-                            
-                    logic.execute(request.user._id,users,true,null,function(resultCreateNewConversation){
-                                    
-                        if(!result){
-                            done("Failed to create new conversation",result)
-                            
-                        }else{
-                            
-                            result.conversation = resultCreateNewConversation;
-                            done(null,result)
-                        }
-                    });
-                    
-                }else{
-                
-                    result.conversation.update({
-                        users : users
-                    },{},function(err,resutlSave){
-                        
-                        done(err,result);
-                        
-                    })
-                   
-                }
                 
             }
         
@@ -255,10 +227,11 @@ AddToConversation.prototype.attach = function(router){
             }
             
             // populate with users
-            UserModel.getUsersByIdForResponse(result.conversation.users,function(resultUsers){
+            UserModel.getUsersByIdForResponse(result.updatedUsers,function(resultUsers){
                 
+                result.conversation = result.conversation.toObject();                                
                 result.conversation.users = resultUsers;
-            
+
                 self.successResponse(response,{
                     ok: true,
                     conversation: result.conversation
@@ -269,7 +242,7 @@ AddToConversation.prototype.attach = function(router){
                     
                     SocketAPIHandler.emitToUser(
                         userId,
-                        Const.emitCommandNewConversation,
+                        Const.emitCommandRemoveFromConversation,
                         {conversation:result.conversation}
                     );
                      
@@ -277,7 +250,7 @@ AddToConversation.prototype.attach = function(router){
 
                 SocketAPIHandler.emitToUser(
                     request.user._id,
-                    Const.emitCommandNewConversation,
+                    Const.emitCommandRemoveFromConversation,
                     {conversation:result.conversation}
                 );
                  
@@ -291,5 +264,5 @@ AddToConversation.prototype.attach = function(router){
 
 }
 
-new AddToConversation().attach(router);
+new RemoveFromConversation().attach(router);
 module["exports"] = router;

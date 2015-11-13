@@ -20,6 +20,7 @@
 
     Const.emitCommandNewConversation = 'newconversation';
     Const.emitCommandNewMessage = 'newmessage';
+    Const.emitCommandRemoveFromConversation = 'removefromconversation';
     
     
     // Exports ----------------------------------------------
