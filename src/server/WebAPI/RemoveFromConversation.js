@@ -188,7 +188,7 @@ RemoveFromConversation.prototype.attach = function(router){
                     
                     _.forEach(resultUsers,function(resultUser){
                         
-                        userIds.push(resultUser._id);
+                        userIds.push(resultUser._id.toString());
                                               
                     });              
                                         
@@ -203,11 +203,11 @@ RemoveFromConversation.prototype.attach = function(router){
             function (result,done){
                                 
                 var users = result.conversation.users;
- 
+                                
                 var removed = _.filter(users,function(userId) {
                     return request.body.users.indexOf(userId.toString()) == -1
                 });
-                           
+    
                 result.conversation.update({
                     users : removed
                 },{},function(err,resutlSave){
@@ -232,6 +232,8 @@ RemoveFromConversation.prototype.attach = function(router){
                 result.conversation = result.conversation.toObject();                                
                 result.conversation.users = resultUsers;
 
+                console.log("response",resultUsers);
+                
                 self.successResponse(response,{
                     ok: true,
                     conversation: result.conversation

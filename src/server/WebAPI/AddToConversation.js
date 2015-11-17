@@ -204,13 +204,17 @@ AddToConversation.prototype.attach = function(router){
                 })
                 
                 users = _.uniq(users);
+                result.usersUpdated = users;
                 
                 var makeNewCconversation = request.body.makeNew;
-                if(!makeNewCconversation)
+                
+                if(makeNewCconversation === false || makeNewCconversation === 0)
                     makeNewCconversation = false;
-                    
+                else
+                    makeNewCconversation = true;
+                                    
                 if(makeNewCconversation == true){
-                                        
+                                                      
                     // call new conversation API
                     var params = {
                         users : users
@@ -220,7 +224,7 @@ AddToConversation.prototype.attach = function(router){
                     
                     var logic = new CreateNewConversation();
                             
-                    logic.execute(request.user._id,users,true,null,function(resultCreateNewConversation){
+                    logic.execute(request.user._id,users,false,null,function(resultCreateNewConversation){
                                     
                         if(!result){
                             done("Failed to create new conversation",result)
@@ -228,16 +232,18 @@ AddToConversation.prototype.attach = function(router){
                         }else{
                             
                             result.conversation = resultCreateNewConversation;
+                            
                             done(null,result)
                         }
                     });
                     
                 }else{
-                
+
                     result.conversation.update({
                         users : users
                     },{},function(err,resutlSave){
                         
+                        result.conversation = result.conversation.toObject()
                         done(err,result);
                         
                     })
@@ -254,9 +260,10 @@ AddToConversation.prototype.attach = function(router){
                 return;
             }
             
+            
             // populate with users
-            UserModel.getUsersByIdForResponse(result.conversation.users,function(resultUsers){
-                
+            UserModel.getUsersByIdForResponse(result.usersUpdated,function(resultUsers){
+                                
                 result.conversation.users = resultUsers;
             
                 self.successResponse(response,{

@@ -33,34 +33,36 @@ var AmazonSNS = {
                     
                     iOSUsers.push(user);
                     
-                    var payload = {
-                        default : message,
+                    var payloadToSend = {
+                        default : message + " by " + user.telNumber,
                         APNS : {
                             aps : {
-                                alert: message,
+                                alert: message + " by " + user.telNumber,
                                 sound: 'default',
-                                badge: null
-                            }
-                        },
-                        data : payload
+                                badge: null,
+                                category: "MESSAGE_TYPE"
+                            },
+                            data : payload
+                        }
+                        
                     };
                     
-                    self.sendAPNProd(user.device.pushToken,payload);
-                    self.sendAPNDev(user.device.pushToken,payload);
+                    self.sendAPNProd(user.device.pushToken,payloadToSend);
+                    self.sendAPNDev(user.device.pushToken,payloadToSend);
                     
                 }
 
             if(!_.isEmpty(user.device)
-                && _.isEmpty(user.device.deviceType)
+                && !_.isEmpty(user.device.deviceType)
                 && user.device.deviceType == Const.deviceAndroid){
                     
-                    var payload = {
+                    var payloadToSend = {
                         default : message,
                         message : message,
                         data : payload
                     };
                     
-                    self.sendGCM(user.device.pushToken,payload);                    
+                    self.sendGCM(user.device.pushToken,payloadToSend);                    
                 }
             
         });
@@ -89,7 +91,7 @@ var AmazonSNS = {
                 // then have to stringify the entire message payload
                 payload = JSON.stringify(payload);
                 
-                console.log('sending push');
+                console.log('sending push ' + payload);
                 
                 sns.publish({
                 
@@ -130,11 +132,11 @@ var AmazonSNS = {
                 var endpointArn = data.EndpointArn;
 
                 // first have to stringify the inner APNS object...
-                payload.APNS = JSON.stringify(payload.APNS);
+                payload.APNS_SANDBOX = JSON.stringify(payload.APNS);
                 // then have to stringify the entire message payload
                 payload = JSON.stringify(payload);
                 
-                console.log('sending push');
+                console.log('sending push ' + payload);
                 
                 sns.publish({
                 
@@ -159,6 +161,8 @@ var AmazonSNS = {
 
         var sns = new AWS.SNS();
 
+        console.log('send gcm',payload);
+        
         sns.createPlatformEndpoint({
                 PlatformApplicationArn: Conf.pushnotification.config.arnAndroid,
                 Token: pushToken
@@ -185,6 +189,8 @@ var AmazonSNS = {
                         console.log(err.stack);
                         return;
                     }
+                    
+                    console.log(data);
                 
                 });
                 

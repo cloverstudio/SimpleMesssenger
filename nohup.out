@@ -18357,3 +18357,30 @@ TypeError: Cannot read property 'path' of undefined
     at IncomingMessage.emit (events.js:104:17)
     at _stream_readable.js:908:16
     at process._tickCallback (node.js:355:11)
+Connecting mongoDB mongodb://localhost/user
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: listen EADDRINUSE
+    at exports._errnoException (util.js:746:11)
+    at Server._listen2 (net.js:1156:14)
+    at listen (net.js:1182:10)
+    at Server.listen (net.js:1267:5)
+    at /home/admin/server/SimpleMesssenger/src/server/main.js:35:16
+    at /home/admin/server/SimpleMesssenger/src/server/lib/DatabaseManager.js:33:17
+    at open (/home/admin/server/SimpleMesssenger/node_modules/mongoose/lib/connection.js:488:17)
+    at NativeConnection.Connection.onOpen (/home/admin/server/SimpleMesssenger/node_modules/mongoose/lib/connection.js:498:5)
+    at /home/admin/server/SimpleMesssenger/node_modules/mongoose/lib/connection.js:457:10
+    at /home/admin/server/SimpleMesssenger/node_modules/mongoose/lib/drivers/node-mongodb-native/connection.js:54:5
+    at /home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/lib/db.js:229:5
+    at connectHandler (/home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/lib/server.js:279:7)
+    at g (events.js:199:16)
+    at emit (events.js:107:17)
+    at /home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:399:23
+    at /home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:765:13
+    at Callbacks.emit (/home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:95:3)
+    at null.messageHandler (/home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:243:23)
+    at Socket.<anonymous> (/home/admin/server/SimpleMesssenger/node_modules/mongoose/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:262:22)
+    at Socket.emit (events.js:107:17)
+    at readableAddChunk (_stream_readable.js:163:16)
+    at Socket.Readable.push (_stream_readable.js:126:10)

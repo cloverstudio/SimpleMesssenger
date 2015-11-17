@@ -33,9 +33,7 @@ var PushNotificationManager = {
                 else{
                                 
                     UserModel.getUsersById(result.users,function(usersResult){
-                        
-                        self.send(usersResult,message,message,{roomID:message.roomID});
-                        
+                        self.send(usersResult,message.message,{message:message});
                     })
                     
                 }

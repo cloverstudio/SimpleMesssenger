@@ -76,23 +76,46 @@ LeaveConversation.prototype.attach = function(router){
                     newUsersList.push(userid);
                 
             });
-                        
-            conversation.update({
-                users:newUsersList
-            },{},function(err,updateResult){
-                
-                if(err){
-                    console.log(err);
-                    self.errorResponse(response,Const.httpCodeServerError);
-                    return;
-                }
-                
-                self.successResponse(response,{
-                    ok: true,
-                    conversation: updateResult
-                });
             
-            });
+            if(loginUserId == conversation.owner.toString()){
+                
+                conversationModel.remove({
+                    _id : conversation.id
+                },function(err,removeResult){
+
+                    if(err){
+                        console.log(err);
+                        self.errorResponse(response,Const.httpCodeServerError);
+                        return;
+                    }
+                    
+                    self.successResponse(response,{
+                        ok: true,
+                        conversation: removeResult
+                    });
+                    
+                });
+                
+            }else{
+                          
+                conversation.update({
+                    users:newUsersList
+                },{},function(err,updateResult){
+                    
+                    if(err){
+                        console.log(err);
+                        self.errorResponse(response,Const.httpCodeServerError);
+                        return;
+                    }
+                    
+                    self.successResponse(response,{
+                        ok: true,
+                        conversation: updateResult
+                    });
+                
+                });
+                
+            }
       
         });
 
