@@ -17,6 +17,7 @@ MessageModel.prototype.init = function(){
     // Defining a schema
     var messageSchema = new mongoose.Schema({
         user: { type: mongoose.Schema.Types.ObjectId, index: true },
+        localID: { type: String, index: true },
         userID: { type: String, index: true },
         roomID: { type: String, index: true },
         type: Number,

@@ -39,12 +39,13 @@ var SocketAPIHandler = {
         
         //save to DB
         UserModel.findUserbyId(userID,function (err,user) {
-
+                        
             var objMessage = {
                 user:user._id,
                 userID: userID,
                 roomID: param.roomID,
                 message: param.message,
+                localID: param.localID,
                 type: param.type,
                 file: null,
                 created: Utils.now()                   
@@ -84,9 +85,13 @@ var SocketAPIHandler = {
             // save to database
             var newMessage = new DatabaseManager.messageModel(objMessage);
 
+            console.log("objMessage ",objMessage);
+            console.log("newMessage ",newMessage);
+
             newMessage.save(function(err,message){
 
                 if(err) throw err;
+
 
                 MessageModel.populateMessages(message,function (err,data) {
                                         
