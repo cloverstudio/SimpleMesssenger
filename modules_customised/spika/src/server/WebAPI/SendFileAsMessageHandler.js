@@ -17,6 +17,9 @@ var mime = require('mime');
 var SocketAPIHandler = require('../SocketAPI/SocketAPIHandler');
 var Settings = require("../lib/Settings");
 
+var SendMessageLogic = require('../Logics/SendMessage');
+
+
 var TempHandler = function(){
     
 }
@@ -56,7 +59,7 @@ TempHandler.prototype.attach = function(router){
             function (done) {
                 
                 form.parse(request, function(err, fields, files) {
-            
+
                     var tempPath = files.file.path;
                     var fileName = files.file.name;
             
@@ -198,11 +201,9 @@ TempHandler.prototype.attach = function(router){
                     };
                 }
                 
-                                        
-                SocketAPIHandler.sendNewMessage(result.fields.userID,param,function(){
-                    
+
+                SendMessageLogic.execute(result.fields.userID,param,function(){
                     done(null,result);
-                    
                 });
 
             }

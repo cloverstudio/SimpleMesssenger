@@ -14,11 +14,15 @@ var UnreadMessageModel = require('../Models/UnreadMessage');
 
 var SpikaBridge = {
     
-    init:function(app,io){
+    SpikaServer: null,
+    init:function(app,io,customConfig){
         
         var self = this;
         
-        global.SpikaServer = new spika(app,io,{
+        if(customConfig)
+            Conf = customConfig;
+            
+        this.SpikaServer = new spika(app,io,{
         
             config:{
                 chatDatabaseUrl : Conf.databaseUrl,
@@ -53,7 +57,7 @@ var SpikaBridge = {
             }
         
         });
-        
+                
     },
     onNewMessage : function(obj){
         
@@ -72,14 +76,12 @@ var SpikaBridge = {
         
         // update unread count
         // get users who are in the chat
-        var usersInRoom = global.SpikaServer.getOnlineUsersByRoomId(obj.roomID);
+        var usersInRoom = this.SpikaServer.getOnlineUsersByRoomId(obj.roomID);
         var userIdsInRoom = [];
         _.forEach(usersInRoom,function(row){
             userIdsInRoom.push(row.userID);
         });
-        
-        console.log('userIdsInRoom',userIdsInRoom);
-        
+                
         UnreadMessageModel.newMessageToCounversation(userIdsInRoom,obj.roomID);
 
         // notify online users
@@ -108,9 +110,52 @@ var SpikaBridge = {
     },
     OnUserEnterChat: function(obj){
         
-        console.log('user enter the chat',obj);
         UnreadMessageModel.clearCountByuserIdConversationId(obj.userID,obj.roomID);
         
+    },
+    sendNewMessage: function(user,conversationId,text,callBack){
+        
+        var self = this;
+                
+        var avatar = "";
+        if(user.avatar)
+            avatar = user.avatar.thumb;
+            
+        this.SpikaServer.loginToSpika({
+            userID: user._id,
+            roomID: conversationId,
+            avatarURL: avatar,
+            name: user.displayName
+        },conversationId,function(resultLogin){
+            
+            if(resultLogin){
+
+            	var sendMessageParams = {
+                    roomID : conversationId,
+                    userID : user._id,
+                    type : 1,
+                    message : text
+            	};
+        	                
+                self.SpikaServer.sendMessage(user._id,sendMessageParams,function(resultSendMessage){
+                                        
+                    if(callBack) callBack({
+                        ok: true,
+                        message: resultSendMessage
+                    });
+                    
+                })
+
+            } else {
+                
+                if(callBack) callBack({
+                    ok: false
+                });
+                
+            }   
+                
+        });
+                        
     }
 
 }

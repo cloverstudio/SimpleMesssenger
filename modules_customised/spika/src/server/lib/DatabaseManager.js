@@ -13,36 +13,38 @@ var DatabaseManager = {
 		var self = this;
 		
         // Connection to our chat database
-        //console.log("Connecting mongoDB " + options.chatDatabaseUrl);
+        console.log("Connecting mongoDB " + options.chatDatabaseUrl);
         
-        //try{
+        try{
 	        
-	        mongoose.connect(options.chatDatabaseUrl, function(err){
+	        mongoose.createConnection(options.chatDatabaseUrl, function(err){
 
-	          //if (err) {
+	          if (err) {
 		          
-	          //  console.log("Failed to connect MongoDB!");
-	          //  console.error(err);
+	            console.log("Failed to connect MongoDB!");
+	            console.error(err);
 	            
-	          //} else {
+	          } else {
 		        
 		        // Defining a schema
+
+		        
+
                 self.messageModel = require('../Models/MessageModel').init();
 		        self.userModel = require('../Models/UserModel').init();
 		        self.fileModel = require('../Models/FileModel').init();
 				
 		
-	          //}
-	        
-	       });
+	          }
+	        });
 	
-        //} catch(ex){
+        } catch(ex){
 	        
-	    //    console.log("Failed to connect MongoDB!");
+	        console.log("Failed to connect MongoDB!");
 
-	   //     throw ex;
+	        throw ex;
 	        
-       // }
+        }
 
     }
     

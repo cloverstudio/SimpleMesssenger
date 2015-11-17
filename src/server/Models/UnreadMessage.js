@@ -114,11 +114,6 @@ UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
     var telNums = [];
     var excludeUsesIds = [];
     
-    if(_.isEmpty(userIdsOrig)){
-        done(null,result);
-        return;    
-    }
-    
     
     for(var i = 0 ; i < userIdsOrig.length ; i++){
         

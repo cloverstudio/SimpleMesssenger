@@ -18,6 +18,8 @@ var UserModel = require("../Models/UserModel");
 var Settings = require("../lib/Settings");
 var Const = require("../const");
 
+var LoginLogic = require("../Logics/Login");
+
 var LoginHandler = function(){
     
 }
@@ -59,125 +61,27 @@ LoginHandler.prototype.attach = function(router){
               }
             }
     */
-     router.post('/',function(request,response){
-        
-        var name = request.body.name;
-        var avatarURL = request.body.avatarURL;
-        var roomID = request.body.roomID;
-        var userID = request.body.userID;
-                   
-        if(Utils.isEmpty(name)){
-            
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify name."),
-                false
-            );
-        
-            return;
-            
-        }
-        
-        if(Utils.isEmpty(avatarURL)){
-            avatarURL = Settings.options.noavatarImg;
-        }
-        
-        if(Utils.isEmpty(roomID)){
-        
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify room id."),
-                false
-            );
-            
-            return;
-            
-        }
-        
-        if(Utils.isEmpty(userID)){
-        
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify user id."),
-                false
-            );
-            
-            return;
-            
-        }
-        
-        // create token
-        var token = Utils.randomString(24);
-        
-        // check existance
-        
-        console.log('ss');
-        
-        UserModel.findUserbyId(userID,function (err,user) {
+    router.post('/',function(request,response){
                 
-            console.log('aaaaa',user);
-      
-            if(user == null){
+        LoginLogic.execute(request.body,function(err,result){
             
-                // save to database
-                var newUser = new DatabaseManager.userModel({
-                    userID: userID,
-                    name: name,
-                    avatarURL: avatarURL,
-                    token: token,
-                    created: Utils.now()
+            if(err){
+                self.errorResponse(
+                    response,
+                    Const.httpCodeSucceed,
+                    Const.responsecodeParamError,
+                    err,
+                    false
+                );
+            }else{
+                
+                self.successResponse(response,{
+                    token: result.token,
+                    user: result.user
                 });
-
-                newUser.save(function(err,user){
                 
-                    if(err) throw err;
-            
-                    self.successResponse(response,{
-                        token: token,
-                        user: user
-                    });
-            
-                });
-
-            } else {
-                
-            
-                user.update({
-                    name: name,
-                    avatarURL: avatarURL,
-                    token: token
-                },{},function(err,userResult){
-                
-                    if(err){
-                    
-                        self.errorResponse(
-                            response,
-                            Const.httpCodeSucceed,
-                            Const.responsecodeParamError,
-                            Utils.localizeString(err),
-                            true
-                        );
-                        
-                    }else{
-                    
-                        self.successResponse(response,{
-                            token: token,
-                            user: user
-                        });
-                        
-                    }                
-
-            
-                });
-                                
             }
-              
+            
         });
         
     });

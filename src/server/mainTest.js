@@ -20,45 +20,10 @@ var port = Conf.port;
 var io = socket.listen(server);
 
 var WebAPI = require('./WebAPI/WebAPIMain');
+var SocketAPI = require('./SocketAPI/SocketAPIHandler');
+var OnlineUsersManager = require('./lib/OnlineUsersManager');
 var DatabaseManager = require('./lib/DatabaseManager');
-
-var SpikaServer = new spika(app,io,{
-
-    config:{
-        chatDatabaseUrl : Conf.databaseUrl,
-        port: Conf.port,
-        uploadDir: Conf.uploadPath,
-        imageDownloadURL: "/spika/media/images/",
-        noavatarImg: "/spika/img/noavatar.png",
-        urlPrefix: '/spika',
-        sendAttendanceMessage: false
-    },
-    listeners:{
-
-        onNewMessage:function(obj){
-
-            console.log("onNewMessage",obj);
-
-        },
-        onNewUser:function(obj){
-
-            console.log("onNewUser",obj);
-
-        },
-        OnUserTyping:function(obj){
-
-            console.log("OnUserTyping ",obj);
-
-        },
-        OnMessageChanges:function(obj){
-
-            console.log("OnMessageChanges ",obj);
-
-        }
-
-    }
-
-});
+var SpikaBridge = require('./lib/SpikaBridge');
 
 DatabaseManager.init(function(success){
 
@@ -68,9 +33,21 @@ DatabaseManager.init(function(success){
         process.exit(1);
 
     } else {
-
+        
+        SpikaBridge.init(app,io,{
+            chatDatabaseUrl : Conf.databaseUrl,
+            port: Conf.port,
+            uploadDir: Conf.uploadPath,
+            imageDownloadURL: "/spika/media/images/",
+            noavatarImg: "/spika/img/noavatar.png",
+            urlPrefix: '/spika',
+            sendAttendanceMessage: false
+        });
+        
         WebAPI.init(app);
-
+        SocketAPI.init(io);
+        OnlineUsersManager.init();
+        
         server.listen(Conf.port, function(){
             console.log('Server listening on port ' + Conf.port + '!');
         });
@@ -78,6 +55,7 @@ DatabaseManager.init(function(success){
     }
 
 });
+
 
 
 module.exports = app;

@@ -41,15 +41,16 @@ LoginActionHandler.prototype.attach = function(io,socket){
         socket.join(param.roomID);
         io.of(Settings.options.socketNameSpace).in(param.roomID).emit('newUser', param);
         Observer.send(this, Const.notificationNewUser, param);
-        
-        console.log(param);
-        
+
         //save as message
         UserModel.findUserbyId(param.userID,function (err,user) {
             
-            if(!user)
-                return;
+            if(_.isEmpty(user)){
                 
+                console.log(param);
+                console.log(3);
+            }
+            
             UsersManager.addUser(param.userID,user.name,user.avatarURL,param.roomID,user.token);
             UsersManager.pairSocketIDandUserID(param.userID,socket.id);            
 

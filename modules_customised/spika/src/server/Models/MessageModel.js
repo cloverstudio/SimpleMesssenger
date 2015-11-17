@@ -98,6 +98,20 @@ MessageModel.prototype.findMessagebyId = function(id,callBack){
             
 }
 
+MessageModel.prototype.findAllMessages = function(roomID,lastMessageID,callBack){
+        
+    var query = this.model.find({roomID:roomID}).sort({'created': 'desc'});        
+
+    query.exec(function(err,data){
+        
+        if (err) return console.error(err);
+        
+        if(callBack)
+            callBack(err,data)
+        
+    });
+
+}
 
 MessageModel.prototype.findMessages = function(roomID,lastMessageID,limit,callBack){
             

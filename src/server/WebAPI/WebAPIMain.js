@@ -37,6 +37,8 @@ var WebAPIMain ={
         router.use("/conversation/update", require('./UpdateConversation'));
         router.use("/conversation/detail", require('./GetConversation'));
 
+        router.use("/message/send", require('./SendMessage'));
+
         app.use(init.urlPrefix, router);
 
     }
