@@ -42,139 +42,154 @@ LatestMessageListHandler.prototype.attach = function(router){
      *     
      * @apiSuccessExample Success-Response:
 {
-
-{
     "success": 1,
-    "result": [
-        {
-            "__v": 0,
-            "_id": "55d2d194caf997b543836fc8",
-            "created": 1439879572232,
-            "message": "",
-            "roomID": "test",
-            "type": 1001,
-            "user": {
-                "userID": "test",
-                "name": "test",
-                "avatarURL": "http://45.55.81.215:80/img/noavatar.png",
-                "token": "UI6yHxeyZnXOZ1EgT6g5ftwD",
-                "created": 1439878817506,
-                "_id": "55d2cea1caf997b543836fb2",
-                "__v": 0
-            },
-            "userID": "test",
-            "seenBy": [
-                {
-                    "user": {
-                        "userID": "test2",
-                        "name": "test2",
-                        "avatarURL": "http://45.55.81.215:80/img/noavatar.png",
-                        "token": "YMsHeg3KEQIhtvt46W5fgnaf",
-                        "created": 1439878824411,
-                        "_id": "55d2cea8caf997b543836fb6",
-                        "__v": 0
-                    },
-                    "at": 1439879572353
+    "result": {
+        "messages": [
+            {
+                "_id": "564d7c613e84a5407599ce8b",
+                "user": {
+                    "_id": "564b1f0c6d8463e192831fe4",
+                    "userID": "5638c0a71b659fc060941d87",
+                    "name": "KenYasue",
+                    "avatarURL": "/spika/img/noavatar.png",
+                    "token": "j4vSCqcIednY5y4g3wmMJuk6",
+                    "created": 1447763724451,
+                    "__v": 0
                 },
-                {
-                    "user": {
-                        "userID": "test3",
-                        "name": "tset3",
-                        "avatarURL": "http://45.55.81.215:80/img/noavatar.png",
-                        "token": "TahnOaC6JzldCh6gAmJs3jMC",
-                        "created": 1439878820142,
-                        "_id": "55d2cea4caf997b543836fb4",
-                        "__v": 0
-                    },
-                    "at": 1439879572361
-                }
-            ]
-        },
-        ...
-    ]
+                "userID": "5638c0a71b659fc060941d87",
+                "roomID": "564d7c593e84a5407599ce80",
+                "message": "10",
+                "localID": "_NNq1fIRx938rNcISLd8MGYW063RcA94X",
+                "type": 1,
+                "created": 1447918689029,
+                "__v": 0,
+                "seenBy": []
+            },
+            {
+                "_id": "564d7c5e3e84a5407599ce8a",
+                "user": {
+                    "_id": "564b1f0c6d8463e192831fe4",
+                    "userID": "5638c0a71b659fc060941d87",
+                    "name": "KenYasue",
+                    "avatarURL": "/spika/img/noavatar.png",
+                    "token": "j4vSCqcIednY5y4g3wmMJuk6",
+                    "created": 1447763724451,
+                    "__v": 0
+                },
+                "userID": "5638c0a71b659fc060941d87",
+                "roomID": "564d7c593e84a5407599ce80",
+                "message": "98",
+                "localID": "_d9mEiYGCrGLRubjIfaHAAWtPUtO1eMBl",
+                "type": 1,
+                "created": 1447918686869,
+                "__v": 0,
+                "seenBy": []
+            }
+        ]
+    }
 }
-
     */
     
     router.get('/:roomID/:lastMessageID',function(request,response){
         
-        var roomID = request.params.roomID;
-        var lastMessageID = request.params.lastMessageID;
-                
-        if(Utils.isEmpty(lastMessageID)){
+        self.logic(request,response,function(err,result){
             
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify lastMessageID."),
-                false
-            );
-        
-            return;
-            
-        }
-
-        if(Utils.isEmpty(roomID)){
-            
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify roomID."),
-                false
-            );
-        
-            return;
-            
-        }
-        
-        async.waterfall([
-        
-            function (done) {
-
-                MessageModel.findAllMessages(roomID,lastMessageID,function (err,data) {
-                    
-                    done(err,data);
-
-                });
-                
-            },
-            function (messages,done) {
-
-                MessageModel.populateMessages(messages,function (err,data) {
-                    
-                    done(err,data);
-
-                });
-                
+            if(err){
+                self.errorResponse(
+                    response,
+                    Const.httpCodeSucceed,
+                    Const.responsecodeParamError,
+                    err,
+                    false
+                );
+            }else{
+                self.successResponse(response,result);
             }
-        ],
-            function (err, result) {
-                
-                if(err){
-                    self.errorResponse(
-                        response,
-                        Const.httpCodeSucceed,
-                        Const.responsecodeParamError,
-                        Utils.localizeString(err),
-                        true
-                    );
-                }else{
-                    
-                    var responseJson = {
-                        messages : result
-                    }
-                    self.successResponse(response,responseJson);
-                }
-                     
-            }
-        );
+            
+        });
         
     });
     
 
 }
 
-new LatestMessageListHandler().attach(router);
-module["exports"] = router;
+LatestMessageListHandler.prototype.logic = function(request,response,callBack){
+    
+    var self = this;
+    
+    
+    var roomID = request.params.roomID;
+    var lastMessageID = request.params.lastMessageID;
+            
+    if(Utils.isEmpty(lastMessageID)){
+        
+        callBack(Utils.localizeString("Please specify lastMessageID."),null);
+    
+        return;
+        
+    }
+
+    if(Utils.isEmpty(roomID)){
+        
+        callBack(Utils.localizeString("Please specify roomID."),null);
+
+        return;
+        
+    }
+    
+    async.waterfall([
+    
+        function (done) {
+
+            MessageModel.findAllMessages(roomID,lastMessageID,function (err,data) {
+                
+                done(err,data);
+
+            });
+            
+        },
+        function (messages,done) {
+
+            MessageModel.populateMessages(messages,function (err,data) {
+                
+                done(err,data);
+
+            });
+            
+        }
+    ],
+        function (err, result) {
+            
+            if(err){
+                self.errorResponse(
+                    response,
+                    Const.httpCodeSucceed,
+                    Const.responsecodeParamError,
+                    Utils.localizeString(err),
+                    true
+                );
+                
+                callBack(err,null);
+                
+            }else{
+                
+                var responseJson = {
+                    messages : result
+                }
+                
+                callBack(null,responseJson);
+
+            }
+                 
+        }
+    );
+
+}
+
+var handler = new LatestMessageListHandler();
+handler.attach(router);
+
+module["exports"] = {
+    handler: handler,
+    router: router
+};
