@@ -273,6 +273,46 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/message/list/latest/:roomID/:lastMessageID",
+    "title": "Get all latest messages",
+    "name": "Get_all_latest_messages",
+    "group": "WebAPI",
+    "description": "<p>Get all latest message from the room</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "RoomID",
+            "description": "<p>ID of room</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "<p>String</p> ",
+            "optional": false,
+            "field": "lastMessageID",
+            "description": "<p>MessageID of last message</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n\n{\n    \"success\": 1,\n    \"result\": [\n        {\n            \"__v\": 0,\n            \"_id\": \"55d2d194caf997b543836fc8\",\n            \"created\": 1439879572232,\n            \"message\": \"\",\n            \"roomID\": \"test\",\n            \"type\": 1001,\n            \"user\": {\n                \"userID\": \"test\",\n                \"name\": \"test\",\n                \"avatarURL\": \"http://45.55.81.215:80/img/noavatar.png\",\n                \"token\": \"UI6yHxeyZnXOZ1EgT6g5ftwD\",\n                \"created\": 1439878817506,\n                \"_id\": \"55d2cea1caf997b543836fb2\",\n                \"__v\": 0\n            },\n            \"userID\": \"test\",\n            \"seenBy\": [\n                {\n                    \"user\": {\n                        \"userID\": \"test2\",\n                        \"name\": \"test2\",\n                        \"avatarURL\": \"http://45.55.81.215:80/img/noavatar.png\",\n                        \"token\": \"YMsHeg3KEQIhtvt46W5fgnaf\",\n                        \"created\": 1439878824411,\n                        \"_id\": \"55d2cea8caf997b543836fb6\",\n                        \"__v\": 0\n                    },\n                    \"at\": 1439879572353\n                },\n                {\n                    \"user\": {\n                        \"userID\": \"test3\",\n                        \"name\": \"tset3\",\n                        \"avatarURL\": \"http://45.55.81.215:80/img/noavatar.png\",\n                        \"token\": \"TahnOaC6JzldCh6gAmJs3jMC\",\n                        \"created\": 1439878820142,\n                        \"_id\": \"55d2cea4caf997b543836fb4\",\n                        \"__v\": 0\n                    },\n                    \"at\": 1439879572361\n                }\n            ]\n        },\n        ...\n    ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/server/WebAPI/LatestMessageListHandler.js",
+    "groupTitle": "WebAPI"
+  },
+  {
+    "type": "get",
     "url": "/message/list/:roomID/:lastMessageID",
     "title": "Get messages sent to room",
     "name": "Get_messages_of_the_room",

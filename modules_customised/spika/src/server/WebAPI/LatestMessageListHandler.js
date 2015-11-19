@@ -30,15 +30,12 @@ LatestMessageListHandler.prototype.attach = function(router){
 
     /**
      * @api {get} /message/list/latest/:roomID/:lastMessageID Get all latest messages
-     * @apiName Get all latest messages of the room
+     * @apiName Get all latest messages
      * @apiGroup WebAPI
      * @apiDescription Get all latest message from the room
 
      * @apiParam {String} RoomID ID of room
-     * @apiParam {String} lastMessageID MessageID of last message already shown. To get last 50 message put this param 0
-     *
-     * @apiSuccess {String} Token
-     * @apiSuccess {String} User Model of loginned user
+     * @apiParam {String} lastMessageID MessageID of last message
      *     
      * @apiSuccessExample Success-Response:
 {

@@ -83,6 +83,9 @@ UpdateConversationHandler.prototype.attach = function(router){
                                 
                 form.parse(request, function(err, fields, files) {
                     
+                    console.log("files",files);
+                    console.log("fields",fields);
+                    
                     // search user
                     
                     result.requestParams = {file:files.file,fields:fields};

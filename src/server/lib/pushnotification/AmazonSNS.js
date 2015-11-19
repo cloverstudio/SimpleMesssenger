@@ -30,9 +30,7 @@ var AmazonSNS = {
                 && user.device.deviceType == Const.deviceIOS){
                     
                     console.log("find ios user",user);
-                    
-                    iOSUsers.push(user);
-                    
+                                        
                     var payloadToSend = {
                         default : message + " by " + user.telNumber,
                         APNS : {
@@ -135,9 +133,7 @@ var AmazonSNS = {
                 payload.APNS_SANDBOX = JSON.stringify(payload.APNS);
                 // then have to stringify the entire message payload
                 payload = JSON.stringify(payload);
-                
-                console.log('sending push ' + payload);
-                
+                                
                 sns.publish({
                 
                     Message: payload,

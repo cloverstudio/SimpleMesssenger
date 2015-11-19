@@ -1,1 +1,15 @@
-define({  "name": "SimpleMessenter",  "version": "0.1.0",  "description": "Simple Messenger API Document",  "title": "Simple Messenger",  "url": "",  "sampleUrl": false,  "apidoc": "0.2.0",  "generator": {    "name": "apidoc",    "time": "2015-11-17T14:49:20.814Z",    "url": "http://apidocjs.com",    "version": "0.13.1"  }});
+define({
+  "name": "SimpleMessenter",
+  "version": "0.1.0",
+  "description": "Simple Messenger API Document",
+  "title": "Simple Messenger",
+  "url": "",
+  "sampleUrl": false,
+  "apidoc": "0.2.0",
+  "generator": {
+    "name": "apidoc",
+    "time": "2015-11-18T10:36:19.419Z",
+    "url": "http://apidocjs.com",
+    "version": "0.13.1"
+  }
+});

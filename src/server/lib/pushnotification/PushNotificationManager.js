@@ -31,9 +31,24 @@ var PushNotificationManager = {
                 if(err)
                     console.log(err);
                 else{
-                                
+                    
+                    console.log("message",message);
+                    
+                    // create payload
+                    var payload = {
+                    
+                        message : {
+                            userID:message.userID,
+                            roomID:message.roomID,
+                            message:message.message,
+                            type:message.type,
+                            created:message.created
+                            
+                        }
+                    }
+                    
                     UserModel.getUsersById(result.users,function(usersResult){
-                        self.send(usersResult,message.message,{message:message});
+                        self.send(usersResult,message.message,payload);
                     })
                     
                 }
