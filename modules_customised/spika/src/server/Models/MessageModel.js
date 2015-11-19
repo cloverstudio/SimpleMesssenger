@@ -105,14 +105,17 @@ MessageModel.prototype.findAllMessages = function(roomID,lastMessageID,callBack)
     this.model.findOne({ _id: lastMessageID },function (err, message) {
 
         if (err) callBack(err,null)
-        if(!message) callBack("invalid message id",null)
         
-        var lastCreated = message.created;
+        var query = {
+            roomID:roomID
+        };
         
-        var query = self.model.find({
-            roomID:roomID,
-            created:{$gt:lastCreated}
-        }).sort({'created': 'desc'});        
+        if(message) {
+            var lastCreated = message.created;
+            query.created = {$gt:lastCreated};
+        }        
+        
+        var query = self.model.find(query).sort({'created': 'desc'});        
         
         query.exec(function(err,data){
             
