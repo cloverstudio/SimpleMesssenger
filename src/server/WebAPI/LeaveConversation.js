@@ -17,7 +17,7 @@ LeaveConversation.prototype.attach = function(router){
     var self = this;
 
    /**
-     * @api {get} /api/v1/conversation/leave/[conversationid] Leave from conversation
+     * @api {post} /api/v1/conversation/leave/[conversationid] Leave from conversation
      * @apiName Leave from conversation
      * @apiGroup WebAPI
      * @apiHeader {String} Access-Token Users unique access-token.

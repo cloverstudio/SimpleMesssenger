@@ -99,16 +99,29 @@ MessageModel.prototype.findMessagebyId = function(id,callBack){
 }
 
 MessageModel.prototype.findAllMessages = function(roomID,lastMessageID,callBack){
-        
-    var query = this.model.find({roomID:roomID}).sort({'created': 'desc'});        
 
-    query.exec(function(err,data){
-        
+    this.model.findOne({ _id: lastMessageID },function (err, message) {
+
         if (err) return console.error(err);
         
-        if(callBack)
-            callBack(err,data)
+        var lastCreated = message.created;
         
+        var query = self.model.find({
+            roomID:roomID,
+            created:{$gt:lastCreated}
+        }).sort({'created': 'desc'});        
+        
+        query.exec(function(err,data){
+            
+            if (err)
+                console.error(err);
+            
+            if(callBack)
+                callBack(err,data)
+            
+        });                
+            
+    
     });
 
 }

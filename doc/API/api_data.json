@@ -214,7 +214,7 @@
     "groupTitle": "WebAPI"
   },
   {
-    "type": "get",
+    "type": "post",
     "url": "/api/v1/conversation/leave/[conversationid]",
     "title": "Leave from conversation",
     "name": "Leave_from_conversation",
