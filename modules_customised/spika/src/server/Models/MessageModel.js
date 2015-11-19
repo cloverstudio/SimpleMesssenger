@@ -100,6 +100,8 @@ MessageModel.prototype.findMessagebyId = function(id,callBack){
 
 MessageModel.prototype.findAllMessages = function(roomID,lastMessageID,callBack){
 
+    var self = this;
+
     this.model.findOne({ _id: lastMessageID },function (err, message) {
 
         if (err) return console.error(err);
