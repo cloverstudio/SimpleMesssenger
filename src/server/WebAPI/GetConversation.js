@@ -24,48 +24,47 @@ ConversationList.prototype.attach = function(router){
      * @apiDescription get conversation detail
 
      * @apiSuccessExample Success-Response:
-            {
-                success: 1,
-                data: {
-                    ok: true,
-                    conversations: [
-                        {
-                            _id: '563a0e21124f146beadd00a5',
-                            owner: '563a0e20124f146beadd00a2',
-                            name: 'testm6PO1,thename...',
-                            created: 1446645281205,
-                            __v: 0,
-                            avatar: {
-                                file: 'Ry2TshrAK9BnDUV3kXiA4r1ZxVJzhZP2',
-                                thumb: 'Ry2TshrAK9BnDUV3kXiA4r1ZxVJzhZP2'
-                            },
-                            users: [
-                                '563a0e20124f146beadd00a2',
-                                '563a0e20124f146beadd009f',
-                                '563a0e20124f146beadd00a0',
-                                '563a0e20124f146beadd00a1'
-                            ]
-                        },
-                        {
-                            _id: '563a0e21124f146beadd00a7',
-                            owner: '563a0e20124f146beadd00a2',
-                            name: 'testm6PO1,thename...',
-                            created: 1446645281275,
-                            __v: 0,
-                            avatar: {
-                                file: 'yNolWLu7sewJFyPaYSic5685GdW0OdB1',
-                                thumb: 'yNolWLu7sewJFyPaYSic5685GdW0OdB1'
-                            },
-                            users: [
-                                '563a0e20124f146beadd00a2',
-                                '563a0e20124f146beadd009f',
-                                '563a0e20124f146beadd00a0'
-                            ]
-                        },
-                        ....
-                    ]
+
+{
+    "success": 1,
+    "data": {
+        "ok": true,
+        "conversation": {
+            "_id": "564d7c593e84a5407599ce80",
+            "owner": "5638c0a71b659fc060941d87",
+            "name": "KenYasue,paw",
+            "created": 1447918681714,
+            "__v": 0,
+            "lastMessage": {
+                "created": 1447918689029,
+                "type": 1,
+                "message": "10",
+                "conversationID": "564d7c593e84a5407599ce80",
+                "roomID": "564d7c593e84a5407599ce80",
+                "userID": "5638c0a71b659fc060941d87",
+                "_id": "564d7c613e84a5407599ce8b"
+            },
+            "avatar": {
+                "file": "",
+                "thumb": ""
+            },
+            "users": [
+                {
+                    "_id": "5638c0a71b659fc060941d87",
+                    "username": "kenyasue",
+                    "displayName": "KenYasue"
+                },
+                {
+                    "_id": "564d7c013e84a5407599ce7f",
+                    "username": "",
+                    "telNumber": "385989503635",
+                    "displayName": "paw"
                 }
-            }    
+            ]
+        }
+    }
+}
+
     */
     
     router.get('/:conversationid',authenticator,function(request,response){
@@ -78,12 +77,21 @@ ConversationList.prototype.attach = function(router){
         },function(err,result){
             
             if(result){
-            
-                self.successResponse(response,{
-                    ok: true,
-                    conversation: result.toJSON()
-                });
                 
+                result = result.toObject();
+                
+                // populate with users
+                UserModel.getUsersByIdForResponse(result.users,function(resultUsers){
+                                    
+                    result.users = resultUsers;
+                
+                    self.successResponse(response,{
+                        ok: true,
+                        conversation: result
+                    });
+                                             
+                });
+            
             } else {
                 
                 self.successResponse(response,{

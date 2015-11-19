@@ -104,7 +104,8 @@ MessageModel.prototype.findAllMessages = function(roomID,lastMessageID,callBack)
 
     this.model.findOne({ _id: lastMessageID },function (err, message) {
 
-        if (err) return console.error(err);
+        if (err) callBack(err,null)
+        if(!message) callBack("invalid message id",null)
         
         var lastCreated = message.created;
         

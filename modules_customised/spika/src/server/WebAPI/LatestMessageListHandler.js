@@ -27,82 +27,74 @@ _.extend(LatestMessageListHandler.prototype,RequestHandlerBase.prototype);
 LatestMessageListHandler.prototype.attach = function(router){
         
     var self = this;
-
+    
     /**
-     * @api {get} /message/list/latest/:roomID/:lastMessageID Get all latest messages
-     * @apiName Get all latest messages
+     * @api {get} /message/latest/:roomID/:lastMessageID Get all latest messages
+     * @apiName Get all latest messages of the room
      * @apiGroup WebAPI
      * @apiDescription Get all latest message from the room
 
      * @apiParam {String} RoomID ID of room
-     * @apiParam {String} lastMessageID MessageID of last message
+     * @apiParam {String} lastMessageID MessageID of last message already shown. To get last 50 message put this param 0
+     *
+     * @apiSuccess {String} Token
+     * @apiSuccess {String} User Model of loginned user
      *     
      * @apiSuccessExample Success-Response:
 {
-
-{
     "success": 1,
-    "result": [
-        {
-            "__v": 0,
-            "_id": "55d2d194caf997b543836fc8",
-            "created": 1439879572232,
-            "message": "",
-            "roomID": "test",
-            "type": 1001,
-            "user": {
-                "userID": "test",
-                "name": "test",
-                "avatarURL": "http://45.55.81.215:80/img/noavatar.png",
-                "token": "UI6yHxeyZnXOZ1EgT6g5ftwD",
-                "created": 1439878817506,
-                "_id": "55d2cea1caf997b543836fb2",
-                "__v": 0
-            },
-            "userID": "test",
-            "seenBy": [
-                {
-                    "user": {
-                        "userID": "test2",
-                        "name": "test2",
-                        "avatarURL": "http://45.55.81.215:80/img/noavatar.png",
-                        "token": "YMsHeg3KEQIhtvt46W5fgnaf",
-                        "created": 1439878824411,
-                        "_id": "55d2cea8caf997b543836fb6",
-                        "__v": 0
-                    },
-                    "at": 1439879572353
+    "result": {
+        "messages": [
+            {
+                "_id": "564d7c613e84a5407599ce8b",
+                "user": {
+                    "_id": "564b1f0c6d8463e192831fe4",
+                    "userID": "5638c0a71b659fc060941d87",
+                    "name": "KenYasue",
+                    "avatarURL": "/spika/img/noavatar.png",
+                    "token": "j4vSCqcIednY5y4g3wmMJuk6",
+                    "created": 1447763724451,
+                    "__v": 0
                 },
-                {
-                    "user": {
-                        "userID": "test3",
-                        "name": "tset3",
-                        "avatarURL": "http://45.55.81.215:80/img/noavatar.png",
-                        "token": "TahnOaC6JzldCh6gAmJs3jMC",
-                        "created": 1439878820142,
-                        "_id": "55d2cea4caf997b543836fb4",
-                        "__v": 0
-                    },
-                    "at": 1439879572361
-                }
-            ]
-        },
-        ...
-    ]
+                "userID": "5638c0a71b659fc060941d87",
+                "roomID": "564d7c593e84a5407599ce80",
+                "message": "10",
+                "localID": "_NNq1fIRx938rNcISLd8MGYW063RcA94X",
+                "type": 1,
+                "created": 1447918689029,
+                "__v": 0,
+                "seenBy": []
+            },
+            {
+                "_id": "564d7c5e3e84a5407599ce8a",
+                "user": {
+                    "_id": "564b1f0c6d8463e192831fe4",
+                    "userID": "5638c0a71b659fc060941d87",
+                    "name": "KenYasue",
+                    "avatarURL": "/spika/img/noavatar.png",
+                    "token": "j4vSCqcIednY5y4g3wmMJuk6",
+                    "created": 1447763724451,
+                    "__v": 0
+                },
+                "userID": "5638c0a71b659fc060941d87",
+                "roomID": "564d7c593e84a5407599ce80",
+                "message": "98",
+                "localID": "_d9mEiYGCrGLRubjIfaHAAWtPUtO1eMBl",
+                "type": 1,
+                "created": 1447918686869,
+                "__v": 0,
+                "seenBy": []
+            }
+        ]
+    }
 }
-
     */
     
     router.get('/:roomID/:lastMessageID',function(request,response){
         
         var roomID = request.params.roomID;
         var lastMessageID = request.params.lastMessageID;
-        
-        console.log("params",request.params);
-        console.log("lastMessageID",lastMessageID);
-        console.log("-----------------------------------");
-        return;
-        
+                
         if(Utils.isEmpty(lastMessageID)){
             
             self.errorResponse(
@@ -163,7 +155,11 @@ LatestMessageListHandler.prototype.attach = function(router){
                         true
                     );
                 }else{
-                    self.successResponse(response,result);
+                    
+                    var responseJson = {
+                        messages : result
+                    }
+                    self.successResponse(response,responseJson);
                 }
                      
             }
