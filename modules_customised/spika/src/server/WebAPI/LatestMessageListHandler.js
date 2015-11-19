@@ -27,9 +27,9 @@ _.extend(LatestMessageListHandler.prototype,RequestHandlerBase.prototype);
 LatestMessageListHandler.prototype.attach = function(router){
         
     var self = this;
-
+    
     /**
-     * @api {get} /message/list/latest/:roomID/:lastMessageID Get all latest messages
+     * @api {get} /message/latest/:roomID/:lastMessageID Get all latest messages
      * @apiName Get all latest messages of the room
      * @apiGroup WebAPI
      * @apiDescription Get all latest message from the room
@@ -100,12 +100,7 @@ LatestMessageListHandler.prototype.attach = function(router){
         
         var roomID = request.params.roomID;
         var lastMessageID = request.params.lastMessageID;
-        
-        console.log("params",request.params);
-        console.log("lastMessageID",lastMessageID);
-        console.log("-----------------------------------");
-        return;
-        
+                
         if(Utils.isEmpty(lastMessageID)){
             
             self.errorResponse(
@@ -166,7 +161,11 @@ LatestMessageListHandler.prototype.attach = function(router){
                         true
                     );
                 }else{
-                    self.successResponse(response,result);
+                    
+                    var responseJson = {
+                        messages : result
+                    }
+                    self.successResponse(response,responseJson);
                 }
                      
             }
