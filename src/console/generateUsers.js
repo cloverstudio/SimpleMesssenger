@@ -77,7 +77,11 @@ DatabaseManager.init(function(success){
                                         },
                                         created: Utils.now()          
                                     });
-                                                                    
+
+                                console.log(model.save);
+                                console.log(model);
+
+                          
                                     model.save(function(err,modelSaved){
                                                                             
                                         if(err)

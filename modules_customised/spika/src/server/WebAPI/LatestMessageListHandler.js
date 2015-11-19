@@ -92,83 +92,104 @@ LatestMessageListHandler.prototype.attach = function(router){
     
     router.get('/:roomID/:lastMessageID',function(request,response){
         
-        var roomID = request.params.roomID;
-        var lastMessageID = request.params.lastMessageID;
-                
-        if(Utils.isEmpty(lastMessageID)){
+        self.logic(request,response,function(err,result){
             
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify lastMessageID."),
-                false
-            );
-        
-            return;
-            
-        }
-
-        if(Utils.isEmpty(roomID)){
-            
-            self.errorResponse(
-                response,
-                Const.httpCodeSucceed,
-                Const.responsecodeParamError,
-                Utils.localizeString("Please specify roomID."),
-                false
-            );
-        
-            return;
-            
-        }
-        
-        async.waterfall([
-        
-            function (done) {
-
-                MessageModel.findAllMessages(roomID,lastMessageID,function (err,data) {
-                    
-                    done(err,data);
-
-                });
-                
-            },
-            function (messages,done) {
-
-                MessageModel.populateMessages(messages,function (err,data) {
-                    
-                    done(err,data);
-
-                });
-                
+            if(err){
+                self.errorResponse(
+                    response,
+                    Const.httpCodeSucceed,
+                    Const.responsecodeParamError,
+                    err,
+                    false
+                );
+            }else{
+                self.successResponse(response,result);
             }
-        ],
-            function (err, result) {
-                
-                if(err){
-                    self.errorResponse(
-                        response,
-                        Const.httpCodeSucceed,
-                        Const.responsecodeParamError,
-                        Utils.localizeString(err),
-                        true
-                    );
-                }else{
-                    
-                    var responseJson = {
-                        messages : result
-                    }
-                    self.successResponse(response,responseJson);
-                }
-                     
-            }
-        );
+            
+        });
         
     });
     
 
 }
 
-new LatestMessageListHandler().attach(router);
-module["exports"] = router;
+LatestMessageListHandler.prototype.logic = function(request,response,callBack){
+    
+    var self = this;
+    
+    
+    var roomID = request.params.roomID;
+    var lastMessageID = request.params.lastMessageID;
+            
+    if(Utils.isEmpty(lastMessageID)){
+        
+        callBack(Utils.localizeString("Please specify lastMessageID."),null);
+    
+        return;
+        
+    }
+
+    if(Utils.isEmpty(roomID)){
+        
+        callBack(Utils.localizeString("Please specify roomID."),null);
+
+        return;
+        
+    }
+    
+    async.waterfall([
+    
+        function (done) {
+
+            MessageModel.findAllMessages(roomID,lastMessageID,function (err,data) {
+                
+                done(err,data);
+
+            });
+            
+        },
+        function (messages,done) {
+
+            MessageModel.populateMessages(messages,function (err,data) {
+                
+                done(err,data);
+
+            });
+            
+        }
+    ],
+        function (err, result) {
+            
+            if(err){
+                self.errorResponse(
+                    response,
+                    Const.httpCodeSucceed,
+                    Const.responsecodeParamError,
+                    Utils.localizeString(err),
+                    true
+                );
+                
+                callBack(err,null);
+                
+            }else{
+                
+                var responseJson = {
+                    messages : result
+                }
+                
+                callBack(null,responseJson);
+
+            }
+                 
+        }
+    );
+
+}
+
+var handler = new LatestMessageListHandler();
+handler.attach(router);
+
+module["exports"] = {
+    handler: handler,
+    router: router
+};

@@ -77,7 +77,7 @@ MessageModel.prototype.init = function(){
         }
 
     }
-
+    
     this.model = mongoose.model(Settings.options.dbCollectionPrefix + "messages", messageSchema);
     return this.model;
         

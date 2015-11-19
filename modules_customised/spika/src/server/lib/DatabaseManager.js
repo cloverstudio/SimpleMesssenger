@@ -19,12 +19,13 @@ var DatabaseManager = {
 	        
 	        mongoose.connect(options.chatDatabaseUrl, function(err){
 
-	          if (err) {
+
+	          //if (err) {
 		          
-	            console.log("Failed to connect MongoDB!");
-	            console.error(err);
+	          //  console.log("Failed to connect MongoDB!");
+	          //  console.error(err);
 	            
-	          } else {
+	          //} else {
 		        
 		        // Defining a schema
 
@@ -35,7 +36,7 @@ var DatabaseManager = {
 		        self.fileModel = require('../Models/FileModel').init();
 				
 		
-	          }
+	          //}
 	        });
 	
         } catch(ex){
