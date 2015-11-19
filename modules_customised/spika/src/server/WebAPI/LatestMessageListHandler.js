@@ -97,7 +97,12 @@ LatestMessageListHandler.prototype.attach = function(router){
         
         var roomID = request.params.roomID;
         var lastMessageID = request.params.lastMessageID;
-
+        
+        console.log("params",request.params);
+        console.log("lastMessageID",lastMessageID);
+        console.log("-----------------------------------");
+        return;
+        
         if(Utils.isEmpty(lastMessageID)){
             
             self.errorResponse(
