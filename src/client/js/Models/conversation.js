@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 (function(global) {
     "use strict;"
- 
+  
     // Class ------------------------------------------------
     var ConversationModel = Backbone.Model.extend({
     
