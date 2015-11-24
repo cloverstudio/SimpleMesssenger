@@ -17,7 +17,8 @@ var DatabaseManager = {
         
         try{
 	        
-	        //mongoose.createConnection(options.chatDatabaseUrl, function(err){
+	        mongoose.connect(options.chatDatabaseUrl, function(err){
+
 
 	          //if (err) {
 		          
@@ -36,7 +37,7 @@ var DatabaseManager = {
 				
 		
 	          //}
-	        //});
+	        });
 	
         } catch(ex){
 	        

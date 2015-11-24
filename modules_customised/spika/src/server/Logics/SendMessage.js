@@ -58,7 +58,6 @@ var SendMessage = {
                 objMessage.location = param.location;
 
             }
-
             
             // save to database
             var newMessage = new DatabaseManager.messageModel(objMessage);
@@ -66,7 +65,6 @@ var SendMessage = {
             newMessage.save(function(err,message){
 
                 if(err) throw err;
-
 
                 MessageModel.populateMessages(message,function (err,data) {
                                         
