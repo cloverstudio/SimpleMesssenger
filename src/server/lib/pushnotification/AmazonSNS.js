@@ -19,6 +19,7 @@ var AmazonSNS = {
             region: Conf.pushnotification.config.apiRegion
         });
         
+        var message = self.generateMessage(users,payload);
         
         var iOSUsers = [];
         var AndroidUsers = [];
@@ -29,13 +30,12 @@ var AmazonSNS = {
                 && !_.isEmpty(user.device.deviceType)
                 && user.device.deviceType == Const.deviceIOS){
                     
-                    console.log("find ios user",user);
                                         
                     var payloadToSend = {
-                        default : message + " by " + user.telNumber,
+                        default : self.generateMessage(users,payload),
                         APNS : {
                             aps : {
-                                alert: message + " by " + user.telNumber,
+                                alert: self.generateMessage(users,payload),
                                 sound: 'push_notification.mp3',
                                 badge: null,
                                 category: "MESSAGE_TYPE"
@@ -200,6 +200,72 @@ var AmazonSNS = {
                 });
                 
         });
+        
+    },
+    
+    generateMessage : function(users,payload){
+        
+        console.log("users",users);
+        console.log("messege",payload);
+        
+        var type = payload.message.type;
+        var userFrom = null;
+        
+        _.forEach(users,function(user){
+            
+            if(user._id.toString() == payload.message.userID ||
+                user.telNumber == payload.message.userID){
+                
+                userFrom = user;
+                
+            } 
+            
+        });
+        
+        if(!userFrom)
+            return payload.message;
+        
+        var fromName = userFrom.temNumber;
+        if(!_.isEmpty(userFrom.displayName))
+            fromName = userFrom.displayName;
+         
+        if(type == Const.messageTypeText){
+            
+           return fromName + ": " + payload.message.message;
+            
+        }
+
+        if(type == Const.messageTypeImage){
+            
+           return fromName + " has sent you a photo";
+            
+        }
+        if(type == Const.messageTypeVideo){
+            
+           return fromName + " has sent you a video";
+            
+        }
+        if(type == Const.messageTypeStickers){
+            
+           return fromName + " has sent you a sticker";
+            
+        }
+        if(type == Const.messageTypeSound){
+            
+           return fromName + " has sent you a voice message";
+            
+        }
+        if(type == Const.messageTypeFile){
+            
+           return fromName + " has shared a file";
+            
+        }
+        if(type == Const.messageTypeLocation){
+            
+           return fromName + " has shared a location";
+            
+        }
+
         
     }
     

@@ -110,7 +110,6 @@ var SpikaBridge = {
     },
     OnUserEnterChat: function(obj){
         
-        console.log("enter chat",obj);
         UnreadMessageModel.clearCountByuserIdConversationId(obj.userID,obj.roomID);
         
     },

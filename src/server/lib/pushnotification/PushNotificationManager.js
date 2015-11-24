@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var async = require('async');
 
 var Const = require('../consts.js');
 var Conf = require('../init.js');
@@ -20,41 +21,58 @@ var PushNotificationManager = {
         var self = this;
         
         if(message.roomID){
-    
-            conversationModel.findOne({
-                _id: message.roomID
-            },function(err,result){
-                
-                if(!result)
-                    return;
+
+        
+            async.waterfall([
+                function(done){
                     
-                if(err)
-                    console.log(err);
-                else{
+                    var result = {};
                     
-                    console.log("message",message);
-                    
-                    // create payload
-                    var payload = {
-                    
-                        message : {
-                            userID:message.userID,
-                            roomID:message.roomID,
-                            message:message.message,
-                            type:message.type,
-                            created:message.created
-                            
-                        }
-                    }
-                    
-                    UserModel.getUsersById(result.users,function(usersResult){
-                        self.send(usersResult,message.message,payload);
+                    conversationModel.findOne({
+                        _id: message.roomID
+                    },function(err,resultConversation){
+
+                        if(!result)
+                            return;
+                                                  
+                        result.conversation = resultConversation;
+                        
+                        done(err,result);
+                        
+                    });
+
+                },
+                function(result,done){
+ 
+                    UserModel.getUsersById(result.conversation.users,function(usersResult){
+                        
+                        result.users = usersResult;
+                        
+                        done(null,result);
+
                     })
                     
                 }
+            ],
+            function(err,result){
+
+                var payload = {
+                
+                    message : {
+                        userID:message.userID,
+                        roomID:message.roomID,
+                        message:message.message,
+                        type:message.type,
+                        created:message.created
+                        
+                    }
+                    
+                }
+                
+                self.send(result.users,message.message,payload);
                 
             });
-                        
+        
         }
         
     },

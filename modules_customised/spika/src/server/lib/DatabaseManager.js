@@ -16,28 +16,31 @@ var DatabaseManager = {
         console.log("Connecting mongoDB " + options.chatDatabaseUrl);
         
         try{
-	        
-	        mongoose.connect(options.chatDatabaseUrl, function(err){
+            
+            if(!mongoose.connection.readyState){
+    
+                mongoose.connect(options.chatDatabaseUrl, function(err){
 
+                    if (err) {
+                        
+                        console.log("Failed to connect MongoDB!");
+                        console.error(err);
+                        
+                    } else {
+                        
+                        // Defining a schema
+                        self.setupSchema();
+                        
+                    }
+                });
+                
+            } else {
 
-	          //if (err) {
-		          
-	          //  console.log("Failed to connect MongoDB!");
-	          //  console.error(err);
-	            
-	          //} else {
-		        
-		        // Defining a schema
+                // Defining a schema
+                self.setupSchema();
+                        
+            }
 
-		        
-
-                self.messageModel = require('../Models/MessageModel').init();
-		        self.userModel = require('../Models/UserModel').init();
-		        self.fileModel = require('../Models/FileModel').init();
-				
-		
-	          //}
-	        });
 	
         } catch(ex){
 	        
@@ -47,8 +50,15 @@ var DatabaseManager = {
 	        
         }
 
-    }
+    },
     
+    setupSchema : function(){
+        
+        this.messageModel = require('../Models/MessageModel').init();
+        this.userModel = require('../Models/UserModel').init();
+        this.fileModel = require('../Models/FileModel').init();
+        
+    }
 }
 
 module["exports"] = DatabaseManager;

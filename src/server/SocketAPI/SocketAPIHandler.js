@@ -34,7 +34,6 @@ var SocketAPIHandler = {
         
         if(sessionId){
             this.nsp.to(sessionId).emit(command,param);
-            console.log('emit to user',sessionId);
         }
         
 

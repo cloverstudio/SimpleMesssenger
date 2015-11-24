@@ -232,7 +232,6 @@ RemoveFromConversation.prototype.attach = function(router){
                 result.conversation = result.conversation.toObject();                                
                 result.conversation.users = resultUsers;
 
-                console.log("response",resultUsers);
                 
                 self.successResponse(response,{
                     ok: true,

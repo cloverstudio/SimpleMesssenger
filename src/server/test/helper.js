@@ -104,7 +104,7 @@ before(function(done){
                             .set('Access-Token', token)
                     		.expect(200) 
                     		.field('displayName', global.username2 + " thename")
-                            .attach('file', 'test/samplefiles/user2.jpg')
+                            .attach('file', 'src/server/test/samplefiles/user2.jpg')
                             .end(function (err, res) {
             
                 			if (err) {
@@ -154,7 +154,7 @@ before(function(done){
                             .set('Access-Token', token)
                     		.expect(200) 
                     		.field('displayName', global.username3 + " thename")
-                            .attach('file', 'test/samplefiles/user3.png')
+                            .attach('file', 'src/server/test/samplefiles/user3.png')
                             .end(function (err, res) {
             
                 			if (err) {
@@ -204,7 +204,7 @@ before(function(done){
                             .set('Access-Token', token)
                     		.expect(200) 
                     		.field('displayName', global.username4 + " thename")
-                            .attach('file', 'test/samplefiles/user4.png')
+                            .attach('file', 'src/server/test/samplefiles/user4.png')
                             .end(function (err, res) {
             
                 			if (err) {

@@ -22,6 +22,14 @@
     Const.emitCommandNewMessage = 'newmessage';
     Const.emitCommandRemoveFromConversation = 'removefromconversation';
     
+    Const.messageTypeText = 1;
+    Const.messageTypeImage = 2;
+    Const.messageTypeVideo = 3;
+    Const.messageTypeStickers = 4;
+    Const.messageTypeSound = 5;
+    Const.messageTypeFile = 6;
+    Const.messageTypeLocation = 7;
+    Const.messageTypeSMS = 8;
     
     // Exports ----------------------------------------------
     module["exports"] = Const;

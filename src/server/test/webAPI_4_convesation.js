@@ -486,7 +486,7 @@ describe('WEB Conversation', function () {
 	                    .expect(200)
 	                    .set('Access-Token', token)
 	            		.field('name', 'test')
-	                    .attach('file', 'test/samplefiles/max.jpg')
+	                    .attach('file', 'src/server/test/samplefiles/max.jpg')
 	                    .end(function (err, res) {
 	
 	                    if (err) {

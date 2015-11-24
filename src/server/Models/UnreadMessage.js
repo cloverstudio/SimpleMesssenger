@@ -61,14 +61,12 @@ UnreadMessage.clearCountByuserIdConversationId = function(userId,conversationId,
     
     } else {
         
-        console.log(" on enter chat user 1", userId);
 
         UserModel.get().findOne({telNumber:userId},function(err,result){
             
             if(!result)
                 return;
             
-            console.log(" on enter chat user 2", result);
             
             unreadCountModel.update(
                 {

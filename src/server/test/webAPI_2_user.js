@@ -427,7 +427,7 @@ describe('WEB User', function () {
                     .set('Access-Token', token)
             		.expect(200) 
             		.field('displayName', 'test')
-                    .attach('file', 'test/samplefiles/max.jpg')
+                    .attach('file', 'src/server/test/samplefiles/max.jpg')
                     .end(function (err, res) {
     
         			if (err) {
@@ -484,7 +484,7 @@ describe('WEB User', function () {
                     .set('Access-Token', token)
             		.expect(200) 
             		.field('displayName', '')
-                    .attach('file', 'test/samplefiles/max.jpg')
+                    .attach('file', 'src/server/test/samplefiles/max.jpg')
                     .end(function (err, res) {
     
         			if (err) {
@@ -515,7 +515,7 @@ describe('WEB User', function () {
                     .set('Access-Token', token)
             		.expect(200) 
             		.field('displayName', 'test')
-                    .attach('file', 'test/samplefiles/test.text')
+                    .attach('file', 'src/server/test/samplefiles/test.text')
                     .end(function (err, res) {
     
         			if (err) {

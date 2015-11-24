@@ -11,7 +11,9 @@ var browserify = require('browserify'),
     sourceCSS = 'src/client/css/',
     hbsfy = require("hbsfy"),
     apidoc = require('gulp-apidoc'),
-    destCSS = 'public/css/';
+    destCSS = 'public/css/',
+    mocha = require('gulp-mocha'),
+    exit = require('gulp-exit');
     
 var props = {
     entries: sourceFile,
@@ -82,6 +84,20 @@ gulp.task('build-dist',['build-apidoc','copy','browserify-build','build-css'],fu
     
     
 });
+
+
+// tests
+gulp.task('spika-test', function (done) {
+    return gulp.src('modules_customised/spika/src/server/test/**/*.js', { read: false })
+    .pipe(mocha({ reporter: 'spec' }));
+});
+
+gulp.task('server-test',['spika-test'], function (done) {
+    return gulp.src('src/server/test/**/*.js', { read: false })
+    .pipe(mocha({ reporter: 'spec' }))
+    .pipe(exit());
+});
+
 
 gulp.task('default',['build-dist'],function(){
     

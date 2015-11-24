@@ -68,7 +68,6 @@ var SelectUserBox = Backbone.View.extend({
                 
         $(this.parentElement + " #select-user-box-input").unbind().on('keyup',function(e){
             
-            console.log('sss');
             
             var keyword = $(this).val();
 

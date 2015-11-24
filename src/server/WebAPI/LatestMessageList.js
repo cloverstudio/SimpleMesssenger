@@ -7,10 +7,13 @@ var Const = require("../lib/consts");
 var Utils = require('../lib/utils');
 
 var RequestHandlerBase = require('./RequestHandlerBase');
+var authenticator = require("./middleware/auth");
+
+var DatabaseManager = require('../lib/DatabaseManager');
 var UserModel = require('../Models/User');
 var LogDeleteMessageModel = require('../Models/LogDeleteMessage');
 var ConversationModel = require('../Models/Conversation');
-var authenticator = require("./middleware/auth");
+
 
 var SocketAPIHandler = require('../SocketAPI/SocketAPIHandler');
 var SpikaBridge = require('../lib/SpikaBridge');
@@ -90,41 +93,96 @@ LatestMessageList.prototype.attach = function(router){
     
     router.get('/:roomID/:lastMessageID',authenticator,function(request,response){
         
-        console.log("lastMessageID",request.params);
         
         var Handler = require('../../../modules_customised/spika/src/server/WebAPI/LatestMessageListHandler').handler;
-        var SpikaResnponse = Handler.logic(request,response,function(err,result){
-                                
+        var conversationModel = ConversationModel.get();
+        var SpikaResnponse = Handler.logic(request,response,function(err,resultSpikaResponse){
+                        
             if(err){
                 
                 self.errorResponse(response,Const.httpCodeServerError);
                 
             }else{
                 
-                // get last deleted message
-                var logModel = LogDeleteMessageModel.get();
-        
-                var query = logModel.find({
-                    conversationId:request.params.roomID
-                }).sort({'created': 'desc'});        
-                
-                query.exec(function(err,data){
+                async.waterfall([
+                    function(done){
+                        
+                        var result = {};
+                        
+                        // get conversation
+                        conversationModel.findOne({_id:request.params.roomID},function(err,findConversationResult){
+                        
+                            if(err){
+                                done(err,null);
+                                return;
+                            }
+                            
+                            if(!findConversationResult){
+                                done("invalid converstaion",null);
+                                return;
+                            }
+                            
+                            result.conversation = findConversationResult.toObject();
+                            
+                            done(null,result);
+                            
+                        });
+                        
+                    },
+                    function(result,done){
+                        
+                        // count 
+                        var usersCount = result.conversation.users.length - 1;
+                        
+                        // search last message with the count
+                        var spikaMessageModel = DatabaseManager.getModel("Spika/Message").model;
+                        
+                        var query = spikaMessageModel.find({
+                            roomID:request.params.roomID,
+                            "seenBy":{$exists: true, $gt: {$size: usersCount}}
+                        }).sort({'created': 'desc'});        
+                        
+                        query.exec(function(err,data){
+                            
+                            
+                            
+                            if(err){
+                                done(err,null);
+                                return;
+                            }
+                            
+                            if(data.length > 0){
+                                result.lastMessage = data[0];                            
+                            }else{
+                                result.lastMessage =null;
+                            }
+                            
+                            done(err,result);
+                            
+                        });   
                     
-                    console.log("lastMessageID query result",data);
-
+                    }
+                ],
+                function(err,result){
+                    
+                    if(err){
+                        self.errorResponse(response,Const.httpCodeServerError);
+                        return;
+                    }
 
                     var lastDeletedMessageId = null;
-                    if(data.length > 0){
-                        lastDeletedMessageId = data[0]._id;
+                    if(result.lastMessage){
+                        lastDeletedMessageId = result.lastMessage._id;
                     }
                     
                     self.successResponse(response,{
                         ok: true,
                         lastDeletedMessageId:lastDeletedMessageId,
-                        messages: result.messages
+                        messages: resultSpikaResponse.messages
                     });
                     
-                });   
+                    
+                }); 
                 
             }
                         

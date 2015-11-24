@@ -42,7 +42,8 @@
     "watchify": "latest",
     "should": "^7.1.0",
     "supertest": "^1.1.0",
-    "gulp-apidoc": "^0.2.0"
+    "gulp-apidoc": "^0.2.0",
+    "gulp-mocha": "^2.2.0"
   },
   "scripts": {
     "build-js": "browserify src/client/js/main.js > public/js/bundle.js -d",

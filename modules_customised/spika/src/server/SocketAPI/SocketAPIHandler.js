@@ -29,7 +29,6 @@ var SocketAPIHandler = {
             require('./OpenMessageActionHandler').attach(io,socket);
             require('./DeleteMessageActionHandler').attach(io,socket);
             
-            console.log("user connected",socket.id);
         });
 
     }

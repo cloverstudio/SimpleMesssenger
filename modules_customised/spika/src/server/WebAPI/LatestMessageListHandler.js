@@ -161,13 +161,7 @@ LatestMessageListHandler.prototype.logic = function(request,response,callBack){
         function (err, result) {
             
             if(err){
-                self.errorResponse(
-                    response,
-                    Const.httpCodeSucceed,
-                    Const.responsecodeParamError,
-                    Utils.localizeString(err),
-                    true
-                );
+
                 
                 callBack(err,null);
                 
