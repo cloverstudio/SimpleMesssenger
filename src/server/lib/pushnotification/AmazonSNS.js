@@ -36,7 +36,7 @@ var AmazonSNS = {
                         APNS : {
                             aps : {
                                 alert: message + " by " + user.telNumber,
-                                sound: 'default',
+                                sound: 'push_notification.mp3',
                                 badge: null,
                                 category: "MESSAGE_TYPE"
                             },
@@ -57,7 +57,10 @@ var AmazonSNS = {
                     var payloadToSend = {
                         default : message,
                         message : message,
-                        data : payload
+                        GCM : {
+                            data : payload
+                        }
+                        
                     };
                     
                     self.sendGCM(user.device.pushToken,payloadToSend);                    
@@ -126,14 +129,19 @@ var AmazonSNS = {
                     console.log(err.stack);
                     return;
                 }
-                
+
+
                 var endpointArn = data.EndpointArn;
 
                 // first have to stringify the inner APNS object...
                 payload.APNS_SANDBOX = JSON.stringify(payload.APNS);
+                payload.APNS = null;
                 // then have to stringify the entire message payload
                 payload = JSON.stringify(payload);
-                                
+
+                console.log('sending dev push ' + payload);
+                console.log('endpointArn ' + endpointArn);
+
                 sns.publish({
                 
                     Message: payload,
@@ -171,6 +179,7 @@ var AmazonSNS = {
                 
                 var endpointArn = data.EndpointArn;
 
+                payload.GCM = JSON.stringify(payload.GCM);
                 payload = JSON.stringify(payload);
                                 
                 sns.publish({

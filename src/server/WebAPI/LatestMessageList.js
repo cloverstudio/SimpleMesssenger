@@ -89,7 +89,9 @@ LatestMessageList.prototype.attach = function(router){
     */
     
     router.get('/:roomID/:lastMessageID',authenticator,function(request,response){
-    
+        
+        console.log("lastMessageID",request.params);
+        
         var Handler = require('../../../modules_customised/spika/src/server/WebAPI/LatestMessageListHandler').handler;
         var SpikaResnponse = Handler.logic(request,response,function(err,result){
                                 
@@ -108,6 +110,9 @@ LatestMessageList.prototype.attach = function(router){
                 
                 query.exec(function(err,data){
                     
+                    console.log("lastMessageID query result",data);
+
+
                     var lastDeletedMessageId = null;
                     if(data.length > 0){
                         lastDeletedMessageId = data[0]._id;

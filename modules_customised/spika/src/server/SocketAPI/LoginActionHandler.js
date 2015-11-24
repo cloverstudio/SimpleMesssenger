@@ -28,7 +28,7 @@ LoginActionHandler.prototype.attach = function(io,socket){
      *
      */
     socket.on('login', function(param){
-                     
+                    
         if(Utils.isEmpty(param.userID)){                 
             return;
         }
@@ -50,6 +50,8 @@ LoginActionHandler.prototype.attach = function(io,socket){
                 console.log(param);
                 console.log(3);
             }
+            
+            console.log("user logged in to socket",{socketId:socket.id,param:param});
             
             UsersManager.addUser(param.userID,user.name,user.avatarURL,param.roomID,user.token);
             UsersManager.pairSocketIDandUserID(param.userID,socket.id);            
