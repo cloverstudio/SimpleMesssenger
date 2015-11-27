@@ -6,6 +6,7 @@
 
     Const.responsecodeSucceed = 1;
     Const.responsecodeError = 0;
+    Const.responsecodeErrorInvalidAccessToken = 403;
 
     Const.httpCodeSucceed = 200;
     Const.httpCodeFileNotFound = 404;

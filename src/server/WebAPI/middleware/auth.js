@@ -41,7 +41,7 @@ function AuthMiddleware (request, response, next) {
                 response.json({
                     success : Const.responsecodeError,
                     error : {
-                        code : Const.responsecodeError,
+                        code : Const.responsecodeErrorInvalidAccessToken,
                         message : "Invalid Access Token"
                     }
                 });
