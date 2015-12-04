@@ -42,7 +42,6 @@ AddToConversation.prototype.attach = function(router){
 {
     success: 1,
     data: {
-        ok: true,
         conversation: {
             __v: 0,
             owner: '563a1130b75fb0d5eb4b5a22',
@@ -72,20 +71,17 @@ AddToConversation.prototype.attach = function(router){
         var conversationId = request.params.conversationid;
 
         // check new password
-        var validateError = '';
+        var validateError = 0;
 
         if(_.isEmpty(conversationId))
-            validateError = "Conversation id is empty";
+            validateError = Const.resCodeAddToConversationNoConversationID;
             
         if(_.isEmpty(request.body.users))
-            validateError = "Specify users";
+            validateError = Const.resCodeAddToConversationNoUser;
 
-        if(!_.isEmpty(validateError)){
+        if(validateError != 0){
                         
-            self.successResponse(response,{
-                ok: false,
-                validationError: validateError
-            });
+            self.successResponse(response,Const.resCodeAddToConversationNoUser);
             
             return;
             
@@ -103,20 +99,14 @@ AddToConversation.prototype.attach = function(router){
         
                     if(err){
 
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Invalid conversation id"
-                        });
+                        self.successResponse(response,Const.resCodeAddToConversationWrongConversationID);
                         
                         return;
                     }
                             
                     if(!result){
                         
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Invalid conversation id"
-                        });
+                        self.successResponse(response,Const.resCodeAddToConversationWrongConversationID);
                         
                         return;
                         
@@ -126,10 +116,7 @@ AddToConversation.prototype.attach = function(router){
                     
                     if(resultConvesation.users.indexOf(userIdFromRequest) == -1){
 
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Invalid user"
-                        });
+                        self.successResponse(response,Const.resCodeAddToConversationWrongUserID);
                         
                         return;
                         
@@ -266,8 +253,7 @@ AddToConversation.prototype.attach = function(router){
                                 
                 result.conversation.users = resultUsers;
             
-                self.successResponse(response,{
-                    ok: true,
+                self.successResponse(response,Const.responsecodeSucceed,{
                     conversation: result.conversation
                 });
                 

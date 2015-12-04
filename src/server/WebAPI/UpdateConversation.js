@@ -63,10 +63,7 @@ UpdateConversationHandler.prototype.attach = function(router){
 	            	
 	            	if(!conversationFindResult){
 		            	
-                        self.successResponse(response,{
-	                        ok : false,
-                            validationError: "Wrong conversation id"
-                        });
+                        self.successResponse(response,Const.Const.resCodeUpdateConversationWrongConversationID);
 		            	
 		            	return;
 	            	}
@@ -101,9 +98,7 @@ UpdateConversationHandler.prototype.attach = function(router){
                     
                     if(err){
                                                 
-                        self.successResponse(response,{
-                            validationError: err
-                        });
+                        self.successResponse(response,err);
                                                 
                     } else {
                         
@@ -259,8 +254,7 @@ UpdateConversationHandler.prototype.attach = function(router){
                                      
                 }else {
                                     
-                    self.successResponse(response,{
-                        ok : true
+                    self.successResponse(response,Const.responsecodeSucceed,{
                     });
                        
                 }
@@ -280,7 +274,7 @@ UpdateConversationHandler.prototype.validate = function(fields,file,callBack){
         function (done) {
             
             if(_.isEmpty(fields.name)){
-            	done("Wrong  name.",null);
+            	done(Const.resCodeUpdateConversationWrongName,null);
             	return;
             }
             
@@ -289,7 +283,7 @@ UpdateConversationHandler.prototype.validate = function(fields,file,callBack){
                     file.type.indexOf("gif") == -1 &&
                     file.type.indexOf("png") == -1){
                     
-                	done("Wrong file type.",null);
+                	done(Const.resCodeUpdateConversationWrongFileType,null);
                 	return;
                 }                
             }

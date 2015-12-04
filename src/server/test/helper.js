@@ -88,7 +88,7 @@ before(function(done){
             		.expect('Content-Type', /json/)
             		.expect(200) 
                     .end(function (err, res) {
-                                            
+                    
                     global.userid2 = res.body.data.user._id;
                                       
             		if (err) {

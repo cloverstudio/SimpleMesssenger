@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 
+var Const = require("../lib/consts");
 
 var RequestHandlerBase = require('./RequestHandlerBase');
 var UserModel = require('../Models/User');
@@ -28,7 +29,6 @@ ConversationList.prototype.attach = function(router){
 {
     "success": 1,
     "data": {
-        "ok": true,
         "conversation": {
             "_id": "564d7c593e84a5407599ce80",
             "owner": "5638c0a71b659fc060941d87",
@@ -85,8 +85,7 @@ ConversationList.prototype.attach = function(router){
                                     
                     result.users = resultUsers;
                 
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         conversation: result
                     });
                                              
@@ -94,8 +93,7 @@ ConversationList.prototype.attach = function(router){
             
             } else {
                 
-                self.successResponse(response,{
-                    ok: false,
+                self.successResponse(response,Const.responsecodeSucceed,{
                     conversation: null
                 });
                 

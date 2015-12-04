@@ -92,11 +92,20 @@ gulp.task('spika-test', function (done) {
     .pipe(mocha({ reporter: 'spec' }));
 });
 
+
+gulp.task('messenger-test', function (done) {
+    return gulp.src('src/server/test/**/*.js', { read: false })
+    .pipe(mocha({ reporter: 'spec' }))
+    .pipe(exit());
+});
+
 gulp.task('server-test',['spika-test'], function (done) {
     return gulp.src('src/server/test/**/*.js', { read: false })
     .pipe(mocha({ reporter: 'spec' }))
     .pipe(exit());
 });
+
+
 
 
 gulp.task('default',['build-dist'],function(){

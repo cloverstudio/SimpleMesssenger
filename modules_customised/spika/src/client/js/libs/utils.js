@@ -15,6 +15,8 @@
     Utils.prototype.now = now;
     Utils.prototype.escapeHtml = escapeHtml;
     Utils.prototype.linkify = linkify;
+    Utils.prototype.imagefy = imagefy;
+    Utils.prototype.contentExtract = contentExtract;
     Utils.prototype.getURLQuery = getURLQuery;
     
     // Implementation ---------------------------------------
@@ -184,7 +186,57 @@
             return entityMap[s];
         });
     }
+    
+    function videofy(inputText){
 
+        var Youtube = {},
+            embed = '<iframe width="560" height="315" src="//www.youtube.com/embed/$1"  frameborder="0" allowfullscreen></iframe>';
+    
+        // modified from http://stackoverflow.com/questions/7168987/
+        var	regularUrl = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com)\/(?:watch\?v=)(.+)/g;
+        var	shortUrl = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be)\/(.+)/g;
+        var	embedUrl = /(?:https?:\/\/)?(?:www\.)youtube.com\/embed\/([\w\-_]+)/;
+        
+        if (inputText.match(embedUrl)) {
+            inputText = inputText.replace(embedUrl, embed);
+        }
+
+        if (inputText.match(regularUrl)) {
+            inputText = inputText.replace(regularUrl, embed);
+        }
+
+
+        if (inputText.match(shortUrl)) {
+            inputText = inputText.replace(shortUrl, embed);
+        }
+
+        return inputText;
+
+    }
+    
+    function imagefy(inputText) {
+
+        return '<img style="max-width:500px" src="' + inputText + '" />';
+        
+    }
+    
+    function contentExtract(inputText){
+       
+        if(/^http.+\.png$/.test(inputText) ||
+            /^http.+\.gif$/.test(inputText) ||
+            /^http.+\.jpg$/.test(inputText) ||
+            /^http.+\.jpeg$/.test(inputText))
+            
+            return imagefy(inputText)
+        
+        if(/.*youtube.+/.test(inputText) ||
+            /.*youtu\.be.+/.test(inputText))
+            return videofy(inputText);
+        else
+            return linkify(inputText);
+        
+    }
+    
     function linkify(inputText) {
         var replacedText, replacePattern1, replacePattern2, replacePattern3;
     

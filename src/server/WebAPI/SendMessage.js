@@ -41,7 +41,6 @@ SendMessage.prototype.attach = function(router){
 {
     success: 1,
     data: {
-        ok: true,
         message: {
             __v: 0,
             user: '564b3e3e6e7e47e8a1206b59',
@@ -65,29 +64,25 @@ SendMessage.prototype.attach = function(router){
         var message = request.body.message;
 
         // check new password
-        var validateError = '';
+        var validateError = 0;
 
         if(_.isEmpty(conversationId))
-            validateError = "Conversation id is empty";
+            validateError = Const.resCodeSendMessageNoConversationID;
             
         if(_.isEmpty(message))
-            validateError = "Specify message";
+            validateError = Const.resCodeSendMessageEmptyMessage;
 
-        if(!_.isEmpty(validateError)){
+        if(validateError != 0){
                         
-            self.successResponse(response,{
-                ok: false,
-                validationError: validateError
-            });
+            self.successResponse(response,validateError);
             
             return;
             
         }
         
         SpikaBridge.sendNewMessage(request.user,conversationId,message,function(result){
-            
-            self.successResponse(response,{
-                ok: result.ok,
+
+            self.successResponse(response,Const.responsecodeSucceed,{
                 message: result.message
             });
             

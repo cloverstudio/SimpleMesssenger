@@ -10,13 +10,9 @@ function AuthMiddleware (request, response, next) {
 
     if(_.isEmpty(token)){
         
-        response.json({
-            success : Const.responsecodeError,
-            error : {
-                code : Const.responsecodeError,
-                message : "Invalid Access Token"
-            }
-        });
+    
+        response.status(Const.httpCodeForbidden);
+        response.send("");
 
     } else {
         
@@ -38,14 +34,8 @@ function AuthMiddleware (request, response, next) {
                 
                 console.log("Invalid Access Token",token);
                 
-                response.json({
-                    success : Const.responsecodeError,
-                    error : {
-                        code : Const.responsecodeErrorInvalidAccessToken,
-                        message : "Invalid Access Token"
-                    }
-                });
-                
+                response.status(Const.httpCodeForbidden);
+                response.send("");
                 
             }
         

@@ -10,6 +10,7 @@ describe('WEB Conversation', function () {
 
         it('Can create new conversation', function (done) {
 
+
             signin(function(token){
 
                 var params = {
@@ -34,12 +35,11 @@ describe('WEB Conversation', function () {
             			if (err) {
             				throw err;
             			}
-                                            
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    
+ 
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
 
                     done();
 
@@ -113,11 +113,9 @@ describe('WEB Conversation', function () {
                   throw err;
                 }
 
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
 
                 request(app)
                     .get('/api/v1/conversation/list')
@@ -129,11 +127,9 @@ describe('WEB Conversation', function () {
                       throw err;
                     }
                                                                       
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
                     res.body.data.should.have.property('conversations');
                     res.body.data.conversations.should.be.instanceof(Array);
 
@@ -171,11 +167,9 @@ describe('WEB Conversation', function () {
             				throw err;
             			}
     
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
                     
                     
                     var params = {
@@ -199,11 +193,9 @@ describe('WEB Conversation', function () {
                 				throw err;
                 			}
                                                     
-                        res.body.should.have.property('success');
-                        res.body.success.should.equal(1);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
                         res.body.should.have.property('data');
-                        res.body.data.should.have.property('ok');
-                        res.body.data.ok.should.equal(true);
                         res.body.data.should.have.property('conversation');
                         res.body.data.conversation._id.should.equal(res.body.data.conversation._id);
                                                 
@@ -241,11 +233,9 @@ describe('WEB Conversation', function () {
             				throw err;
             			}
     
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
                     
                     
                     var params = {
@@ -270,11 +260,9 @@ describe('WEB Conversation', function () {
                 				throw err;
                 			}
 
-                        res.body.should.have.property('success');
-                        res.body.success.should.equal(1);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
                         res.body.should.have.property('data');
-                        res.body.data.should.have.property('ok');
-                        res.body.data.ok.should.equal(true);
                         res.body.data.should.have.property('conversation');
                         res.body.data.conversation._id.should.not.equal(params.conversationId);
                                                 
@@ -314,10 +302,8 @@ describe('WEB Conversation', function () {
             				throw err;
             			}
     
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.should.have.property('data');
-                    res.body.data.should.have.property('validationError');
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(20000017);
 
                                             
                     done();
@@ -358,11 +344,9 @@ describe('WEB Conversation', function () {
                   throw err;
                 }
 
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
 
                 request(app)
                     .post('/api/v1/conversation/leave/' + res.body.data.conversation._id)
@@ -374,10 +358,9 @@ describe('WEB Conversation', function () {
                       throw err;
                     }
                     
-	                res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
 
                     done();
 
@@ -414,11 +397,9 @@ describe('WEB Conversation', function () {
                   throw err;
                 }
 
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
 
                 request(app)
                     .post('/api/v1/conversation/leave/hugahuga')
@@ -430,11 +411,8 @@ describe('WEB Conversation', function () {
                       throw err;
                     }
                     
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.should.have.property('validationError');
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(20000019);
                     
                     done();
 
@@ -475,11 +453,9 @@ describe('WEB Conversation', function () {
 	                  throw err;
 	                }
 	
-	                res.body.should.have.property('success');
-	                res.body.success.should.equal(1);
-	                res.body.should.have.property('data');
-	                res.body.data.should.have.property('ok');
-	                res.body.data.ok.should.equal(true);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    res.body.should.have.property('data');
 										
 	                request(app)
 	                    .post('/api/v1/conversation/update/' + res.body.data.conversation._id)
@@ -493,11 +469,9 @@ describe('WEB Conversation', function () {
 	                      throw err;
 	                    }
 	                    
-		                res.body.should.have.property('success');
-	                    res.body.success.should.equal(1);
-	                    res.body.should.have.property('data');
-	                    res.body.data.should.have.property('ok');
-						res.body.data.ok.should.equal(true);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
+                        res.body.should.have.property('data');
 	
 	                    done();
 	
@@ -539,11 +513,9 @@ describe('WEB Conversation', function () {
 	                  throw err;
 	                }
 	
-	                res.body.should.have.property('success');
-	                res.body.success.should.equal(1);
-	                res.body.should.have.property('data');
-	                res.body.data.should.have.property('ok');
-	                res.body.data.ok.should.equal(true);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    res.body.should.have.property('data');
 										
 	                request(app)
 	                    .get('/api/v1/conversation/detail/' + res.body.data.conversation._id)
@@ -555,11 +527,9 @@ describe('WEB Conversation', function () {
 	                      throw err;
 	                    }
 	                    
-		                res.body.should.have.property('success');
-	                    res.body.success.should.equal(1);
-	                    res.body.should.have.property('data');
-	                    res.body.data.should.have.property('ok');
-						res.body.data.ok.should.equal(true);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
+                        res.body.should.have.property('data');
 	                    res.body.data.should.have.property('conversation');
 	
 	                    done();
@@ -604,11 +574,9 @@ describe('WEB Conversation', function () {
             				throw err;
             			}
                                             
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
 
 
                     var params = {
@@ -631,11 +599,9 @@ describe('WEB Conversation', function () {
 	                      throw err;
 	                    }
 	                    	                    
-		                res.body.should.have.property('success');
-	                    res.body.success.should.equal(1);
-	                    res.body.should.have.property('data');
-	                    res.body.data.should.have.property('ok');
-						res.body.data.ok.should.equal(true);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
+                        res.body.should.have.property('data');
 	                    res.body.data.should.have.property('conversation');
 	
 	                    done();

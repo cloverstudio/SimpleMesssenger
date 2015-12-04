@@ -8,6 +8,7 @@ describe('WEB Conversation', function () {
 
     describe('/message/send POST', function () {
 
+
         it('Can send message', function (done) {
 
             signin(function(token){
@@ -35,11 +36,9 @@ describe('WEB Conversation', function () {
             				throw err;
             			}
                                             
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
                     
                     var params = {
                         
@@ -60,11 +59,9 @@ describe('WEB Conversation', function () {
                 				throw err;
                 			}
                                                                 
-                        res.body.should.have.property('success');
-                        res.body.success.should.equal(1);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
                         res.body.should.have.property('data');
-                        res.body.data.should.have.property('ok');
-                        res.body.data.ok.should.equal(true);
     
                         done();
     
@@ -108,12 +105,11 @@ describe('WEB Conversation', function () {
             				throw err;
             			}
                                             
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
                     
+
                     var params = {
                         
                         conversationId : res.body.data.conversation._id,
@@ -133,12 +129,10 @@ describe('WEB Conversation', function () {
                 				throw err;
                 			}
                                                                 
-                        res.body.should.have.property('success');
-                        res.body.success.should.equal(1);
+                        res.body.should.have.property('code');
+                        res.body.code.should.equal(1);
                         res.body.should.have.property('data');
-                        res.body.data.should.have.property('ok');
-                        res.body.data.ok.should.equal(true);
-    
+
                         request(app)
                             .get('/api/v1/message/latest/' + params.conversationId + "/" + res.body.data.message._id)
                     		.expect('Content-Type', /json/)
@@ -151,11 +145,9 @@ describe('WEB Conversation', function () {
                     			}
                             
                                                 
-                            res.body.should.have.property('success');
-                            res.body.success.should.equal(1);
+                            res.body.should.have.property('code');
+                            res.body.code.should.equal(1);
                             res.body.should.have.property('data');
-                            res.body.data.should.have.property('ok');
-                            res.body.data.ok.should.equal(true);
         
                             done();
         

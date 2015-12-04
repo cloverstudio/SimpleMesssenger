@@ -43,7 +43,6 @@ LatestMessageList.prototype.attach = function(router){
 {
     "success": 1,
     "data": {
-        "ok": true,
         "lastDeletedMessageId": "564dce47ca03401d1c36432d",
         "messages": [
             {
@@ -175,8 +174,7 @@ LatestMessageList.prototype.attach = function(router){
                         lastDeletedMessageId = result.lastMessage._id;
                     }
                     
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         lastDeletedMessageId:lastDeletedMessageId,
                         messages: resultSpikaResponse.messages
                     });

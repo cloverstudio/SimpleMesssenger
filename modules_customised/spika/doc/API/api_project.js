@@ -1,15 +1,1 @@
-define({
-  "name": "Spika",
-  "version": "0.1.0",
-  "description": "Spika Web API's reference",
-  "title": "Spika Web API",
-  "url": "",
-  "sampleUrl": false,
-  "apidoc": "0.2.0",
-  "generator": {
-    "name": "apidoc",
-    "time": "2015-11-27T22:06:04.960Z",
-    "url": "http://apidocjs.com",
-    "version": "0.13.1"
-  }
-});
+define({  "name": "Spika",  "version": "0.1.0",  "description": "Spika Web API's reference",  "title": "Spika Web API",  "url": "",  "sampleUrl": false,  "apidoc": "0.2.0",  "generator": {    "name": "apidoc",    "time": "2015-12-03T15:34:15.278Z",    "url": "http://apidocjs.com",    "version": "0.13.1"  }});

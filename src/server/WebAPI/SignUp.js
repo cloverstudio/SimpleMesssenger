@@ -35,7 +35,6 @@ SignUpHandler.prototype.attach = function(router){
             {
                 success: 1,
                 data: {
-                    ok: true,
                     user: {
                         __v: 0,
                         username: 'testz2u72',
@@ -58,8 +57,8 @@ SignUpHandler.prototype.attach = function(router){
         
         self.validate(request.body,function(err){
             
-            if(_.isEmpty(err)){
-                
+            if(!err){
+
                 var userModel = UserModel.get();
 
                 var sha1 = require('sha1');
@@ -81,8 +80,7 @@ SignUpHandler.prototype.attach = function(router){
                         return;
                     }
                     
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         user: userModelResult.toObject()
                     });   
                 
@@ -90,10 +88,8 @@ SignUpHandler.prototype.attach = function(router){
 
                                  
             } else {
-                
-                self.successResponse(response,{
-                    validationError: err
-                });
+
+                self.successResponse(response,err);
                 
             }
         
@@ -116,28 +112,28 @@ SignUpHandler.prototype.validate = function(requestBody,callBack){
         function (done) {
 
             if(_.isEmpty(requestBody.username))
-            	done("Wrong username");
+            	done(Const.resCodeSignUpWrongName);
             	
             else if(!validator.isAlphanumeric(requestBody.username)){
-            	done("Wrong username");
+            	done(Const.resCodeSignUpWrongName);
             	
             } else if(!validator.isLength(requestBody.username,Const.credentialsMinLength)){
-            	done("Wrong username");
+            	done(Const.resCodeSignUpWrongName);
             	
             } else if(!validator.isEmail(requestBody.email)){
-            	done("Wrong email");
+            	done(Const.resCodeSignUpWrongEmail);
 
             } else if(!validator.isEmail(requestBody.email)){
-            	done("Wrong email");
+            	done(Const.resCodeSignUpWrongEmail);
 
             } else if(!validator.isAlphanumeric(requestBody.password)){
-            	done("Wrong password");
+            	done(Const.resCodeSignUpWrongPassword);
             	
             } else if(!validator.isLength(requestBody.password,Const.credentialsMinLength)){
-            	done("Wrong password");
+            	done(Const.resCodeSignUpWrongPassword);
             
             } else if(requestBody.password != requestBody.passwordConfirm){
-            	done("Wrong password");
+            	done(Const.resCodeSignUpWrongPassword);
             
             }
             done(null,null);
@@ -149,7 +145,7 @@ SignUpHandler.prototype.validate = function(requestBody,callBack){
         	userModel.findOne({ username: requestBody.username },function (err, user) {
                 
                 if(!_.isNull(user)){
-                    done("The user name is already taken.",null);
+                    done(Const.resCodeSignUpUserNameDuplicated,null);
                 }
                 
                 done(err,user);
@@ -163,7 +159,7 @@ SignUpHandler.prototype.validate = function(requestBody,callBack){
         	userModel.findOne({ email: requestBody.email },function (err, user) {
                 
                 if(!_.isNull(user)){
-                    done("The email address is already taken.",null);
+                    done(Const.resCodeSignUpEmailDuplicated,null);
                 }
                 
                 done(err,user);

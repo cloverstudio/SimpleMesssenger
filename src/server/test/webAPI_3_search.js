@@ -19,11 +19,10 @@ describe('WEB Search', function () {
         				throw err;
         			}
         			        			
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
+
                     
                     done();
                 
@@ -46,12 +45,10 @@ describe('WEB Search', function () {
         				throw err;
         			}
         			
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
-                    res.body.data.should.have.property('users');
+
                     
                     done();
                 

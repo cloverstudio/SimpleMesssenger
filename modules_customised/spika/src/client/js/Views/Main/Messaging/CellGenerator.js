@@ -6,7 +6,7 @@ var Message = require('../../../Models/message.js');
 var WebAPIManager = require('../../../libs/webAPIManager');
 var UrlGenerator = require('../../../libs/urlGenerator');
 var socketIOManager = require('../../../libs/socketIOManager');
-
+var Settings = require('../../../libs/Settings');
 
 function CellGenerator(options){
     this.parentView = options.view;
@@ -46,9 +46,9 @@ CellGenerator.prototype.generate = function(messageModel){
     flatData.message = flatData.message.replace(new RegExp('  ','g'), '&nbsp;&nbsp;');
     flatData.message = flatData.message.replace(new RegExp('\t','g'), '&nbsp;&nbsp;&nbsp;&nbsp;');
     flatData.message = flatData.message.replace(new RegExp('\r?\n','g'), '<br/>');
-    flatData.message = U.linkify(flatData.message);
+    flatData.message = U.contentExtract(flatData.message);
         
-    if(flatData.userID == LoginUserManager.user.get('id')){
+    if(flatData.userID == LoginUserManager.user.get('id') && Settings.options.useBothSide){
         flatData.isMine = 'mine';
     }else{
         flatData.isMine = 'other';

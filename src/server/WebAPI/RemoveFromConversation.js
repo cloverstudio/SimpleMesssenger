@@ -40,7 +40,6 @@ RemoveFromConversation.prototype.attach = function(router){
 {
     success: 1,
     data: {
-        ok: true,
         conversation: {
             __v: 0,
             owner: '563a1130b75fb0d5eb4b5a22',
@@ -68,20 +67,17 @@ RemoveFromConversation.prototype.attach = function(router){
         var conversationId = request.params.conversationid;
 
         // check new password
-        var validateError = '';
+        var validateError = 0;
 
         if(_.isEmpty(conversationId))
-            validateError = "Conversation id is empty";
+            validateError = Const.resCodeRemoveUserNoConversationID;
             
         if(_.isEmpty(request.body.users))
-            validateError = "Specify users";
+            validateError = Const.resCodeRemoveUserNoUser;
 
         if(!_.isEmpty(validateError)){
                         
-            self.successResponse(response,{
-                ok: false,
-                validationError: validateError
-            });
+            self.successResponse(response,validateError);
             
             return;
             
@@ -99,20 +95,14 @@ RemoveFromConversation.prototype.attach = function(router){
         
                     if(err){
 
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Invalid conversation id"
-                        });
+                        self.successResponse(response,Const.resCodeRemoveUserWrongConvesationID);
                         
                         return;
                     }
                             
                     if(!result){
                         
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Invalid conversation id"
-                        });
+                        self.successResponse(response,Const.resCodeRemoveUserWrongConvesationID);
                         
                         return;
                         
@@ -122,10 +112,7 @@ RemoveFromConversation.prototype.attach = function(router){
                     
                     if(resultConvesation.users.indexOf(userIdFromRequest) == -1){
 
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Invalid user"
-                        });
+                        self.successResponse(response,Const.resCodeRemoveUserWrongUserID);
                         
                         return;
                         
@@ -133,10 +120,7 @@ RemoveFromConversation.prototype.attach = function(router){
 
                     if(resultConvesation.owner.toString() != userIdFromRequest){
 
-                        self.successResponse(response,{
-                            ok: false,
-                            validationError: "Only owner can remove user"
-                        });
+                        self.successResponse(response,Const.resCodeRemoveUserDeniedByPermission);
                         
                         return;
                         
@@ -233,8 +217,7 @@ RemoveFromConversation.prototype.attach = function(router){
                 result.conversation.users = resultUsers;
 
                 
-                self.successResponse(response,{
-                    ok: true,
+                self.successResponse(response,Const.responsecodeSucceed,{
                     conversation: result.conversation
                 });
                 

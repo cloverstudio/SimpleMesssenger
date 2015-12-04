@@ -33,31 +33,24 @@ ChangePasswordHandler.prototype.attach = function(router){
         // check password
         if(request.user.password != currentPassword){
             
-            self.successResponse(response,{
-                ok: false,
-                validationError: "Wrong password"
-
-            });
+            self.successResponse(response,Const.resCodeChangePasswordWrongOldPassword);
             
             return;
         }
 
         // check new password
-        var validateError = '';
+        var errorCode = 0;
         
         if(!validator.isAlphanumeric(newPassword)){
-        	validateError = "Wrong new password";
+        	errorCode = Const.resCodeChangePasswordWrongNewPassword;
         	
-        } else if(!validator.isLength(newPassword)){
-        	validateError = "Wrong new password";
+        } else if(!validator.isLength(newPassword,Const.credentialsMinLength)){
+        	errorCode = Const.resCodeChangePasswordWrongNewPassword;
         }
         
-        if(_.isEmpty(validateError)){
-            
-            self.successResponse(response,{
-                ok: false,
-                validationError: validateError
-            });
+        if(errorCode != 0){
+
+            self.successResponse(response,errorCode);
             
             return;
             
@@ -76,9 +69,7 @@ ChangePasswordHandler.prototype.attach = function(router){
                                  
             }else {
             
-                self.successResponse(response,{
-                    ok : true
-                });
+                self.successResponse(response,Const.responsecodeSucceed);
                    
             }
         

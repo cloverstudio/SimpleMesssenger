@@ -105,8 +105,6 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defa
                                 
                 conversationModel.findOne( { $and : [{ users :{ $all : model.users }}, {users : { $size : model.users.length }}]},function(error,resultExistingConversation){
                     
-                    console.log(model.users.length,model.users);
-                               
                     // ignore useOld if the conversation doesnt exist
                     if(resultExistingConversation)
                         callBack(resultExistingConversation.toObject());

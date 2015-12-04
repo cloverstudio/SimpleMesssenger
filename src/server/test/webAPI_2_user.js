@@ -35,11 +35,9 @@ describe('WEB User', function () {
     				throw err;
     			}
     			    			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
                 
                 global.userid1 = res.body.data.user._id;
                 
@@ -52,7 +50,7 @@ describe('WEB User', function () {
         it('Duplicate username', function (done) {
             
             params1.username = global.username1;
-            params1.email = "test@test" + + getRandomStr() + ".com";
+            params1.email = "test@test" + global.getRandomStr() + ".com";
             
             request(app)
                 .post('/api/v1/user/signup')
@@ -64,12 +62,10 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-    			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
-                
+  
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000004);
+
                 done();
             
             });   
@@ -91,11 +87,9 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-    			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000005);
                 
                 done();
             
@@ -119,10 +113,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000002);
                 
                 done();
             
@@ -146,10 +138,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000001);
                 
                 done();
             
@@ -173,10 +163,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000001);
                 
                 done();
             
@@ -201,10 +189,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000003);
                 
                 done();
             
@@ -229,10 +215,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000003);
                 
                 done();
             
@@ -258,10 +242,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000003);
                 
                 done();
             
@@ -291,11 +273,9 @@ describe('WEB User', function () {
     				throw err;
     			}
     		
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
                 res.body.data.should.have.property('token');
 
                 done();
@@ -334,12 +314,10 @@ describe('WEB User', function () {
     			if (err) {
     				throw err;
     			}
-                                
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                         
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
                 res.body.data.should.have.property('token');
                 
                 theUserId = res.body.data.user._id;
@@ -371,11 +349,9 @@ describe('WEB User', function () {
     				throw err;
     			}
                              
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(1);
                 res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(true);
                 res.body.data.should.have.property('token');
                 res.body.data.user._id.should.equal(theUserId);
 
@@ -389,6 +365,7 @@ describe('WEB User', function () {
                         
             var paramsLogin = {
                 uuid : uuid,
+                telNumber : "0123456789",
                 secret : "its wrong"
             };
                         
@@ -403,10 +380,8 @@ describe('WEB User', function () {
     				throw err;
     			}
                 
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('validationError');
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000008);
 
                 done();
             
@@ -433,11 +408,9 @@ describe('WEB User', function () {
         			if (err) {
         				throw err;
         			}
-             
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
+
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
 
                     done();
                 
@@ -462,11 +435,9 @@ describe('WEB User', function () {
         				throw err;
         			}
                                         
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
-
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    
                     done();
                 
                 });                   
@@ -491,10 +462,8 @@ describe('WEB User', function () {
         				throw err;
         			}
                     
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.should.have.property('data');
-                    res.body.data.should.have.property('validationError');
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(20000010);
 
                     done();
                 
@@ -522,10 +491,8 @@ describe('WEB User', function () {
         				throw err;
         			}
                     
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.should.have.property('data');
-                    res.body.data.should.have.property('validationError');
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(20000011);
 
                     done();
                 
@@ -552,15 +519,12 @@ describe('WEB User', function () {
             request(app)
                 .post('/api/v1/user/changepassword')
         		.send(params)
-        		.expect(200) 
+        		.expect(403) 
                 .end(function (err, res) {
         
         		if (err) {
         			throw err;
         		}
-                                    
-                res.body.should.have.property('success');
-                res.body.success.should.equal(0);
         
                 done();
             
@@ -588,10 +552,8 @@ describe('WEB User', function () {
             			throw err;
             		}
                                         
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(false);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(20000012);
             
                     done();
                 
@@ -604,7 +566,7 @@ describe('WEB User', function () {
         it('Wrong new password', function (done) {
 
             var params = {
-                currentPassword : 'hoge',
+                currentPassword : sha1(global.password1),
                 newPassword : "dd"           
             };
 
@@ -621,10 +583,8 @@ describe('WEB User', function () {
             			throw err;
             		}
                                         
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(false);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(20000013);
             
                     done();
                 
@@ -657,11 +617,9 @@ describe('WEB User', function () {
                     // password is chaged here
                     global.password1 =  newPassword;
                             
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
-            
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    
                     done();
                 
                 });                   
@@ -712,11 +670,8 @@ describe('WEB User', function () {
         				throw err;
         			}
         			
-                    res.body.should.have.property('success');
-                    res.body.success.should.equal(1);
-                    res.body.should.have.property('data');
-                    res.body.data.should.have.property('ok');
-                    res.body.data.ok.should.equal(true);
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
     
                     done();
                 
@@ -744,11 +699,8 @@ describe('WEB User', function () {
     				throw err;
     			}
     			
-                res.body.should.have.property('success');
-                res.body.success.should.equal(1);
-                res.body.should.have.property('data');
-                res.body.data.should.have.property('ok');
-                res.body.data.ok.should.equal(false);
+                res.body.should.have.property('code');
+                res.body.code.should.equal(20000014);
 
                 done();
             

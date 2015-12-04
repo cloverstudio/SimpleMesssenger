@@ -48,10 +48,9 @@ NewConversation.prototype.attach = function(router){
         }
      * @apiSuccessExample Success-Response:
     
-        {
-            success: 1,
+        {   
+            code : 1,
             data: {
-                ok: true,
                 conversation: {
                     __v: 0,
                     owner: '5641c54f638ab66fda70b4a3',
@@ -130,8 +129,7 @@ NewConversation.prototype.attach = function(router){
                     
                     result.users = resultUsers;
                     
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         conversation: result
                     });
                     
@@ -152,10 +150,10 @@ NewConversation.prototype.attach = function(router){
                         {conversation:result}
                     );
                      
-                         
                 });
 
             }
+            
         });
 
     });

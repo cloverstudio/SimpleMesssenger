@@ -39,7 +39,7 @@ UpdateProfileHandler.prototype.attach = function(router){
             {
                 success: 1,
                 data: {
-                    ok: true
+
                 }
             }
     */
@@ -70,13 +70,11 @@ UpdateProfileHandler.prototype.attach = function(router){
                     
                     if(err){
                                                 
-                        self.successResponse(response,{
-                            validationError: err
-                        });
+                        self.successResponse(response,err);
                                                 
                     } else {
                         
-                        done(err,result);
+                        done(null,result);
                         
                     }
                     
@@ -227,8 +225,7 @@ UpdateProfileHandler.prototype.attach = function(router){
                                      
                 }else {
                 
-                    self.successResponse(response,{
-                        ok : true
+                    self.successResponse(response,Const.responsecodeSucceed,{
                     });
                        
                 }
@@ -248,7 +245,7 @@ UpdateProfileHandler.prototype.validate = function(fields,file,callBack){
         function (done) {
             
             if(_.isEmpty(fields.displayName)){
-            	done("Wrong display name.",null);
+            	done(Const.resCodeUpdateProfileNoDisplayName);
             	return;
             }
             
@@ -257,7 +254,7 @@ UpdateProfileHandler.prototype.validate = function(fields,file,callBack){
                     file.type.indexOf("gif") == -1 &&
                     file.type.indexOf("png") == -1){
                     
-                	done("Wrong file type.",null);
+                	done(Const.resCodeUpdateProfileWrongFileType);
                 	return;
                 }                
             }

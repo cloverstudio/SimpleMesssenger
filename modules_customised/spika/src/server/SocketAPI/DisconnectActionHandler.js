@@ -22,7 +22,7 @@ DisconnectActionHandler.prototype.attach = function(io,socket){
         
         var roomID = UsersManager.getRoomBySocketID(socket.id);
         var user = UsersManager.getUserBySocketID(socket.id);
-
+                        
         if(!_.isNull(user)){
         
             UsersManager.removeUser(roomID,user.userID);

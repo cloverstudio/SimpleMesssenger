@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 
+var Const = require("../lib/consts");
 
 var RequestHandlerBase = require('./RequestHandlerBase');
 var UserModel = require('../Models/User');
@@ -49,20 +50,14 @@ LeaveConversation.prototype.attach = function(router){
         
             if(err){
         
-                self.successResponse(response,{
-                    ok: false,
-                    validationError: "Invalid conversation id"
-                });
+                self.successResponse(response,Const.resCodeLeaveConversationWrongConversationID);
                 
                 return;
             }
                     
             if(!conversation){
                 
-                self.successResponse(response,{
-                    ok: false,
-                    validationError: "Invalid conversation id"
-                });
+                self.successResponse(response,Const.resCodeLeaveConversationWrongConversationID);
                 
                 return;
                 
@@ -89,8 +84,7 @@ LeaveConversation.prototype.attach = function(router){
                         return;
                     }
                     
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         conversation: removeResult
                     });
                     
@@ -108,8 +102,7 @@ LeaveConversation.prototype.attach = function(router){
                         return;
                     }
                     
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         conversation: updateResult
                     });
                 

@@ -11,7 +11,6 @@ var AmazonSNS = {
     
     send: function(userFrom,users,message,payload,badge){
         
-        console.log("badge",badge);
         
         var self = this;
         
@@ -106,9 +105,6 @@ var AmazonSNS = {
                     return;
                 }
 
-                console.log("prod",payload);
-
-                
                 var endpointArn = data.EndpointArn;
                 payload = JSON.stringify(payload);
                 
@@ -125,8 +121,6 @@ var AmazonSNS = {
                             return;
                         }
                 
-                        console.log('push sent');
-                        console.log(data);
                 
                 });
                 

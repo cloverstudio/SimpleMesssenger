@@ -31,7 +31,7 @@ ResetPasswordHandler.prototype.attach = function(router){
             {
                 success: 1,
                 data: {
-                    ok: true
+
                 }
             }
     */
@@ -49,9 +49,7 @@ ResetPasswordHandler.prototype.attach = function(router){
             
             if(_.isNull(user)){
             
-                self.successResponse(response,{
-                    ok: false
-                });
+                self.successResponse(response,Const.resCodeResetPasswordWrongEmail);
                 
                 return;
             }
@@ -72,8 +70,8 @@ ResetPasswordHandler.prototype.attach = function(router){
                 
                 Utils.sendEmail(email,"New Password","Your new password is " + newPassword + ".");
                 
-                self.successResponse(response,{
-                    ok: true
+                self.successResponse(response,Const.responsecodeSucceed,{
+
                 });
                 
                                 

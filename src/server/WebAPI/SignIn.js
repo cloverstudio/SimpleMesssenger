@@ -32,7 +32,6 @@ SignInHandler.prototype.attach = function(router){
             {
                 success: 1,
                 data: {
-                    ok: true,
                     user: {
                         _id: '563a072bd9b1aef3e668e0da',
                         username: 'testm83pe',
@@ -76,8 +75,7 @@ SignInHandler.prototype.attach = function(router){
                         return;
                     }
                 
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         user: user,
                         token: token
                     });
@@ -88,9 +86,7 @@ SignInHandler.prototype.attach = function(router){
                 return;
             }
             
-            self.successResponse(response,{
-                ok: false
-            });
+            self.successResponse(response,Const.resCodeSignInInvalidCredentials);
         
         });
         

@@ -52,7 +52,6 @@ SignInHandler.prototype.attach = function(router){
             {
                 success: 1,
                 data: {
-                    ok: true,
                     user: {
                         __v: 0,
                         username: '',
@@ -83,10 +82,7 @@ SignInHandler.prototype.attach = function(router){
         
         if(_.isEmpty(uuid)){
 
-            self.successResponse(response,{
-                ok : false,
-                validationError: "UUID is empty"
-            });
+            self.successResponse(response,Const.resCodeSignInNoUUID);
             
             return;
                           
@@ -94,10 +90,7 @@ SignInHandler.prototype.attach = function(router){
 
         if(_.isEmpty(secret)){
 
-            self.successResponse(response,{
-                ok : false,
-                validationError: "Wrong secret"
-            });
+            self.successResponse(response,Const.resCodeSignInWrongSecret);
             
             return;
                           
@@ -105,10 +98,7 @@ SignInHandler.prototype.attach = function(router){
 
         if(_.isEmpty(request.body.telNumber)){
 
-            self.successResponse(response,{
-                ok : false,
-                validationError: "telNumber is empty"
-            });
+            self.successResponse(response,Const.resCodeSignInNoTelNum);
             
             return;
                           
@@ -132,10 +122,7 @@ SignInHandler.prototype.attach = function(router){
             secretPassed = true;
         
         if(!secretPassed){
-            self.successResponse(response,{
-                ok : false,
-                validationError: "Wrong secret"
-            });
+            self.successResponse(response,Const.resCodeSignInWrongSecret);
             return;
         }
         
@@ -243,9 +230,13 @@ SignInHandler.prototype.attach = function(router){
                 userModel.findOne({ 
                     "loginCredentials.UUID": uuid
                 },function (err, resultUser){
+    
+                    if(err){
+                        self.errorResponse(response,Const.httpCodeServerError);  
+                        return;
+                    }
                     
-                    self.successResponse(response,{
-                        ok: true,
+                    self.successResponse(response,Const.responsecodeSucceed,{
                         user: resultUser,
                         token: resultUser.token.token
                     });

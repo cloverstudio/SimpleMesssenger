@@ -142,7 +142,6 @@ var SpikaBridge = {
                 self.SpikaServer.sendMessage(user._id,sendMessageParams,function(resultSendMessage){
                                         
                     if(callBack) callBack({
-                        ok: true,
                         message: resultSendMessage
                     });
                     
@@ -151,7 +150,6 @@ var SpikaBridge = {
             } else {
                 
                 if(callBack) callBack({
-                    ok: false
                 });
                 
             }   

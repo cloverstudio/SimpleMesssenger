@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 
+var Const = require("../lib/consts");
 
 var RequestHandlerBase = require('./RequestHandlerBase');
 var UserModel = require('../Models/User');
@@ -27,7 +28,6 @@ SearchHandler.prototype.attach = function(router){
         {
             success: 1,
             data: {
-                ok: true,
                 users: [
                     {
                         _id: '56360099f28a47ad2561be96',
@@ -74,8 +74,7 @@ SearchHandler.prototype.attach = function(router){
         
         self.doSearch(keyword,function(result){
             
-            self.successResponse(response,{
-                ok: true,
+            self.successResponse(response,Const.responsecodeSucceed,{
                 users: result
             });
             
@@ -90,8 +89,7 @@ SearchHandler.prototype.attach = function(router){
         
         self.doSearch(keyword,function(result){
             
-            self.successResponse(response,{
-                ok: true,
+            self.successResponse(response,Const.responsecodeSucceed,{
                 users: result
             });
             

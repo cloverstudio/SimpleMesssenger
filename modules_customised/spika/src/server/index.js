@@ -31,20 +31,16 @@ var spika = function(app,io,options){
         
         var LoginLogic = require("./Logics/Login");
 
-        LoginLogic.execute(user,function(err,loginResult){
+        LoginLogic.execute(user,function(loginResult){
             
-            if(err){
-                if(callBack) callBack(false);
-            }else{
-                                       
-                if(callBack)
-                    callBack({
-                        ok: true,
-                        message : "test"
-                    });
-                   
-            }
+            if(callBack)
+                callBack({
+                    ok: true,
+                    message : "test"
+                });
             
+        },function(err){
+            if(callBack) callBack(false);
         });        
         
     };
