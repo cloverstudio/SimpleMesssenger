@@ -31,9 +31,19 @@ var UsersManager = {
                 
     },
     removeUser: function(roomID,userID){
-                
+        
+        console.log("----------");
+        
+        console.log("this.rooms[roomID].users",this.rooms[roomID].users);
+        console.log("userID",userID);
+        
         delete this.rooms[roomID].users[userID];
-                
+
+        console.log("this.rooms[roomID].users",this.rooms[roomID].users);
+
+        console.log("----------");
+
+     
     },
     getUsers: function(roomID){
         

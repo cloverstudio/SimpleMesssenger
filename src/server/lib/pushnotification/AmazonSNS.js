@@ -9,7 +9,9 @@ var AWS = require('aws-sdk');
 
 var AmazonSNS = {
     
-    send: function(users,message,payload){
+    send: function(userFrom,users,message,payload,badge){
+        
+        console.log("badge",badge);
         
         var self = this;
         
@@ -19,33 +21,52 @@ var AmazonSNS = {
             region: Conf.pushnotification.config.apiRegion
         });
         
-        var message = self.generateMessage(users,payload);
+        var message = self.generateMessage(userFrom,payload);
         
         var iOSUsers = [];
         var AndroidUsers = [];
         
+                
         _.forEach(users,function(user){
-                        
+        
+            if(user._id.toString() == userFrom._id.toString())
+                return;
+            
             if(!_.isEmpty(user.device)
                 && !_.isEmpty(user.device.deviceType)
                 && user.device.deviceType == Const.deviceIOS){
                     
                                         
                     var payloadToSend = {
-                        default : self.generateMessage(users,payload),
-                        APNS : {
+                        default : self.generateMessage(userFrom,payload),
+                        APNS : JSON.stringify({
                             aps : {
-                                alert: self.generateMessage(users,payload),
+                                alert: self.generateMessage(userFrom,payload),
                                 sound: 'push_notification.mp3',
-                                badge: null,
+                                badge: badge,
                                 category: "MESSAGE_TYPE"
                             },
                             data : payload
-                        }
+                        })
                         
                     };
                     
                     self.sendAPNProd(user.device.pushToken,payloadToSend);
+
+                    var payloadToSend = {
+                        default : self.generateMessage(userFrom,payload),
+                        APNS_SANDBOX : JSON.stringify({
+                            aps : {
+                                alert: self.generateMessage(userFrom,payload),
+                                sound: 'push_notification.mp3',
+                                badge: badge,
+                                category: "MESSAGE_TYPE"
+                            },
+                            data : payload
+                        })
+                        
+                    };
+                    
                     self.sendAPNDev(user.device.pushToken,payloadToSend);
                     
                 }
@@ -84,15 +105,12 @@ var AmazonSNS = {
                     console.log(err.stack);
                     return;
                 }
+
+                console.log("prod",payload);
+
                 
                 var endpointArn = data.EndpointArn;
-
-                // first have to stringify the inner APNS object...
-                payload.APNS = JSON.stringify(payload.APNS);
-                // then have to stringify the entire message payload
                 payload = JSON.stringify(payload);
-                
-                console.log('sending push ' + payload);
                 
                 sns.publish({
                 
@@ -129,18 +147,11 @@ var AmazonSNS = {
                     console.log(err.stack);
                     return;
                 }
-
+                
+                console.log("dev",payload);
 
                 var endpointArn = data.EndpointArn;
-
-                // first have to stringify the inner APNS object...
-                payload.APNS_SANDBOX = JSON.stringify(payload.APNS);
-                payload.APNS = null;
-                // then have to stringify the entire message payload
                 payload = JSON.stringify(payload);
-
-                console.log('sending dev push ' + payload);
-                console.log('endpointArn ' + endpointArn);
 
                 sns.publish({
                 
@@ -165,8 +176,6 @@ var AmazonSNS = {
 
         var sns = new AWS.SNS();
 
-        console.log('send gcm',payload);
-        
         sns.createPlatformEndpoint({
                 PlatformApplicationArn: Conf.pushnotification.config.arnAndroid,
                 Token: pushToken
@@ -195,7 +204,6 @@ var AmazonSNS = {
                         return;
                     }
                     
-                    console.log(data);
                 
                 });
                 
@@ -203,32 +211,24 @@ var AmazonSNS = {
         
     },
     
-    generateMessage : function(users,payload){
-        
-        console.log("users",users);
-        console.log("messege",payload);
-        
+    generateMessage : function(userFrom,payload){
+
         var type = payload.message.type;
-        var userFrom = null;
         
-        _.forEach(users,function(user){
-            
-            if(user._id.toString() == payload.message.userID ||
-                user.telNumber == payload.message.userID){
-                
-                userFrom = user;
-                
-            } 
-            
-        });
-        
-        if(!userFrom)
+        if(!userFrom){
             return payload.message;
+
+        }
         
         var fromName = userFrom.temNumber;
         if(!_.isEmpty(userFrom.displayName))
             fromName = userFrom.displayName;
-         
+
+        if(!_.isEmpty(userFrom.additionalInfo) &&
+            !_.isEmpty(userFrom.additionalInfo.name))
+            
+            fromName = userFrom.additionalInfo.name;
+                     
         if(type == Const.messageTypeText){
             
            return fromName + ": " + payload.message.message;

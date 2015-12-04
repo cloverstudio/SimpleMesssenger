@@ -21,7 +21,9 @@ var SocketAPIHandler = {
         this.nsp = io.of(Settings.options.socketNameSpace);
         
         this.nsp.on('connection', function(socket) {
-                        
+            
+            console.log("on connect");
+            
             require('./DisconnectActionHandler').attach(io,socket);
             require('./LoginActionHandler').attach(io,socket);
             require('./SendMessageActionHandler').attach(io,socket);

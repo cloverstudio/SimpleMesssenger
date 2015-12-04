@@ -7,6 +7,7 @@ var Conf = require('../init.js');
 
 var ConversationModel = require('../../Models/Conversation');
 var UserModel = require('../../Models/User');
+var UnreadMessaage = require('../../Models/UnreadMessage');
 
 var AmazonSNS = require('./AmazonSNS');
 
@@ -55,35 +56,66 @@ var PushNotificationManager = {
                 }
             ],
             function(err,result){
-
-                var payload = {
                 
-                    message : {
-                        userID:message.userID,
-                        roomID:message.roomID,
-                        message:message.message,
-                        type:message.type,
-                        created:message.created
-                        
-                    }
+                var userFrom = null;
+                
+                 _.forEach(result.users,function(user){
                     
-                }
+                    if(user._id.toString() == message.userID ||
+                        user.telNumber == message.userID)
+                        
+                        userFrom = user;
+                    
+                 });
+                    
+                _.forEach(result.users,function(user){
                 
-                self.send(result.users,message.message,payload);
+                    UnreadMessaage.getUnreadCountByUserId(user._id,function(err,unreadMessages){
+                        
+                        
+                        var count = 0;
+                        
+                        _.forEach(unreadMessages,function(unreadMessageData){
+                            
+                           if(unreadMessageData.conversationId.toString() == message.roomID){
+                               
+                               count = unreadMessageData.count;
+                               
+                           }
+                            
+                        });
+                        
+                        var payload = {
+                            pushType : 1,
+                            message : {
+                                userID:message.userID,
+                                roomID:message.roomID,
+                                message:message.message,
+                                type:message.type,
+                                created:message.created
+                                
+                            }
+                            
+                        }
+                        
+                        self.sendOne(userFrom,user,message.message,payload,count);
+                
+                    });
+                });
                 
             });
         
         }
         
     },
-    sendOne: function(user,message,payload){
+    sendOne: function(userFrom,user,message,payload,count){
         
-        return this.send([user],message,payload);
+        return this.send(userFrom,[user],message,payload,count);
         
     },
-    send: function(users,message,payload){
+    send: function(userFrom,users,message,payload,count){
         
-        AmazonSNS.send(users,message,payload);
+        AmazonSNS.send(userFrom,users,message,payload,count);
                         
     }
     

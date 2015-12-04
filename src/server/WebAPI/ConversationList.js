@@ -164,7 +164,7 @@ ConversationList.prototype.attach = function(router){
                         return -1 * row.created;
                         
                 });
-                                
+                
                 self.successResponse(response,{
                     ok: true,
                     conversations: sortedList

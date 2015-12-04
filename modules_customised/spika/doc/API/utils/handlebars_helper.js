@@ -14,6 +14,7 @@ define([
     });
 
     Handlebars.registerHelper('stopTimer', function(text) {
+        console.log(new Date() - timer);
         return '';
     });
 
@@ -30,6 +31,7 @@ define([
      * @param mixed obj
      */
     Handlebars.registerHelper('cl', function(obj) {
+        console.log(obj);
         return '';
     });
 

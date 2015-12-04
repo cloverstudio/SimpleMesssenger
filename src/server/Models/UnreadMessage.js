@@ -104,7 +104,7 @@ UnreadMessage.getUnreadCountByUserId = function(userId,callBack){
     
 }
 
-UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
+UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId,callBack){
     
     var self = this;
 
@@ -156,6 +156,9 @@ UnreadMessage.newMessageToCounversation = function(excludeUsers,conversationId){
 
                 
             });
+            
+            if(callBack)
+                callBack();
                     
         });
     

@@ -82,30 +82,32 @@ var SpikaBridge = {
             userIdsInRoom.push(row.userID);
         });
                 
-        UnreadMessageModel.newMessageToCounversation(userIdsInRoom,obj.roomID);
+        UnreadMessageModel.newMessageToCounversation(userIdsInRoom,obj.roomID,function(){
 
-        // notify online users
-        ConversationModel.get().findOne({_id:obj.roomID},function(err,result){
-            
-            if(err)
-                return;
+            // notify online users
+            ConversationModel.get().findOne({_id:obj.roomID},function(err,result){
                 
-            if(!result)
-                return;
-                        
-            _.forEach(result.users,function(userId){
-                                
-                SocketAPIHandler.emitToUser(
-                    userId,
-                    Const.emitCommandNewMessage,
-                    {message:message}
-                );
+                if(err)
+                    return;
+                    
+                if(!result)
+                    return;
+                            
+                _.forEach(result.users,function(userId){
+                                    
+                    SocketAPIHandler.emitToUser(
+                        userId,
+                        Const.emitCommandNewMessage,
+                        {message:message}
+                    );
+                    
+                });
                 
             });
             
+            PushNotificationManager.onNewMessage(obj);
+            
         });
-        
-        PushNotificationManager.onNewMessage(obj);
     
     },
     OnUserEnterChat: function(obj){
