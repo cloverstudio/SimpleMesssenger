@@ -86,29 +86,18 @@ var SignInView = BaseView.extend({
                                         
                 },function(data){
                     
-                    if(data.ok){
-                        
-                        Utils.goPage("main");
-                        loginUserManager.setUser(data.user);
-                        loginUserManager.setToken(data.token);
-                        
-                        // login to socket
-                        socketIOManager.emit("join",{user:data.user._id});
-                        
-                    }else{
+                    Utils.goPage("main");
+                    loginUserManager.setUser(data.user);
+                    loginUserManager.setToken(data.token);
                     
-                        self.showError(Utils.l10n("Wrong user name or password"));
-        		
-                    }
+                    // login to socket
+                    socketIOManager.emit("join",{user:data.user._id});
                     
                     $('#form-signin #btn-signin').removeAttr('disabled');				
-
-                },function(){
                     
-                    self.showError(Utils.l10n("Failed to signin, please try after."));
+                },function(errorCode){
+                    self.showError(errorCode);
                     $('#form-signin #btn-signin').removeAttr('disabled');	
-                    
-                    
                 })
 
                 

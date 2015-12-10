@@ -60,8 +60,6 @@ var ConversationView = Backbone.View.extend({
         if(!conversation)
           return;
         
-        console.log(window.location);
-        
         SpikaAdapter.attach({
 
             spikaURL: Config.SpikaBaseURL,

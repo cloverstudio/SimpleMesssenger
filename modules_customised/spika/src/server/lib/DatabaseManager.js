@@ -32,6 +32,7 @@ var DatabaseManager = {
                         self.setupSchema();
                         
                     }
+                    
                 });
                 
             } else {

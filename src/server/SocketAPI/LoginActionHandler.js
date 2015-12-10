@@ -30,10 +30,18 @@ LoginActionHandler.prototype.attach = function(io,socket){
      *
      */
     socket.on('join', function(param){
-           
+        
         var userId = param.user;
-        if(_.isEmpty(userId))
+        
+        console.log('join called',param);
+        
+        if(_.isEmpty(userId)){
+            
+            console.log('err',"no user id");
+              
+            socket.emit('socketerror', {code:Const.resCodeSocketLoginNoUserID});               
             return;
+        }
             
         var userModel = UserModel.get();
         

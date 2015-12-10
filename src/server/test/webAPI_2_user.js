@@ -64,7 +64,7 @@ describe('WEB User', function () {
     			}
   
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000004);
+                res.body.code.should.equal(2000004);
 
                 done();
             
@@ -89,7 +89,7 @@ describe('WEB User', function () {
     			}
                 
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000005);
+                res.body.code.should.equal(2000005);
                 
                 done();
             
@@ -114,7 +114,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000002);
+                res.body.code.should.equal(2000002);
                 
                 done();
             
@@ -139,7 +139,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000001);
+                res.body.code.should.equal(2000001);
                 
                 done();
             
@@ -164,7 +164,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000001);
+                res.body.code.should.equal(2000001);
                 
                 done();
             
@@ -190,7 +190,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000003);
+                res.body.code.should.equal(2000003);
                 
                 done();
             
@@ -216,7 +216,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000003);
+                res.body.code.should.equal(2000003);
                 
                 done();
             
@@ -243,7 +243,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000003);
+                res.body.code.should.equal(2000003);
                 
                 done();
             
@@ -381,7 +381,7 @@ describe('WEB User', function () {
     			}
                 
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000008);
+                res.body.code.should.equal(2000008);
 
                 done();
             
@@ -395,7 +395,7 @@ describe('WEB User', function () {
 
          it('Update profile with picture works', function (done) {
     	
-            global. signin(function(token){
+            global.signin(function(token){
                   
                 request(app)
                     .post('/api/v1/user/updateprofile')
@@ -463,7 +463,7 @@ describe('WEB User', function () {
         			}
                     
                     res.body.should.have.property('code');
-                    res.body.code.should.equal(20000010);
+                    res.body.code.should.equal(2000010);
 
                     done();
                 
@@ -492,7 +492,7 @@ describe('WEB User', function () {
         			}
                     
                     res.body.should.have.property('code');
-                    res.body.code.should.equal(20000011);
+                    res.body.code.should.equal(2000011);
 
                     done();
                 
@@ -553,7 +553,7 @@ describe('WEB User', function () {
             		}
                                         
                     res.body.should.have.property('code');
-                    res.body.code.should.equal(20000012);
+                    res.body.code.should.equal(2000012);
             
                     done();
                 
@@ -584,7 +584,7 @@ describe('WEB User', function () {
             		}
                                         
                     res.body.should.have.property('code');
-                    res.body.code.should.equal(20000013);
+                    res.body.code.should.equal(2000013);
             
                     done();
                 
@@ -700,7 +700,7 @@ describe('WEB User', function () {
     			}
     			
                 res.body.should.have.property('code');
-                res.body.code.should.equal(20000014);
+                res.body.code.should.equal(2000014);
 
                 done();
             

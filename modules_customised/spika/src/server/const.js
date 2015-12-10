@@ -31,13 +31,13 @@
     Const.resCodeSocketSendMessageNoLocation = 1000019;
     Const.resCodeSocketSendMessageFail = 1000020;
     Const.resCodeSocketSendMessageFail = 1000020;
-    
     Const.resCodeSocketTypingNoUserID = 1000021;
     Const.resCodeSocketTypingNoRoomID = 1000022;
     Const.resCodeSocketTypingNoType = 1000023;
     Const.resCodeSocketTypingFaild = 1000024;
-                
-        
+    Const.resCodeSocketLoginNoUserID = 1000025;      
+    Const.resCodeSocketLoginNoRoomID = 1000026;      
+    
     Const.responsecodeParamError = 2001;
     Const.responsecodeTokenError = 2100;
 

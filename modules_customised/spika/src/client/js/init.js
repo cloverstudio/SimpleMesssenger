@@ -10,7 +10,7 @@
     Config.lang = "en";
     Config.showSidebar = true;
     Config.showTitlebar = true;
-    Config.useBothSide = false;
+    Config.useBothSide = true;
     Config.thumbnailHeight = 256;
     
     // Exports ----------------------------------------------

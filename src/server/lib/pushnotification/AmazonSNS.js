@@ -142,11 +142,13 @@ var AmazonSNS = {
                     return;
                 }
                 
-                console.log("dev",payload);
+                
 
                 var endpointArn = data.EndpointArn;
                 payload = JSON.stringify(payload);
-
+                
+                console.log("dev",payload);
+                
                 sns.publish({
                 
                     Message: payload,

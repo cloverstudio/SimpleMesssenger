@@ -23,24 +23,24 @@ var loginUserManager = require('../loginUserManager');
             url: Conf.APIEndpoint + urlPrefix,
             dataType: 'json',
             headers: headers,
-            success: function(data) {
+            success: function(response) {
             
-                if(data.success == 0){
-                
+                if(response.code != 1){
+                    
                     if(_.isFunction(error)){
-                       error();
+                        error(response.code);
                     }
                     
                     return;
                 }
                 
                 if(_.isFunction(success)){
-                   success(data.data);
+                    success(response.data);
                 }
             },
             error: function() {
                 if(_.isFunction(error)){
-                   error();
+                    error();
                 }
             }
         });
@@ -55,32 +55,32 @@ var loginUserManager = require('../loginUserManager');
             headers['access-token'] = accessToken;
             
         $.ajax({
-           type: 'POST',
-           url: Conf.APIEndpoint + urlPrefix,
-           data: JSON.stringify(data),
-           dataType: 'json',
-           headers: headers,
-           contentType: "application/json; charset=utf-8",
-           success: function(data) {
-
-                if(data.success == 0){
+            type: 'POST',
+            url: Conf.APIEndpoint + urlPrefix,
+            data: JSON.stringify(data),
+            dataType: 'json',
+            headers: headers,
+            contentType: "application/json; charset=utf-8",
+            success: function(response) {
+            
+                if(response.code != 1){
                     
                     if(_.isFunction(error)){
-                       error();
+                        error(response.code);
                     }
                     
                     return;
                 }
                 
-               if(_.isFunction(success)){
-                   success(data.data);
-               }
-           },
-           error: function() {
-               if(_.isFunction(error)){
-                   error();
-               }
-           }
+                if(_.isFunction(success)){
+                    success(response.data);
+                }
+            },
+            error: function() {
+                if(_.isFunction(error)){
+                    error();
+                }
+            }
         });
         
     }

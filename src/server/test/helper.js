@@ -40,7 +40,7 @@ global.signin = function(cb,params){
     	if(!res.body.data.token)
     	    throw new Error('invalid login');
     	
-        cb(res.body.data.token);
+        cb(res.body.data.token,res.body.data);
     
     }); 
         

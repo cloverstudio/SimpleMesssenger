@@ -12,6 +12,8 @@ var NewConversationClient = require('../../lib/APIClients/NewConversationClient'
 
 var ConversationModel = require('../../Models/conversation');
 
+var AlertDialog = require('../Modals/AlertDialog/AlertDialog');
+
 var HeaderView = Backbone.View.extend({
 
     parentElement : null,
@@ -128,8 +130,17 @@ var HeaderView = Backbone.View.extend({
             // update panels
             Backbone.trigger(Const.NotificationNewChat,conversation);
 
-        },function(err){
+        },function(errCode){
 
+            var message = "";
+            
+            if(Const.ErrorCodes[errCode])
+                message = Utils.l10n(Const.ErrorCodes[errCode]);
+            else
+                message = Utils.l10n("Critical Error");
+                
+            AlertDialog.show(Utils.l10n("Api Error"),message);
+            
 
         });
 

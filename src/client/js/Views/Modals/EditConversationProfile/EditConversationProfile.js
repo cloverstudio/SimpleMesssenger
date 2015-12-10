@@ -4,6 +4,8 @@ var validator = require('validator');
 
 var Conversation = require('../../../Models/conversation');
 
+var Const = require('../../../lib/consts');
+
 var Utils = require('../../../lib/utils.js');
 var template = require('./EditConversationProfile.hbs');
 var UpdateConversationClient = require('../../../lib/APIClients/UpdateConversationClient');
@@ -110,18 +112,6 @@ var EditConversationProfile = {
         var file = $('form [name="file"]')[0].files[0];
                 
         UpdateConversationClient.send(this.conversation.get('id'),displayName,description,file,function(response){
-            
-            if(response.validationError){
-                
-                $('#modal-conversationprofile .alert-danger').text(Utils.l10n(response.validationError));
-                $('#modal-conversationprofile .alert-danger').show();
-    
-                $('#modal-conversationprofile .progress').hide();           
-                $('#modal-btn-save').removeAttr('disabled'); 
-                
-                return;
-                
-            }
                         
             $('#modal-btn-save').removeAttr('disabled');
             $('#modal-conversationprofile .progress').hide();
@@ -137,7 +127,14 @@ var EditConversationProfile = {
             
             $('#modal-conversationprofile .progress-bar').css('width',progress * 100 + "%");
             
-        },function(){
+        },function(errCode){
+
+            var message = "";
+            
+            if(Const.ErrorCodes[errCode])
+                message = Utils.l10n(Const.ErrorCodes[errCode]);
+            else
+                message = Utils.l10n("Critical Error");
             
             $('#modal-conversationprofile .alert-danger').text(Utils.l10n("Fails to update profile, plase try again while after."));
             $('#modal-conversationprofile .alert-danger').show();

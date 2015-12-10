@@ -54,7 +54,51 @@ var SpikaBridge = {
         
                 }
         
+            },
+            hooks : {
+                
+                sendMessage : function(param,callBack){
+                    
+                    var result = {};
+                    var fromUserID = param.userID;
+                    var conversationID = param.roomID;
+                    
+                    result.canSend = true;
+
+                    self.checkPermission(fromUserID,conversationID,function(hasPermission){
+                        
+                        if(hasPermission){
+                            result.canSend = true;
+                        }
+                        
+                        callBack(result);
+                        
+                    });
+
+                },
+                typing : function(param,callBack){
+                    
+                    var result = {};
+                    var fromUserID = param.userID;
+                    var conversationID = param.roomID;
+                    
+                    result.canSend = false;
+
+                    self.checkPermission(fromUserID,conversationID,function(hasPermission){
+                        
+                        if(hasPermission){
+                            result.canSend = true;
+                        }
+                        
+                        callBack(result);
+                        
+                    });
+
+                }
+
+                
             }
+
         
         });
                 
@@ -156,6 +200,43 @@ var SpikaBridge = {
                 
         });
                         
+    },
+    
+    checkPermission : function(userID,conversationID,callBack){
+                    
+        // check the sender is in the conversation
+        var conversationModel = ConversationModel.get();
+
+        // telNumber to userid
+        var userModel = UserModel.get();
+        
+        userModel.findOne({telNumber:userID},function(err,userFindResult){
+
+            if(err){
+                callBack(false);
+                return;
+            }
+                
+            if(userFindResult)
+                userID = userFindResult._id;
+            
+            conversationModel.find({users:{$in:[userID]},_id:conversationID},function(err,conversationFindResult){
+                
+                if(err){
+                    callBack(false);
+                    return;
+                }
+                
+                if(conversationFindResult.length > 0)
+                    callBack(true);
+                else
+                    callBack(false);
+                 
+            });
+        
+        });
+                    
+        
     }
 
 }

@@ -76,23 +76,13 @@ var ResetView = BaseView.extend({
                                         
                 },function(data){
                                         
-                    if(data.ok){
-                        
-                        self.showInfo(Utils.l10n("New password is sent to your email."));
-                        
-                    }else{
-                    
-                        self.showError(Utils.l10n("Wrong email address"));
-        		
-                    }
+                    self.showInfo(Utils.l10n("New password is sent to your email."));
                     
                     $('#form-reset #btn-reset').removeAttr('disabled');
                     
-                },function(){
-                    
-                    self.showError(Utils.l10n("Failed to reset password, please try after."));
-                    $('#form-reset #btn-reset').removeAttr('disabled');
-                    
+                },function(errorCode){
+                    self.showError(errorCode);
+                    $('#form-reset #btn-reset').removeAttr('disabled');	
                 })
 
                 

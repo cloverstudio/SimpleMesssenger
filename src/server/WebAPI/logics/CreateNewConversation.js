@@ -38,7 +38,7 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defa
     try{
                 
         model.users.push(ownerUserId);
-                    
+        
     } catch(e){
                 
         // mostly when user id is invalid
@@ -67,7 +67,7 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defa
                      model.users.push(resultUser._id);
                                           
                 });              
-
+        
                 // ignore cast error
                 done(null,result);
 
@@ -92,18 +92,31 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defa
                                           
                 });              
 
-                 done(err,result);
+
+                if(model.users.length == 2){
+                    model.type = Const.chatTypePrivate;
+                } else{
+                    model.type = Const.chatTypeGroup;
+                }
+                
+                done(err,result);
 
             });        
               
         },
         function (result,done) {
             
-            if(useOld){
+            if( model.users.length == 2 ){
                                 
                 var conversationModel = ConversationModel.get();
                                 
-                conversationModel.findOne( { $and : [{ users :{ $all : model.users }}, {users : { $size : model.users.length }}]},function(error,resultExistingConversation){
+                conversationModel.findOne( 
+                        { $and : [
+                                    {type : Const.chatTypePrivate},
+                                    {users :{ $all : model.users }}, 
+                                    {users :{ $size : model.users.length }}
+                                ]
+                        },function(error,resultExistingConversation){
                     
                     // ignore useOld if the conversation doesnt exist
                     if(resultExistingConversation)
@@ -114,7 +127,9 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defa
                 });
                                 
             }else{
+                
                 done(null,result);
+                
             }
 
         },
@@ -153,6 +168,7 @@ CreateNewConversation.prototype.execute = function(ownerUserId,users,useOld,defa
                 done(null,result);
 
             });
+            
         },
         
         function (result,done){

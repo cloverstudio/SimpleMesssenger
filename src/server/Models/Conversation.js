@@ -21,6 +21,7 @@ ConversationModel.prototype.init = function(mongoose){
         description: String,
         created: Number,
         lastMessage: {},
+        type: Number,// 1:Private 2:Group 3:Public
         avatar : {
             file : String,
             thumb : String

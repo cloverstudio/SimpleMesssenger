@@ -8,7 +8,46 @@ describe('WEB Conversation', function () {
 
     describe('/conversation/new POST', function () {
 
-        it('Can create new conversation', function (done) {
+        it('Can create new private conversation', function (done) {
+
+
+            signin(function(token){
+
+                var params = {
+                    
+                    name : "test",
+                    users : [
+                        global.userid2,
+                    ]
+
+                };
+
+                request(app)
+                    .post('/api/v1/conversation/new')
+                    .send(params)
+            		.expect('Content-Type', /json/)
+            		.expect(200)
+                    .set('Access-Token', token)
+                    .end(function (err, res) {
+
+            			if (err) {
+            				throw err;
+            			}
+
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    res.body.should.have.property('data');
+                    res.body.data.conversation.type.should.equal(1);
+                    
+                    done();
+
+                });
+
+            });
+
+        });
+        
+        it('Can create new group conversation', function (done) {
 
 
             signin(function(token){
@@ -40,7 +79,8 @@ describe('WEB Conversation', function () {
                     res.body.should.have.property('code');
                     res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-
+                    res.body.data.conversation.type.should.equal(2);
+                    
                     done();
 
                 });
@@ -49,6 +89,146 @@ describe('WEB Conversation', function () {
 
         });
 
+        it('Use same conversation when create new one with same users', function (done) {
+
+            signin(function(token){
+
+                var params = {
+                    
+                    name : "test",
+                    users : [
+                        global.userid2,
+                    ]
+
+                };
+
+                request(app)
+                    .post('/api/v1/conversation/new')
+                    .send(params)
+            		.expect('Content-Type', /json/)
+            		.expect(200)
+                    .set('Access-Token', token)
+                    .end(function (err, res) {
+
+            			if (err) {
+            				throw err;
+            			}
+
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    res.body.should.have.property('data');
+                    res.body.data.conversation.type.should.equal(1);
+                    
+    
+                    var params = {
+                        
+                        name : "test",
+                        users : [
+                            global.userid2,
+                        ]
+    
+                    };
+    
+                    request(app)
+                        .post('/api/v1/conversation/new')
+                        .send(params)
+                        .expect('Content-Type', /json/)
+                        .expect(200)
+                        .set('Access-Token', token)
+                        .end(function (err, res2) {
+    
+                            if (err) {
+                                throw err;
+                            }
+    
+                        res2.body.should.have.property('code');
+                        res2.body.code.should.equal(1);
+                        res2.body.should.have.property('data');
+                        res2.body.data.conversation.type.should.equal(1);
+                        res2.body.data.conversation._id.should.equal(res.body.data.conversation._id);
+                        
+                        done();
+    
+                    });
+                
+
+                });
+
+            });
+
+        });
+
+        it('Doesnt use same conversation when create new one with same users if users are more than 2 users', function (done) {
+
+            signin(function(token){
+
+                var params = {
+                    
+                    name : "test",
+                    users : [
+                        global.userid2,
+                        global.userid3
+                    ]
+
+                };
+
+                request(app)
+                    .post('/api/v1/conversation/new')
+                    .send(params)
+            		.expect('Content-Type', /json/)
+            		.expect(200)
+                    .set('Access-Token', token)
+                    .end(function (err, res) {
+
+            			if (err) {
+            				throw err;
+            			}
+
+                    res.body.should.have.property('code');
+                    res.body.code.should.equal(1);
+                    res.body.should.have.property('data');
+                    res.body.data.conversation.type.should.equal(2);
+                    
+    
+                    var params = {
+                        
+                        name : "test",
+                        users : [
+                            global.userid2,
+                            global.userid3
+                        ]
+    
+                    };
+    
+                    request(app)
+                        .post('/api/v1/conversation/new')
+                        .send(params)
+                        .expect('Content-Type', /json/)
+                        .expect(200)
+                        .set('Access-Token', token)
+                        .end(function (err, res2) {
+    
+                            if (err) {
+                                throw err;
+                            }
+    
+                        res2.body.should.have.property('code');
+                        res2.body.code.should.equal(1);
+                        res2.body.should.have.property('data');
+                        res2.body.data.conversation.type.should.equal(2);
+                        res2.body.data.conversation._id.should.not.equal(res.body.data.conversation._id);
+                        
+                        done();
+    
+                    });
+                
+
+                });
+
+            });
+
+        });
+        
         it('User id can be anything', function (done) {
 
             signin(function(token){
@@ -161,16 +341,16 @@ describe('WEB Conversation', function () {
             		.expect('Content-Type', /json/)
             		.expect(200)
                     .set('Access-Token', token)
-                    .end(function (err, res) {
+                    .end(function (err, res1) {
     
             			if (err) {
             				throw err;
             			}
-    
-                    res.body.should.have.property('code');
-                    res.body.code.should.equal(1);
-                    res.body.should.have.property('data');
-                    
+
+                    res1.body.should.have.property('code');
+                    res1.body.code.should.equal(1);
+                    res1.body.should.have.property('data');
+                    res1.body.data.conversation.type.should.equal(1);
                     
                     var params = {
                         
@@ -182,22 +362,23 @@ describe('WEB Conversation', function () {
                     };
         
                     request(app)
-                        .post('/api/v1/conversation/add/' + res.body.data.conversation._id)
+                        .post('/api/v1/conversation/add/' + res1.body.data.conversation._id)
                         .send(params)
                 		.expect('Content-Type', /json/)
                 		.expect(200)
                         .set('Access-Token', token)
-                        .end(function (err, res) {
+                        .end(function (err, res2) {
         
                 			if (err) {
                 				throw err;
                 			}
-                                                    
-                        res.body.should.have.property('code');
-                        res.body.code.should.equal(1);
-                        res.body.should.have.property('data');
-                        res.body.data.should.have.property('conversation');
-                        res.body.data.conversation._id.should.equal(res.body.data.conversation._id);
+                             
+                        res2.body.should.have.property('code');
+                        res2.body.code.should.equal(1);
+                        res2.body.should.have.property('data');
+                        res2.body.data.should.have.property('conversation');
+                        res2.body.data.conversation.type.should.equal(2);
+                        res2.body.data.conversation._id.should.equal(res1.body.data.conversation._id);
                                                 
                         done();
         
@@ -236,7 +417,7 @@ describe('WEB Conversation', function () {
                     res.body.should.have.property('code');
                     res.body.code.should.equal(1);
                     res.body.should.have.property('data');
-                    
+                    res.body.data.conversation.type.should.equal(1);
                     
                     var params = {
                         
@@ -265,7 +446,7 @@ describe('WEB Conversation', function () {
                         res.body.should.have.property('data');
                         res.body.data.should.have.property('conversation');
                         res.body.data.conversation._id.should.not.equal(params.conversationId);
-                                                
+                        res.body.data.conversation.type.should.equal(2);            
                         done();
         
                     });
@@ -303,7 +484,7 @@ describe('WEB Conversation', function () {
             			}
     
                     res.body.should.have.property('code');
-                    res.body.code.should.equal(20000017);
+                    res.body.code.should.equal(2000017);
 
                                             
                     done();
@@ -412,7 +593,7 @@ describe('WEB Conversation', function () {
                     }
                     
                     res.body.should.have.property('code');
-                    res.body.code.should.equal(20000019);
+                    res.body.code.should.equal(2000019);
                     
                     done();
 

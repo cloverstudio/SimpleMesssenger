@@ -2,6 +2,8 @@ var $ = require('jquery');
 var _ = require('lodash');
 var validator = require('validator');
 
+var Const = require('../../../lib/consts.js');
+
 var Utils = require('../../../lib/utils.js');
 var template = require('./EditProfile.hbs');
 var UpdateProfileClient = require('../../../lib/APIClients/UpdateProfileClient');
@@ -94,18 +96,6 @@ var EditProfile = {
                 
         UpdateProfileClient.send(displayName,file,function(response){
             
-            if(response.validationError){
-                
-                $('#modal-profile .alert-danger').text(Utils.l10n(response.validationError));
-                $('#modal-profile .alert-danger').show();
-    
-                $('#modal-profile .progress').hide();           
-                $('#modal-btn-save').removeAttr('disabled'); 
-                
-                return;
-                
-            }
-            
             $('#modal-btn-save').removeAttr('disabled');
             $('#modal-profile .progress').hide();
 
@@ -120,10 +110,19 @@ var EditProfile = {
         },function(progress){
             
             $('#modal-profile .progress-bar').css('width',progress * 100 + "%");
+    
+        },function(errCode){
+
+            var message = "";
             
-        },function(){
-            
-            $('#modal-profile .alert-danger').text(Utils.l10n("Fails to update profile, plase try again while after."));
+            if(Const.ErrorCodes[errCode])
+                message = Utils.l10n(Const.ErrorCodes[errCode]);
+            else
+                message = Utils.l10n("Critical Error");
+                
+            $('#form-signup #btn-signup').removeAttr('disabled');	
+
+            $('#modal-profile .alert-danger').text(message);
             $('#modal-profile .alert-danger').show();
 
             $('#modal-profile .progress').hide();           

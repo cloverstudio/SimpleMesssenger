@@ -102,6 +102,7 @@ AddToConversation.prototype.attach = function(router){
                         self.successResponse(response,Const.resCodeAddToConversationWrongConversationID);
                         
                         return;
+                        
                     }
                             
                     if(!result){
@@ -195,11 +196,11 @@ AddToConversation.prototype.attach = function(router){
                 
                 var makeNewCconversation = request.body.makeNew;
                 
-                if(makeNewCconversation === false || makeNewCconversation === 0)
+                if(_.isEmpty(makeNewCconversation) || makeNewCconversation === false || makeNewCconversation === 0)
                     makeNewCconversation = false;
                 else
                     makeNewCconversation = true;
-                                    
+                         
                 if(makeNewCconversation == true){
                                                       
                     // call new conversation API
@@ -225,12 +226,20 @@ AddToConversation.prototype.attach = function(router){
                     });
                     
                 }else{
-
+                    
+                    var type = result.conversation.type;
+    
+                    if(type == Const.chatTypePrivate && result.conversation.users.length > 2)
+                        type = Const.chatTypeGroup;
+                        
                     result.conversation.update({
-                        users : users
+                        users : users,
+                        type : type
                     },{},function(err,resutlSave){
                         
                         result.conversation = result.conversation.toObject()
+                        result.conversation.type = type;
+                        result.conversation.users = users;
                         done(err,result);
                         
                     })

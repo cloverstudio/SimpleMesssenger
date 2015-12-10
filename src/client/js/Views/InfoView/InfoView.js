@@ -20,6 +20,7 @@ var AlertModal = require('../Modals/AlertDialog/AlertDialog');
 var template = require('./InfoView.hbs');
 var templateEmpty = require('./InfoViewNoConversation.hbs');
 
+var AlertDialog = require('../Modals/AlertDialog/AlertDialog');
 
 var InfoView = Backbone.View.extend({
 
@@ -103,14 +104,20 @@ var InfoView = Backbone.View.extend({
                                     
                                 }
                                 
-                            },
-                            function(){
-                                AlertModal.show(
-                                    Utils.l10n("Error"),
-                                    Utils.l10n("Faild to leave conversation.")
-                                );
+                            },function(errCode){
+                    
+                                var message = "";
+                                
+                                if(Const.ErrorCodes[errCode])
+                                    message = Utils.l10n(Const.ErrorCodes[errCode]);
+                                else
+                                    message = Utils.l10n("Critical Error");
+                                    
+                                AlertDialog.show(Utils.l10n("Api Error"),message);
+                                
+                    
                             }
-                        )                      
+                       );
                         
                     },
                     function(){

@@ -11,6 +11,8 @@ var Conversation = require('../../Models/conversation');
 
 var ConversationListClient = require('../../lib/APIClients/ConversationListClient');
 
+var AlertDialog = require('../Modals/AlertDialog/AlertDialog');
+
 // load template
 var template = require('./ConversationList.hbs');
 
@@ -74,9 +76,17 @@ var ConversationList = Backbone.View.extend({
             $(self.parentElement).html(template({list:self.conversations.toJSON()}));
             self.setupEvents();
 
-        },function(err){
+        },function(errCode){
 
-            console.log(err);
+            var message = "";
+            
+            if(Const.ErrorCodes[errCode])
+                message = Utils.l10n(Const.ErrorCodes[errCode]);
+            else
+                message = Utils.l10n("Critical Error");
+                
+            AlertDialog.show(Utils.l10n("Api Error"),message);
+            
 
         });
 

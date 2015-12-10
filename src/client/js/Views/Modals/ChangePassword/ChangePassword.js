@@ -118,18 +118,6 @@ var ChangePassword = {
             
         },function(data){
                              
-            if(data.ok == false){
-                
-                $('#modal-changepassword .alert-danger').text(Utils.l10n(data.validationError));
-                $('#modal-changepassword .alert-danger').show();
-    
-                $('#modal-changepassword .progress').hide();           
-                $('#modal-btn-save').removeAttr('disabled'); 
-                
-                return;
-                
-            }
-            
             $('#modal-btn-save').removeAttr('disabled');
             $('#modal-changepassword .progress').hide();
 
@@ -141,13 +129,20 @@ var ChangePassword = {
                 
             },1500)();
 
+        },function(errCode){
             
-        },function(){
+            var message = "";
             
-            $('#modal-changepassword .alert-danger').text(Utils.l10n("Fails to change password, plase try again while after."));
+            if(Const.ErrorCodes[errCode])
+                message = Utils.l10n(Const.ErrorCodes[errCode]);
+            else
+                message = Utils.l10n("Critical Error");
+                
+            $('#modal-changepassword .alert-danger').text(message);
             $('#modal-changepassword .alert-danger').show();
 
-            $('#modal-changepassword .progress').hide();           
+            $('#modal-changepassword .progress').hide();    
+                   
             $('#modal-btn-save').removeAttr('disabled');
                       
         })

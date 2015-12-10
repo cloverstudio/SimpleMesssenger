@@ -89,29 +89,21 @@ var SignUpView = BaseView.extend({
                     passwordConfirm:passwordConfirm
                     
                 },function(data){
-                                        
-                    if(!_.isEmpty(data.validationError)){
-                        
-                        self.showError(Utils.l10n(data.validationError));
-                        
-                    }else{
-                        // succeeeeeeeed!!!!!
-                        self.showInfo(Utils.l10n("Succeed to signup. Please login now."));
+					
+					// succeeeeeeeed!!!!!
+					self.showInfo(Utils.l10n("Succeed to signup. Please login now."));
 
-                        $('#form-signup input[name="username"]').val("");
-                        $('#form-signup input[name="email"]').val("");
-                        $('#form-signup input[name="password"]').val("");
-                        $('#form-signup input[name="password-confirm"]').val("");
-        		
-                    }
+					$('#form-signup input[name="username"]').val("");
+					$('#form-signup input[name="email"]').val("");
+					$('#form-signup input[name="password"]').val("");
+					$('#form-signup input[name="password-confirm"]').val("");
                     
                     $('#form-signup #btn-signup').removeAttr('disabled');
                     
-                },function(){
-                    
-                    self.showError(Utils.l10n("Failed to signup, please try after."));
-                    $('#form-signup #btn-signup').removeAttr('disabled');
-                    
+                },function(errorCode){
+					
+                    self.showError(errorCode);
+                    $('#form-signup #btn-signup').removeAttr('disabled');	
                 })
                 
 				

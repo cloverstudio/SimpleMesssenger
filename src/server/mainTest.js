@@ -9,7 +9,7 @@ var Conf = require('./lib/init.js');
 Conf.host = "localhost";
 Conf.port = 8081;
 Conf.urlPrefix = '/api/v1';
-
+Conf.socketNameSpace = '/simplemessenger';
 Conf.dbCollectionPrefix = '';
 Conf.databaseUrl = "mongodb://localhost/test";
 
